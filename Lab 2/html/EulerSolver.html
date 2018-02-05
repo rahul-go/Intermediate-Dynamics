@@ -1,0 +1,150 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>EulerSolver Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-01-23"><meta name="DC.source" content="EulerSolver.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>EulerSolver Usage and Description</h1><p>This function file is a numerical integrator utilizing Euler&#8217;s method. The function declaration is of the form: function [t, x_array] = EulerSolver(func hand, t_f, x_0, t_step) where func_hand is a function handle for the ODE we are trying to integrate. This will give EulerSolver something to integrate. The final time, t_final, specifies when to end the simulation. All ODEs require initial conditions to solve; these will be passed in as x_0, a vector containing the values of the state variables at time zero. Finally, t_step determines the step size EulerSolver uses when computing the solution to the ODE. The function EulerSolver should includes creating a time array, defining initial conditions, and a loop implementing Euler&#8217;s method to successively integrate the ODE(s) passed in. Euler&#8217;s method is dependent on the current time derivative of the state vector to evaluate the state vector at the next point in time, an inverse relationship from the EOM function.</p><pre class="codeinput"><span class="keyword">function</span> [t, x_array] = EulerSolver(func_hand, t_f, x_0, t_step)
+
+<span class="comment">% Step 1: Create a column vector, t, containing the value of time for each</span>
+<span class="comment">%  iteration of the solution, starting with 0, counting by t_step, and</span>
+<span class="comment">%  ending at t_f.</span>
+t = (0:t_step:t_f)';            <span class="comment">% Time</span>
+
+<span class="comment">% Step 2: Create an array containing zeros, x_array, that is the same</span>
+<span class="comment">%  number of rows as the time vector, t, and the same number of columns as</span>
+<span class="comment">%  there are rows in initial state vector, x_0.</span>
+numt = length(t);               <span class="comment">% Number of time points</span>
+numx = length(x_0);             <span class="comment">% Number of variables</span>
+x_array = zeros(numt, numx);    <span class="comment">% Initializing the x_array</span>
+
+<span class="comment">% Step 3: Replace the first row of x_array with the initial conditions,</span>
+<span class="comment">%  x_0, so that each following row can be computed.</span>
+x_array(1, :) = x_0;
+
+<span class="comment">% Step 4: Using a for loop, iterate through each row in x_array</span>
+<span class="keyword">for</span> i = 1:numt-1
+
+<span class="comment">%  Step 4a: Compute the time rate of chanxge of the vector x by executing</span>
+<span class="comment">%   the function_handle.</span>
+    xdot = func_hand(t(i), x_array(i, :));
+
+<span class="comment">%  Step 4b: Using the current time rate of change, the time step, and the</span>
+<span class="comment">%   current value of x_array, compute the next value of x_array.</span>
+    x_array(i+1, :) = x_array(i, :) + xdot'*t_step;
+
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% EulerSolver Usage and Description
+% This function file is a numerical integrator utilizing Euler’s method.
+% The function declaration is of the form: function [t, x_array] =
+% EulerSolver(func hand, t_f, x_0, t_step) where func_hand is a function
+% handle for the ODE we are trying to integrate. This will give EulerSolver
+% something to integrate. The final time, t_final, specifies when to end
+% the simulation. All ODEs require initial conditions to solve; these will 
+% be passed in as x_0, a vector containing the values of the state
+% variables at time zero. Finally, t_step determines the step size
+% EulerSolver uses when computing the solution to the ODE. The function
+% EulerSolver should includes creating a time array, defining initial
+% conditions, and a loop implementing Euler’s method to successively
+% integrate the ODE(s) passed in. Euler’s method is dependent on the
+% current time derivative of the state vector to evaluate the state vector
+% at the next point in time, an inverse relationship from the EOM function.
+
+function [t, x_array] = EulerSolver(func_hand, t_f, x_0, t_step)
+
+% Step 1: Create a column vector, t, containing the value of time for each
+%  iteration of the solution, starting with 0, counting by t_step, and
+%  ending at t_f.
+t = (0:t_step:t_f)';            % Time
+
+% Step 2: Create an array containing zeros, x_array, that is the same
+%  number of rows as the time vector, t, and the same number of columns as
+%  there are rows in initial state vector, x_0.
+numt = length(t);               % Number of time points
+numx = length(x_0);             % Number of variables
+x_array = zeros(numt, numx);    % Initializing the x_array
+
+% Step 3: Replace the first row of x_array with the initial conditions,
+%  x_0, so that each following row can be computed.
+x_array(1, :) = x_0;
+
+% Step 4: Using a for loop, iterate through each row in x_array
+for i = 1:numt-1
+
+%  Step 4a: Compute the time rate of chanxge of the vector x by executing
+%   the function_handle.
+    xdot = func_hand(t(i), x_array(i, :));
+
+%  Step 4b: Using the current time rate of change, the time step, and the
+%   current value of x_array, compute the next value of x_array.
+    x_array(i+1, :) = x_array(i, :) + xdot'*t_step;
+
+end
+end
+##### SOURCE END #####
+--></body></html>

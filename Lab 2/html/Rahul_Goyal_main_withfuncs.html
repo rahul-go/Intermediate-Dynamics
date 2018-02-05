@@ -1,0 +1,575 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Rahul_Goyal_main Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-01-23"><meta name="DC.source" content="Rahul_Goyal_main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #2</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> January 16, 2018</p><p><b>Date Modified:</b>  January 23, 2018</p><p><b>Description:</b> This script compares the use of ode45 versus Euler's method to analyze the motion of a pendulum (assuming a massless rod and a point mass bob), a nonlinear differential equation. Additionally, because the hand calculations used to determine the differential equation for this script do not use the small angle approximation [that is, sin(theta) = theta], the script allows the study of the pendulum's motion at larger angles and determines which effects are ignored by the small angle approximation (and therefore are also less apparent when the pendulum swings at small angles).</p><p><b>Required Files:</b></p><div><ul><li>EulerSolver.m - This file contains a function that utilizes Euler's method to solve an ODE. It takes a function handle, final time, initial condition(s), and the desired time step as parameters, respectively. It outputs an array containing a time array and x array as [t, x_array].</li></ul><h2>Called Functions</h2><ul><li><a href="#EulerSolver">EulerSolver </a></li></ul></div><p><b>Still To Do:</b></p><div><ul><li>Done!</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Reset</a></li><li><a href="#3">Given Values, Initial Conditions</a></li><li><a href="#4">Pendulum Differential Equation Setup</a></li><li><a href="#5">Simulating the Pendulum Using ode45 and EulerSolver</a></li><li><a href="#8">Plotting Data Setup</a></li><li><a href="#9">Pendulum Angular Position vs. Time</a></li><li><a href="#10">Pendulum Angular Velocity vs. Time</a></li><li><a href="#11">Pendulum Angular Velocity vs. Angular Position</a></li><li><a href="#12">Initial Condition: Angular Position 15&deg; and 80&deg;</a></li><li><a href="#15">Animation of Pendulum Motion</a></li></ul></div><h2 id="1">Problem Statement</h2><p>The pendulum consists of a bob attached to a light rod which pivots freely about a fixed point. The bob is 0.75 m from the pivot, has a mass of 0.5 kg, and can be modeled as a point mass. Unless otherwise specified, assume the pendulum is displaced 15 degrees from the vertical and released from rest.</p><h2 id="2">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput"><span class="comment">% clear all;</span>
+<span class="comment">% clc;</span>
+</pre><h2 id="3">Given Values, Initial Conditions</h2><p>The following defines variables with the values given by the problem statement. (The value of the gravitational constant is assumed).</p><pre class="codeinput"><span class="comment">% Given Values</span>
+L = 0.75;                       <span class="comment">% Rod length (m)</span>
+m = 0.5;                        <span class="comment">% Mass (kg)</span>
+g = 9.81;                       <span class="comment">% Gravitational constant (m/s^2)</span>
+
+<span class="comment">% Initial conditions (angular position, angular velocity)</span>
+ICs = [15, 0];                  <span class="comment">% x1, x2 (deg, deg/s)</span>
+
+
+
+<span class="comment">% Time initial and time final</span>
+t_0 = 0;                        <span class="comment">% Initial time (s)</span>
+t_f = 10;                       <span class="comment">% Final time (s)</span>
+
+<span class="comment">% Time step for Euler's Method</span>
+t_step = 0.001;                 <span class="comment">% Time step (s)</span>
+</pre><h2 id="4">Pendulum Differential Equation Setup</h2><p>The following sets up an anonymous function requiring only a time array and x array input for the differential equation (which also requires an input for g and L). The script provides the values for g annd L, and so this anonymous function can be passed to ode45 and EulerSolver successfully.</p><p>The equation is multiplied by 180/pi to convert from rad/s^2 to deg/s^2. See the attached sheet for hand calculations.</p><pre class="codeinput">PendulumODE = @(t, x) [x(2);
+                       -g*sind(x(1))/L * 180/pi];
+</pre><h2 id="5">Simulating the Pendulum Using ode45 and EulerSolver</h2><p>The following solves the differential equation using ode45, a built-in MATLAB&#8482; differential equation solver, and Euler's method. The tic and toc functions assist in assessing the performance of ode45 versus EulerSolver by measuring the time it takes to run each respective function.</p><p>The time elapsed statements for ode45 and EulerSolver below indicate that ode45 is a more efficient ODE solver than Euler's method (for a computer), but not necessarily enough for it to make a difference for an application this small; for heavier computations it is likely that the efficiency of ode45 is more significant. For example, EulerSolver requires a time step of 1 millisecond to prevent the results of this differential equation from diverging over a 10 second interval; however for a differential equation that would require an even smaller time step, it is likely that the computational time of EulerSolver would increase more significantly than it would for ode45.</p><p>Additionally, the ode45 function consistently outputs results that maintain a constant amplitude over any interval of time. In contrast, EulerSolver consistently outputs results that diverged eventually. Over a time interval, a small enough time step helped produce more reasonable results, yet increasing the time interval with the same time step showed (graphically) that the results still diverged. As an example, if an application required simulating this pendulum for ten minutes, then the computational time difference between ode45 and EulerSolver would become noticeably apparent since the EulerSolver would require much smaller time steps <i>and</i> simulate a ten minute swing -- resulting in many more calculations.</p><p><b>Note:</b> The elapsed times are different when publishing this script. Generally, ode45 (~0.003 s) is approximately 6x faster than EulerSolver (~0.018 s).</p><p><b>Simulating the Pendulum Using ode45</b></p><pre class="codeinput">tic;                            <span class="comment">% Start timer</span>
+[t_ode45, x_ode45] = ode45(PendulumODE, [t_0, t_f], ICs);
+toc;                            <span class="comment">% Stop timer</span>
+
+<span class="comment">% Debugging statement</span>
+<span class="comment">% plot(t_euler, x_euler);       % Plots x1 and x2 vs. time (ode45)</span>
+</pre><pre class="codeoutput">Elapsed time is 0.009835 seconds.
+</pre><p><b>Simulating the Pendulum Using EulerSolver</b></p><pre class="codeinput">tic;
+[t_euler, x_euler] = EulerSolver(PendulumODE, t_f, ICs, t_step);
+toc;
+
+<span class="comment">% Debugging statement</span>
+<span class="comment">% plot(t_euler, x_euler);       % Plots x1 and x2 vs. time (Euler)</span>
+</pre><pre class="codeoutput">Elapsed time is 0.025603 seconds.
+</pre><h2 id="8">Plotting Data Setup</h2><p>The following sets up easy access to data for plotting.</p><pre class="codeinput">time = t_ode45;                 <span class="comment">% Time (s) (x-axis)</span>
+
+theta = x_ode45(:, 1);          <span class="comment">% Angular position (deg)</span>
+omega = x_ode45(:, 2);          <span class="comment">% Angular velocity (deg/s)</span>
+</pre><h2 id="9">Pendulum Angular Position vs. Time</h2><p>The following plots angular position as a function of time. The result is a sinusoid (specifically a cosine function), as expected from the motion of a pendulum. Because the pendulum is released at 15 degrees (as defined by the diagram), the graph begins at 15 degrees at time = 0 and proceeds to oscillate between 15 degrees and -15 degrees.</p><pre class="codeinput">plot(time, theta, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Pendulum Angular Position vs. Time'</span>);
+xlabel({<span class="string">'Time (s)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 1: \rmAngular Position vs. Time'</span>});
+ylabel(<span class="string">'Angular Position (deg)'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" alt=""> <h2 id="10">Pendulum Angular Velocity vs. Time</h2><p>The following plots angular velocity as a function time. The result is a sinusoid, (specifically a negative sine function) as expected from the motion of a pendulum. The cosine function accurately depicts the derivative of the angular position vs. time plot, as it should: angular velocity is the derivative of angular position and negative sine is the derivative of cosine.</p><pre class="codeinput">plot(time, omega, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Pendulum Angular Velocity vs. Time'</span>);
+xlabel({<span class="string">'Time (s)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 2: \rmAngular Velocity vs. Time'</span>});
+ylabel(<span class="string">'Angular Velocity (deg/s)'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" alt=""> <h2 id="11">Pendulum Angular Velocity vs. Angular Position</h2><p>The following plots angular velocity as a function of position.</p><p>Above, it was graphically determined and logically confirmed that the angular position of the pendulum is described by a cosine function and the angular velocity by a negative sine function. In general, plotting cos(theta) vs. sin(theta) produces a circle; however, in this case the "theta" differs. Thus, the ellipse produced by this plot is reasonable.</p><p>Analytically, this plot illustrates that, at any given position, the pendulum has two equal but opposite possible angular velocities. The exception to this is at either peak of the pendulum's swing, at which the angular velocity is 0 deg/s (of which an "opposite" angular velocity doesn't even exist). Both takeaways are reasonable since the pendulum swings back and forth (that is, in two directions) with the exception being at its peaks, at which, instantaneously, the pendulum stands still.</p><pre class="codeinput">plot(theta, omega, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Pendulum Angular Velocity vs. Angular Position'</span>);
+xlabel({<span class="string">'Angular Position (deg)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 3: \rmAngular Velocity vs. Angular Position'</span>});
+ylabel(<span class="string">'Angular Velocity (deg/s)'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" alt=""> <h2 id="12">Initial Condition: Angular Position 15&deg; and 80&deg;</h2><p>The following simulates the pendulum had it been released at 80 degrees and compares it to the simulation from before in which the pendulum was released at 15 degrees.</p><p>Of course, the amplitude of the pendulum released from 80 degrees has a larger amplitude than the pendulum released from 15 degrees. However, more interestingly, the effect of larger swings which cannot be characterized by the small angle approximation is apparent here. Whereas the pendulum characterized by the small angle approximation does not depend on the initial condition of theta at which the pendulum was released, the plot suggests that the period of the pendulum's motion is, in fact, affected by the intial condition of theta at which the pendulum was released. Specifically, it seems that a smaller theta corresponds to a smaller period, as the pendulum released from 15 degrees completed about 5.5 oscillations over a 10 second interval, but the pendulum released from 80 degrees completed about 5 oscillations over the same time interval.</p><p><b>Calculate Data for Initial Angular Position = 80&deg;</b></p><pre class="codeinput"><span class="comment">% Initial conditions (angular position, angular velocity)</span>
+ICs = [80, 0];                  <span class="comment">% x1, x2 (deg, deg/s)</span>
+
+<span class="comment">% Simulating the pendulum using ode45</span>
+[t_ode45_80, x_ode45_80] = ode45(PendulumODE, [t_0, t_f], ICs);
+
+<span class="comment">% Easy access to data for plotting</span>
+time_80 = t_ode45_80;           <span class="comment">% Time (s) (x-axis)</span>
+theta_80 = x_ode45_80(:, 1);	<span class="comment">% Angular position (deg)</span>
+omega_80 = x_ode45_80(:, 2);	<span class="comment">% Angular velocity (deg/s)</span>
+</pre><pre class="codeinput"><span class="comment">% Plot</span>
+plot(time, theta, time_80, theta_80, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Initial Condition: Angular Position 15&deg; and 80&deg;'</span>);
+xlabel({<span class="string">'Time (s)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 4: \rmInitial Condition: Angular Position 15&deg; and 80&deg;'</span>});
+ylabel(<span class="string">'Angular Position (deg)'</span>);
+legend(<span class="string">'Initial Condition: theta = 15&deg;'</span>, <span class="string">'Initial Condition: theta = 80&deg;'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_04.png" alt=""> <h2 id="15">Animation of Pendulum Motion</h2><p>The following animates the pendulum's motion based on the data from the original simulation. The pivot location was chosen arbitrarily and acts as an origin for the animation.</p><pre class="codeinput"><span class="comment">% Cartesian coordinates of the pivot (m)</span>
+p = [0, 1];
+
+<span class="keyword">for</span> t = 1:length(time)
+
+    <span class="comment">% Cartesian coordinates of the bob (m)</span>
+    x = p(1) + L*sind(theta(t));
+    y = p(2) - L*cosd(theta(t));
+
+    <span class="comment">% Plot</span>
+    <span class="comment">% Plots the range of x-axis, y-axis values from the pivot to the bob</span>
+    plot([p(1), x], [p(2), y]);
+    <span class="comment">% Keeps the frame consistent</span>
+    axis([-0.5, 0.5, 0.125, 1.125]);
+    title(<span class="string">'Animation of Pendulum Motion'</span>)
+    xlabel(<span class="string">'x-position (m)'</span>);
+    xlabel({<span class="string">'x-position (m)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 2: \rmAnimation of Pendulum Motion'</span>});
+    ylabel(<span class="string">'y-position (m)'</span>);
+
+    pause(0.1);                 <span class="comment">% Pauses for humans</span>
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_05.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Rahul_Goyal_main Usage and Description
+% ME 326 Winter 2018 - Laboratory Assignment #2
+%
+% *Author:* RAHUL GOYAL
+%
+% California Polytechnic State University, San Luis Obispo, CA
+%
+% *Date Created:* January 16, 2018
+%
+% *Date Modified:*  January 23, 2018
+%
+% *Description:*
+% This script compares the use of ode45 versus Euler's method to analyze
+% the motion of a pendulum (assuming a massless rod and a point mass bob),
+% a nonlinear differential equation. Additionally, because the hand
+% calculations used to determine the differential equation for this script
+% do not use the small angle approximation [that is, sin(theta) = theta],
+% the script allows the study of the pendulum's motion at larger angles and
+% determines which effects are ignored by the small angle approximation
+% (and therefore are also less apparent when the pendulum swings at small
+% angles).
+%
+% *Required Files:*
+%
+% * EulerSolver.m - This file contains a function that utilizes Euler's
+% method to solve an ODE. It takes a function handle, final time, initial
+% condition(s), and the desired time step as parameters, respectively. It
+% outputs an array containing a time array and x array as [t, x_array].
+%
+% *Still To Do:*
+%
+% * Done!
+
+
+
+%% Problem Statement
+% The pendulum consists of a bob attached to a light rod which pivots
+% freely about a fixed point. The bob is 0.75 m from the pivot, has a mass
+% of 0.5 kg, and can be modeled as a point mass. Unless otherwise
+% specified, assume the pendulum is displaced 15 degrees from the vertical
+% and released from rest.
+
+
+
+%% Reset
+% The following was used while debugging.
+
+% clear all;
+% clc;
+
+
+
+%% Given Values, Initial Conditions
+% The following defines variables with the values given by the problem
+% statement. (The value of the gravitational constant is assumed).
+
+% Given Values
+L = 0.75;                       % Rod length (m)
+m = 0.5;                        % Mass (kg)
+g = 9.81;                       % Gravitational constant (m/s^2)
+
+% Initial conditions (angular position, angular velocity)
+ICs = [15, 0];                  % x1, x2 (deg, deg/s)
+
+
+
+% Time initial and time final
+t_0 = 0;                        % Initial time (s)
+t_f = 10;                       % Final time (s)
+
+% Time step for Euler's Method
+t_step = 0.001;                 % Time step (s)
+
+
+
+%% Pendulum Differential Equation Setup
+% The following sets up an anonymous function requiring only a time array
+% and x array input for the differential equation (which also requires an
+% input for g and L). The script provides the values for g annd L, and so
+% this anonymous function can be passed to ode45 and EulerSolver
+% successfully.
+%
+% The equation is multiplied by 180/pi to convert from rad/s^2 to deg/s^2.
+% See the attached sheet for hand calculations.
+PendulumODE = @(t, x) [x(2);
+                       -g*sind(x(1))/L * 180/pi];
+
+
+
+%% Simulating the Pendulum Using ode45 and EulerSolver
+% The following solves the differential equation using ode45, a built-in
+% MATLAB™ differential equation solver, and Euler's method. The tic and toc
+% functions assist in assessing the performance of ode45 versus EulerSolver
+% by measuring the time it takes to run each respective function.
+%
+% The time elapsed statements for ode45 and EulerSolver below indicate that
+% ode45 is a more efficient ODE solver than Euler's method (for a
+% computer), but not necessarily enough for it to make a difference for an
+% application this small; for heavier computations it is likely that the
+% efficiency of ode45 is more significant. For example, EulerSolver
+% requires a time step of 1 millisecond to prevent the results of this
+% differential equation from diverging over a 10 second interval; however
+% for a differential equation that would require an even smaller time step,
+% it is likely that the computational time of EulerSolver would increase
+% more significantly than it would for ode45.
+%
+% Additionally, the ode45 function consistently outputs results that
+% maintain a constant amplitude over any interval of time. In contrast,
+% EulerSolver consistently outputs results that diverged eventually. Over a
+% time interval, a small enough time step helped produce more reasonable
+% results, yet increasing the time interval with the same time step showed
+% (graphically) that the results still diverged. As an example, if an
+% application required simulating this pendulum for ten minutes, then the
+% computational time difference between ode45 and EulerSolver would become
+% noticeably apparent since the EulerSolver would require much smaller time
+% steps _and_ simulate a ten minute swing REPLACE_WITH_DASH_DASH resulting in many more
+% calculations.
+%
+% *Note:* The elapsed times are different when publishing this script.
+% Generally, ode45 (~0.003 s) is approximately 6x faster than EulerSolver
+% (~0.018 s).
+
+
+
+%%
+% *Simulating the Pendulum Using ode45*
+tic;                            % Start timer
+[t_ode45, x_ode45] = ode45(PendulumODE, [t_0, t_f], ICs);
+toc;                            % Stop timer
+
+% Debugging statement
+% plot(t_euler, x_euler);       % Plots x1 and x2 vs. time (ode45)
+
+
+
+%%
+% *Simulating the Pendulum Using EulerSolver*
+tic;
+[t_euler, x_euler] = EulerSolver(PendulumODE, t_f, ICs, t_step);
+toc;
+
+% Debugging statement
+% plot(t_euler, x_euler);       % Plots x1 and x2 vs. time (Euler)
+
+
+
+%% Plotting Data Setup
+% The following sets up easy access to data for plotting.
+
+time = t_ode45;                 % Time (s) (x-axis)
+
+theta = x_ode45(:, 1);          % Angular position (deg)
+omega = x_ode45(:, 2);          % Angular velocity (deg/s)
+
+
+
+%% Pendulum Angular Position vs. Time
+% The following plots angular position as a function of time. The result is
+% a sinusoid (specifically a cosine function), as expected from the motion 
+% of a pendulum. Because the pendulum is released at 15 degrees (as defined
+% by the diagram), the graph begins at 15 degrees at time = 0 and proceeds
+% to oscillate between 15 degrees and -15 degrees.
+plot(time, theta, 'LineWidth', 2);
+title('Pendulum Angular Position vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 1: \rmAngular Position vs. Time'});
+ylabel('Angular Position (deg)');
+
+
+
+%% Pendulum Angular Velocity vs. Time
+% The following plots angular velocity as a function time. The result is a
+% sinusoid, (specifically a negative sine function) as expected from the
+% motion of a pendulum. The cosine function accurately depicts the
+% derivative of the angular position vs. time plot, as it should: angular
+% velocity is the derivative of angular position and negative sine is the
+% derivative of cosine.
+plot(time, omega, 'LineWidth', 2);
+title('Pendulum Angular Velocity vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 2: \rmAngular Velocity vs. Time'});
+ylabel('Angular Velocity (deg/s)');
+
+
+
+%% Pendulum Angular Velocity vs. Angular Position
+% The following plots angular velocity as a function of position.
+%
+% Above, it was graphically determined and logically confirmed that the
+% angular position of the pendulum is described by a cosine function and
+% the angular velocity by a negative sine function. In general, plotting
+% cos(theta) vs. sin(theta) produces a circle; however, in this case the
+% "theta" differs. Thus, the ellipse produced by this plot is reasonable.
+%
+% Analytically, this plot illustrates that, at any given position, the
+% pendulum has two equal but opposite possible angular velocities. The
+% exception to this is at either peak of the pendulum's swing, at which the
+% angular velocity is 0 deg/s (of which an "opposite" angular velocity
+% doesn't even exist). Both takeaways are reasonable since the pendulum
+% swings back and forth (that is, in two directions) with the exception
+% being at its peaks, at which, instantaneously, the pendulum stands still.
+
+plot(theta, omega, 'LineWidth', 2);
+title('Pendulum Angular Velocity vs. Angular Position');
+xlabel({'Angular Position (deg)'
+        ''
+        % Figure label
+        '\bfFigure 3: \rmAngular Velocity vs. Angular Position'});
+ylabel('Angular Velocity (deg/s)');
+
+
+
+%% Initial Condition: Angular Position 15° and 80°
+% The following simulates the pendulum had it been released at 80 degrees
+% and compares it to the simulation from before in which the pendulum was
+% released at 15 degrees.
+%
+% Of course, the amplitude of the pendulum released from 80 degrees has a
+% larger amplitude than the pendulum released from 15 degrees. However,
+% more interestingly, the effect of larger swings which cannot be
+% characterized by the small angle approximation is apparent here. Whereas
+% the pendulum characterized by the small angle approximation does not
+% depend on the initial condition of theta at which the pendulum was
+% released, the plot suggests that the period of the pendulum's motion is,
+% in fact, affected by the intial condition of theta at which the pendulum
+% was released. Specifically, it seems that a smaller theta corresponds to
+% a smaller period, as the pendulum released from 15 degrees completed
+% about 5.5 oscillations over a 10 second interval, but the pendulum
+% released from 80 degrees completed about 5 oscillations over the same
+% time interval.
+
+
+
+%%
+% *Calculate Data for Initial Angular Position = 80°*
+
+% Initial conditions (angular position, angular velocity)
+ICs = [80, 0];                  % x1, x2 (deg, deg/s)
+
+% Simulating the pendulum using ode45
+[t_ode45_80, x_ode45_80] = ode45(PendulumODE, [t_0, t_f], ICs);
+
+% Easy access to data for plotting
+time_80 = t_ode45_80;           % Time (s) (x-axis)
+theta_80 = x_ode45_80(:, 1);	% Angular position (deg)
+omega_80 = x_ode45_80(:, 2);	% Angular velocity (deg/s)
+
+
+
+%% 
+
+% Plot
+plot(time, theta, time_80, theta_80, 'LineWidth', 2);
+title('Initial Condition: Angular Position 15° and 80°');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 4: \rmInitial Condition: Angular Position 15° and 80°'});
+ylabel('Angular Position (deg)');
+legend('Initial Condition: theta = 15°', 'Initial Condition: theta = 80°');
+
+
+
+%% Animation of Pendulum Motion
+% The following animates the pendulum's motion based on the data from the
+% original simulation. The pivot location was chosen arbitrarily and acts
+% as an origin for the animation.
+
+% Cartesian coordinates of the pivot (m)
+p = [0, 1];
+
+for t = 1:length(time)
+    
+    % Cartesian coordinates of the bob (m)
+    x = p(1) + L*sind(theta(t));
+    y = p(2) - L*cosd(theta(t));
+    
+    % Plot
+    % Plots the range of x-axis, y-axis values from the pivot to the bob
+    plot([p(1), x], [p(2), y]);
+    % Keeps the frame consistent
+    axis([-0.5, 0.5, 0.125, 1.125]);
+    title('Animation of Pendulum Motion')
+    xlabel('x-position (m)');
+    xlabel({'x-position (m)'
+        ''
+        % Figure label
+        '\bfFigure 2: \rmAnimation of Pendulum Motion'});
+    ylabel('y-position (m)');
+    
+    pause(0.1);                 % Pauses for humans
+    
+end
+##### SOURCE END #####
+--></body></html>
+<a name="EulerSolver"></a>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>EulerSolver Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-01-23"><meta name="DC.source" content="EulerSolver.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>EulerSolver Usage and Description</h1><p>This function file is a numerical integrator utilizing Euler&#8217;s method. The function declaration is of the form: function [t, x_array] = EulerSolver(func hand, t_f, x_0, t_step) where func_hand is a function handle for the ODE we are trying to integrate. This will give EulerSolver something to integrate. The final time, t_final, specifies when to end the simulation. All ODEs require initial conditions to solve; these will be passed in as x_0, a vector containing the values of the state variables at time zero. Finally, t_step determines the step size EulerSolver uses when computing the solution to the ODE. The function EulerSolver should includes creating a time array, defining initial conditions, and a loop implementing Euler&#8217;s method to successively integrate the ODE(s) passed in. Euler&#8217;s method is dependent on the current time derivative of the state vector to evaluate the state vector at the next point in time, an inverse relationship from the EOM function.</p><pre class="codeinput"><span class="keyword">function</span> [t, x_array] = EulerSolver(func_hand, t_f, x_0, t_step)
+
+<span class="comment">% Step 1: Create a column vector, t, containing the value of time for each</span>
+<span class="comment">%  iteration of the solution, starting with 0, counting by t_step, and</span>
+<span class="comment">%  ending at t_f.</span>
+t = (0:t_step:t_f)';            <span class="comment">% Time</span>
+
+<span class="comment">% Step 2: Create an array containing zeros, x_array, that is the same</span>
+<span class="comment">%  number of rows as the time vector, t, and the same number of columns as</span>
+<span class="comment">%  there are rows in initial state vector, x_0.</span>
+numt = length(t);               <span class="comment">% Number of time points</span>
+numx = length(x_0);             <span class="comment">% Number of variables</span>
+x_array = zeros(numt, numx);    <span class="comment">% Initializing the x_array</span>
+
+<span class="comment">% Step 3: Replace the first row of x_array with the initial conditions,</span>
+<span class="comment">%  x_0, so that each following row can be computed.</span>
+x_array(1, :) = x_0;
+
+<span class="comment">% Step 4: Using a for loop, iterate through each row in x_array</span>
+<span class="keyword">for</span> i = 1:numt-1
+
+<span class="comment">%  Step 4a: Compute the time rate of chanxge of the vector x by executing</span>
+<span class="comment">%   the function_handle.</span>
+    xdot = func_hand(t(i), x_array(i, :));
+
+<span class="comment">%  Step 4b: Using the current time rate of change, the time step, and the</span>
+<span class="comment">%   current value of x_array, compute the next value of x_array.</span>
+    x_array(i+1, :) = x_array(i, :) + xdot'*t_step;
+
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+\n
+--></body></html>
