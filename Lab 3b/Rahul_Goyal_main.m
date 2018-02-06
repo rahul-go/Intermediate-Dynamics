@@ -14,8 +14,11 @@
 %
 % *Required Files:*
 %
-% * CarEOM.m - TODO
-% * TODO
+% * CarEOM.m - This file contains a function that represents the equations
+% of motion for the simulation. It returns xdot with inputs of time, x, the
+% A and B state-space matrices, the slope data, the horizontal velocity of
+% the car, the tire's spring constant, the car's unsprung mass, the car's
+% sprung weight, and the car's unsprung weight.
 %
 % *Still To Do:*
 %
@@ -172,7 +175,7 @@ t = (0:t_step:t_f)';            % Times list (s)
 
 
 %% Setup y_stuck and y_unstuck (First Iteration Only)
-% TODO
+% TODO DELETE?
 
 % if i == 1
 %     y_stuck = zeros(length(t), size(C, 1), length(v_x));
@@ -229,7 +232,7 @@ end
 
 
 
-%% Displacement of Sprung Mass vs. Time
+%% Displacement of Sprung Mass vs. Time (5 mph)
 % TODO
 
 plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
@@ -237,33 +240,33 @@ title('Displacement of Sprung Mass vs. Time');
 xlabel({'Time (s)'
         ''
         % Figure label
-        '\bfFigure 1: \rmDisplacement of Sprung Mass vs. Time'});
+        '\bfFigure 1: \rmDisplacement of Sprung Mass vs. Time (5 mph)'});
 ylabel('Displacement (in)');
 legend('Stuck','Unstuck');
 
 
 
-%% Displacement of Unsprung Mass vs. Time
+%% Displacement of Unsprung Mass vs. Time (5 mph)
 % TODO
 
 plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
-title('Displacement of Unsprung Mass vs. Time');
+title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
         % Figure label
-        '\bfFigure 2: \rmDisplacement of Unsprung Mass vs. Time'});
+        '\bfFigure 2: \rmDisplacement of Unsprung Mass vs. Time (5 mph)'});
 ylabel('Displacement (in)');
 legend('Stuck','Unstuck');
 
 
 
-%% Displacement of Sprung and Unsprung Mass vs. Time
+%% Displacement of Sprung and Unsprung Mass vs. Time (5 mph)
 % TODO
 
 % Subplot (stuck)
 subplot(2, 1, 1);
 plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
-title('Displacement of Unsprung Mass vs. Time');
+title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
         % Figure label
