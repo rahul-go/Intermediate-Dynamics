@@ -66,13 +66,15 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">CarEOM Usage and Description</a></li><li><a href="#2">Solve for u</a></li><li><a href="#3">Solve for xdot</a></li><li><a href="#4">Unstick Tires</a></li></ul></div><h2 id="1">CarEOM Usage and Description</h2><p>This function represents the equations of motion for the simulation. It returns xdot with inputs of time, x, the A and B state-space matrices, the slope data, and the horizontal velocity of the car. See the attached sheet for hand calculations. TODO UPDATE</p><pre class="codeinput"><span class="keyword">function</span> [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
-</pre><h2 id="2">Solve for u</h2><p>To find u (in this case, the vertical component of the velocity of the car) corresponding to the time and x value, this function solves for the corresponding distance value, from which it interpolates the corresponding slope value, from which it solves for the corresponding u value, the vertical component of the velocity of the car. Then, knowing the x and u values, the script solves y = A*x + B*u using matrix multiplication.</p><pre class="codeinput">    x_r = v_x*t;                <span class="comment">% Distance of car (ft)</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">CarEOM Usage and Description</a></li><li><a href="#3">Solve for u</a></li><li><a href="#4">Solve for xdot</a></li><li><a href="#5">Unstick Tires</a></li></ul></div><h2 id="1">CarEOM Usage and Description</h2><p>This function represents the equations of motion for the simulation. It returns xdot with inputs of time, x, the A and B state-space matrices, the slope data, and the horizontal velocity of the car. See the attached sheet for hand calculations. TODO UPDATE</p><pre class="codeinput"><span class="keyword">function</span> [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
+</pre><pre class="codeinput">    <span class="comment">% Debugging statement</span>
+<span class="comment">%     t</span>
+</pre><h2 id="3">Solve for u</h2><p>To find u (in this case, the vertical component of the velocity of the car) corresponding to the time and x value, this function solves for the corresponding distance value, from which it interpolates the corresponding slope value, from which it solves for the corresponding u value, the vertical component of the velocity of the car. Then, knowing the x and u values, the script solves y = A*x + B*u using matrix multiplication.</p><pre class="codeinput">    x_r = v_x*t;                <span class="comment">% Distance of car (ft)</span>
     <span class="comment">% Interpolate slope (m) from distance (in/ft)</span>
     m_r = interp1(slope(:, 1), slope(:, 2), x_r);
     u = v_x*m_r;                <span class="comment">% Vertical velocity (yr_dot) of car (ft/s)</span>
-</pre><h2 id="3">Solve for xdot</h2><p>See attached sheet for hand calculations.</p><pre class="codeinput">    xdot = A*x + B*u;
-</pre><h2 id="4">Unstick Tires</h2><p>To unstick the tires, this function TODO</p><pre class="codeinput">    y_r = x(1);                 <span class="comment">% Easy access to y_r</span>
+</pre><h2 id="4">Solve for xdot</h2><p>See attached sheet for hand calculations.</p><pre class="codeinput">    xdot = A*x + B*u;
+</pre><h2 id="5">Unstick Tires</h2><p>To unstick the tires, this function TODO</p><pre class="codeinput">    y_r = x(1);                 <span class="comment">% Easy access to y_r</span>
     y_u = x(2);                 <span class="comment">% Easy access to y_u</span>
 
     f_kt = k_t*(y_u-y_r);       <span class="comment">% Force in spring k_t (stuck)</span>
@@ -93,7 +95,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 function [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
 
-
+    % Debugging statement
+%     t
 
     %% Solve for u
     % To find u (in this case, the vertical component of the velocity of

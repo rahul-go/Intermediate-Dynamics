@@ -33,18 +33,16 @@
 % The following was used while debugging.
 
 close all;
-% clear all;
+clear all;
 clc;
 
 
 
 %% Set Values
 % The following is used to easily change the set horizontal velocity of the
-% car. TODO?
-v_x = [5, 60];                  % Horizontal velocity of car (mph)
-v_x = v_x * 22/15;              % Convert v_x from mph to ft/s
-
-d_f = [10, 30];                 % Corresponding simulation distance (ft)
+% car and the corresponding simulation distances.
+v_x = 22/15 * [5, 10];          % Horizontal velocity of car (ft/s)
+d_f = [10, 05];                 % Corresponding simulation distances (ft)
 
 
 
@@ -110,6 +108,12 @@ D = [0;
 
 
 
+%% TODO START FOR LOOP
+% 
+for i = 1:length(v_x)
+
+    
+    
 %% Generate a Curb Profile
 % TODO COMMENT AND ORGANIZE SECTION
 
@@ -117,12 +121,6 @@ D = [0;
 % TODO EXPLAIN LARGE RESOLUTION = SMALLER STEPS
 % TODO EXPLAIN TUNING: REALISM VS. PERFORMANCE
 res = 1;                        % Resolution scalar (unitless)
-
-
-
-%% TODO START FOR LOOP
-% 
-for i = length(v_x)
 
 
 
@@ -173,6 +171,15 @@ t = (0:t_step:t_f)';            % Times list (s)
 
 
 
+%% Setup y_stuck and y_unstuck (First Iteration Only)
+% TODO
+
+% if i == 1
+%     y_stuck = zeros(length(t), size(C, 1), length(v_x));
+%     y_unstuck = zeros(size(C, 1), length(t), length(v_x));
+% end
+
+
 %% Simulating the Stuck Quarter-Car Using lsim
 % The following TODO
 
@@ -213,6 +220,12 @@ y_unstuck = C*x_unstuck' + D*u_unstuck';
 
 % Debugging statement
 % plot(t, y_unstuck);             % Plots y (7 variables) vs. t (unstuck)
+
+
+
+%% TODO END FOR LOOP
+% TODO
+end
 
 
 
@@ -268,12 +281,6 @@ xlabel({'Time (s)'
         '\bfFigure 3: \rmUnstuck Tires'});
 ylabel('Displacement (in)');
 legend('Sprung Mass','Unsprung Mass');
-
-
-
-%% TODO END FOR LOOP
-% TODO
-end
 
 
 
