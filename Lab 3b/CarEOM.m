@@ -6,7 +6,8 @@
 
 function [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
 
-
+    % Debugging statement
+    t
 
     %% Solve for u
     % To find u (in this case, the vertical component of the velocity of

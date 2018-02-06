@@ -41,10 +41,11 @@ clc;
 %% Set Values
 % The following is used to easily change the set horizontal velocity of the
 % car. TODO?
-v_x = [5, 60];                  % Horizontal velocity of car (mph)
+% [5, 60], [10, 40]
+v_x = [60];                     % Horizontal velocity of car (mph)
 v_x = v_x * 22/15;              % Convert v_x from mph to ft/s
 
-d_f = [10, 30];                 % Corresponding simulation distance (ft)
+d_f = [40];                     % Corresponding simulation distance (ft)
 
 
 
@@ -116,7 +117,7 @@ D = [0;
 %%
 % TODO EXPLAIN LARGE RESOLUTION = SMALLER STEPS
 % TODO EXPLAIN TUNING: REALISM VS. PERFORMANCE
-res = 1;                        % Resolution scalar (unitless)
+res = 5;                        % Resolution scalar (unitless)
 
 
 
@@ -138,7 +139,7 @@ dw = 0.001;                     % Slope impulse "width" (ft)
 k_w = h/dw;                     % Slope impulse "height" (in/ft)
 
 % Curb Profile
-d = (0:dw/res:d_f(i))';             % Positions list (ft)
+d = (0:dw:d_f(i))';         % Positions list (ft)
 slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
 
 %%
@@ -167,7 +168,7 @@ slope(d>=d2+dw, 2) = slope(d>=d2+dw, 2) + k_w;
 %%
 % The following TODO
 
-t_step = (dw/v_x(i));           % Time step (s)
+t_step = (dw/v_x(i))/res;       % Time step (s)
 t_f = d_f(i)/v_x(i);            % Time final (s)
 t = (0:t_step:t_f)';            % Times list (s)
 

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Rahul_Goyal_main Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-05"><meta name="DC.source" content="Rahul_Goyal_main.m"><style type="text/css">
+      --><title>Rahul_Goyal_main Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-06"><meta name="DC.source" content="Rahul_Goyal_main.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,10 +66,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #3B</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> January 30, 2018</p><p><b>Date Modified:</b> February 06, 2018</p><p><b>Description:</b> TODO</p><p><b>Required Files:</b></p><div><ul><li>CarEOM.m - TODO</li><li>TODO</li></ul></div><p><b>Still To Do:</b></p><div><ul><li>Fix</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Reset</a></li><li><a href="#3">Set Values</a></li><li><a href="#4">Given Values</a></li><li><a href="#5">Solved Values</a></li><li><a href="#6">Generate a Curb Profile</a></li><li><a href="#11">Simulating the Stuck Quarter-Car Using lsim</a></li><li><a href="#12">Simulating the Unstuck Quarter-Car Using ode45</a></li><li><a href="#13">Discussion</a></li></ul></div><h2 id="1">Problem Statement</h2><p>TODO</p><h2 id="2">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
-clear <span class="string">all</span>;
+  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #3B</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> January 30, 2018</p><p><b>Date Modified:</b> February 06, 2018</p><p><b>Description:</b> TODO</p><p><b>Required Files:</b></p><div><ul><li>CarEOM.m - TODO</li><li>TODO</li></ul></div><p><b>Still To Do:</b></p><div><ul><li>5, 60 mph</li><li>COMMENT</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Reset</a></li><li><a href="#3">Set Values</a></li><li><a href="#4">Given Values</a></li><li><a href="#5">Solved Values</a></li><li><a href="#6">Generate a Curb Profile</a></li><li><a href="#11">Simulating the Stuck Quarter-Car Using lsim</a></li><li><a href="#12">Simulating the Unstuck Quarter-Car Using ode45</a></li><li><a href="#13">Displacement of Sprung Mass vs. Time</a></li><li><a href="#14">Displacement of Unsprung Mass vs. Time</a></li><li><a href="#15">Displacement of Sprung and Unsprung Mass vs. Time</a></li><li><a href="#16">Discussion</a></li></ul></div><h2 id="1">Problem Statement</h2><p>TODO</p><h2 id="2">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
+<span class="comment">% clear all;</span>
 clc;
-</pre><h2 id="3">Set Values</h2><p>The following is used to easily change the set horizontal velocity of the car. TODO?</p><pre class="codeinput">v_x = 10;                       <span class="comment">% Horizontal velocity of car (ft/s)</span>
+</pre><h2 id="3">Set Values</h2><p>The following is used to easily change the set horizontal velocity of the car. TODO?</p><pre class="codeinput">v_x = 05;                       <span class="comment">% Horizontal velocity of car (ft/s)</span>
 </pre><h2 id="4">Given Values</h2><p>The following assigns values given by the problem statement to variables. (The value of the gravitational constant is assumed).</p><pre class="codeinput"><span class="comment">% Given Values</span>
 w_c = 750;                      <span class="comment">% Weight of car's sprung mass (lb)</span>
 w_u = 85;                       <span class="comment">% Weight of car's unsprung mass (lb)</span>
@@ -157,25 +157,65 @@ u_stuck = v_x*mr_stuck;         <span class="comment">% Corresponding u (yr_dot)
 y_stuck = lsim(sys, u_stuck, t);
 
 <span class="comment">% Debugging statement</span>
-<span class="comment">% plot(xr_stuck, y_stuck);        % Plots y (7 variables) vs. x_r (stuck)</span>
+<span class="comment">% plot(t, y_stuck);               % Plots y (7 variables) vs. t (stuck)</span>
 </pre><h2 id="12">Simulating the Unstuck Quarter-Car Using ode45</h2><p>The following TODO</p><pre class="codeinput"><span class="comment">% TODO TEMP</span>
 options = odeset(<span class="string">'MaxStep'</span>, dw/res);
 
 <span class="comment">% Quarter-Car Differential Equation Setup</span>
 CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u);
 <span class="comment">% Solve for x</span>
-[t, x_unstuck] = ode45(CarODE, t, ICs, options);
+[~, x_unstuck] = ode45(CarODE, t, ICs, options);
 
-plot(t, x_unstuck(:, 1));
-figure;
-plot(t, x_unstuck(:, 2));
-figure;
-plot(t, x_unstuck(:, 3));
-figure;
-plot(t, x_unstuck(:, 4));
-figure;
-plot(t, x_unstuck(:, 5));
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_04.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_05.png" style="width:560px;height:420px;" alt=""> <h2 id="13">Discussion</h2><p>TODO TODO EXPLAIN LSIM VS. ODE45</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+xr_unstuck = v_x*t;             <span class="comment">% Corresponding distance values (ft)</span>
+<span class="comment">% Interpolate corresponding slope values from road_slope_data</span>
+mr_unstuck = interp1(slope(:, 1), slope(:, 2), xr_unstuck); <span class="comment">% (in/ft)</span>
+u_unstuck = v_x*mr_unstuck;     <span class="comment">% Corresponding u (yr_dot) values (in/s)</span>
+
+<span class="comment">% Solve for y</span>
+y_unstuck = C*x_unstuck' + D*u_unstuck';
+
+<span class="comment">% Debugging statement</span>
+<span class="comment">% plot(t, y_unstuck);             % Plots y (7 variables) vs. t (unstuck)</span>
+</pre><h2 id="13">Displacement of Sprung Mass vs. Time</h2><p>TODO</p><pre class="codeinput">plot(t, y_stuck(:, 3), t, y_unstuck(3, :), <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Displacement of Sprung Mass vs. Time'</span>);
+xlabel({<span class="string">'Time (s)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 1: \rmDisplacement of Sprung Mass vs. Time'</span>});
+ylabel(<span class="string">'Displacement (in)'</span>);
+legend(<span class="string">'Stuck'</span>,<span class="string">'Unstuck'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <h2 id="14">Displacement of Unsprung Mass vs. Time</h2><p>TODO</p><pre class="codeinput">plot(t, y_stuck(:, 2), t, y_unstuck(2, :), <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Displacement of Unsprung Mass vs. Time'</span>);
+xlabel({<span class="string">'Time (s)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 2: \rmDisplacement of Unsprung Mass vs. Time'</span>});
+ylabel(<span class="string">'Displacement (in)'</span>);
+legend(<span class="string">'Stuck'</span>,<span class="string">'Unstuck'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" style="width:560px;height:420px;" alt=""> <h2 id="15">Displacement of Sprung and Unsprung Mass vs. Time</h2><pre class="codeinput">figure;
+
+<span class="comment">% Subplot (stuck)</span>
+subplot(1, 2, 1);
+plot(t, y_stuck(:, 3), t, y_stuck(:, 2), <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Displacement of Unsprung Mass vs. Time'</span>);
+xlabel({<span class="string">'Time (s)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 3: \rmStuck Tires'</span>});
+ylabel(<span class="string">'Displacement (in)'</span>);
+legend(<span class="string">'Sprung Mass'</span>,<span class="string">'Unsprung Mass'</span>);
+
+<span class="comment">% Subplot (unstuck)</span>
+subplot(1, 2, 2);
+plot(t, y_unstuck(3, :), t, y_unstuck(2, :), <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Displacement of Unsprung Mass vs. Time'</span>);
+xlabel({<span class="string">'Time (s)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 3: \rmUnstuck Tires'</span>});
+ylabel(<span class="string">'Displacement (in)'</span>);
+legend(<span class="string">'Sprung Mass'</span>,<span class="string">'Unsprung Mass'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" style="width:560px;height:420px;" alt=""> <h2 id="16">Discussion</h2><p>TODO TODO EXPLAIN LSIM VS. ODE45</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Rahul_Goyal_main Usage and Description
 % ME 326 Winter 2018 - Laboratory Assignment #3B
@@ -198,7 +238,8 @@ plot(t, x_unstuck(:, 5));
 %
 % *Still To Do:*
 %
-% * Fix
+% * 5, 60 mph
+% * COMMENT
 
 
 
@@ -211,7 +252,7 @@ plot(t, x_unstuck(:, 5));
 % The following was used while debugging.
 
 close all;
-clear all;
+% clear all;
 clc;
 
 
@@ -219,7 +260,7 @@ clc;
 %% Set Values
 % The following is used to easily change the set horizontal velocity of the
 % car. TODO?
-v_x = 10;                       % Horizontal velocity of car (ft/s)
+v_x = 05;                       % Horizontal velocity of car (ft/s)
 
 
 
@@ -358,7 +399,7 @@ u_stuck = v_x*mr_stuck;         % Corresponding u (yr_dot) values (in/s)
 y_stuck = lsim(sys, u_stuck, t);
 
 % Debugging statement
-% plot(xr_stuck, y_stuck);        % Plots y (7 variables) vs. x_r (stuck)
+% plot(t, y_stuck);               % Plots y (7 variables) vs. t (stuck)
 
 
 
@@ -371,18 +412,74 @@ options = odeset('MaxStep', dw/res);
 % Quarter-Car Differential Equation Setup
 CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u);
 % Solve for x
-[t, x_unstuck] = ode45(CarODE, t, ICs, options);
+[~, x_unstuck] = ode45(CarODE, t, ICs, options);
 
-plot(t, x_unstuck(:, 1));
-figure;
-plot(t, x_unstuck(:, 2));
-figure;
-plot(t, x_unstuck(:, 3));
-figure;
-plot(t, x_unstuck(:, 4));
-figure;
-plot(t, x_unstuck(:, 5));
+xr_unstuck = v_x*t;             % Corresponding distance values (ft)
+% Interpolate corresponding slope values from road_slope_data
+mr_unstuck = interp1(slope(:, 1), slope(:, 2), xr_unstuck); % (in/ft)
+u_unstuck = v_x*mr_unstuck;     % Corresponding u (yr_dot) values (in/s)
 
+% Solve for y
+y_unstuck = C*x_unstuck' + D*u_unstuck';
+
+% Debugging statement
+% plot(t, y_unstuck);             % Plots y (7 variables) vs. t (unstuck)
+
+
+
+%% Displacement of Sprung Mass vs. Time
+% TODO
+
+plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
+title('Displacement of Sprung Mass vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 1: \rmDisplacement of Sprung Mass vs. Time'});
+ylabel('Displacement (in)');
+legend('Stuck','Unstuck');
+
+
+
+%% Displacement of Unsprung Mass vs. Time
+% TODO
+
+plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 2: \rmDisplacement of Unsprung Mass vs. Time'});
+ylabel('Displacement (in)');
+legend('Stuck','Unstuck');
+
+
+
+%% Displacement of Sprung and Unsprung Mass vs. Time
+
+figure;
+
+% Subplot (stuck)
+subplot(1, 2, 1);
+plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 3: \rmStuck Tires'});
+ylabel('Displacement (in)');
+legend('Sprung Mass','Unsprung Mass');
+
+% Subplot (unstuck)
+subplot(1, 2, 2);
+plot(t, y_unstuck(3, :), t, y_unstuck(2, :), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 3: \rmUnstuck Tires'});
+ylabel('Displacement (in)');
+legend('Sprung Mass','Unsprung Mass');
 
 
 
