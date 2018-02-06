@@ -66,22 +66,20 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">CarEOM Usage and Description</a></li><li><a href="#3">Solve for u</a></li><li><a href="#4">Solve for xdot</a></li><li><a href="#5">Unstick Tires</a></li></ul></div><h2 id="1">CarEOM Usage and Description</h2><p>This function represents the equations of motion for the simulation. It returns xdot with inputs of time, x, the A and B state-space matrices, the slope data, and the horizontal velocity of the car. See the attached sheet for hand calculations. TODO UPDATE</p><pre class="codeinput"><span class="keyword">function</span> [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
-</pre><pre class="codeinput">    <span class="comment">% Debugging statement</span>
-<span class="comment">%     t</span>
-</pre><h2 id="3">Solve for u</h2><p>To find u (in this case, the vertical component of the velocity of the car) corresponding to the time and x value, this function solves for the corresponding distance value, from which it interpolates the corresponding slope value, from which it solves for the corresponding u value, the vertical component of the velocity of the car. Then, knowing the x and u values, the script solves y = A*x + B*u using matrix multiplication.</p><pre class="codeinput">    x_r = v_x*t;                <span class="comment">% Distance of car (ft)</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">CarEOM Usage and Description</a></li><li><a href="#2">Solve for u</a></li><li><a href="#3">Solve for xdot</a></li><li><a href="#4">Unstick Tires</a></li></ul></div><h2 id="1">CarEOM Usage and Description</h2><p>This function represents the equations of motion for the simulation. It returns xdot with inputs of time, x, the A and B state-space matrices, the slope data, the horizontal velocity of the car, the tire's spring constant, the car's unsprung mass, the car's sprung weight, and the car's unsprung weight. See the attached sheet for hand calculations.</p><pre class="codeinput"><span class="keyword">function</span> [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
+</pre><h2 id="2">Solve for u</h2><p>To find u (in this case, the vertical component of the velocity of the car) corresponding to the time and x value, the following solves for the corresponding distance value, from which it interpolates the corresponding slope value, from which it solves for the corresponding u value, the vertical component of the velocity of the car. Then, knowing the x and u values, the script solves y = A*x + B*u using matrix multiplication.</p><pre class="codeinput">    x_r = v_x*t;                <span class="comment">% Distance of car (ft)</span>
     <span class="comment">% Interpolate slope (m) from distance (in/ft)</span>
     m_r = interp1(slope(:, 1), slope(:, 2), x_r);
     u = v_x*m_r;                <span class="comment">% Vertical velocity (yr_dot) of car (ft/s)</span>
-</pre><h2 id="4">Solve for xdot</h2><p>See attached sheet for hand calculations.</p><pre class="codeinput">    xdot = A*x + B*u;
-</pre><h2 id="5">Unstick Tires</h2><p>To unstick the tires, this function TODO</p><pre class="codeinput">    y_r = x(1);                 <span class="comment">% Easy access to y_r</span>
+</pre><h2 id="3">Solve for xdot</h2><p>See the attached sheet for hand calculations.</p><pre class="codeinput">    xdot = A*x + B*u;
+</pre><h2 id="4">Unstick Tires</h2><p>To unstick the tires, the following checks whether the force in the tire's "spring" exceeds the maximum downward force before the tire separates from the ground. If it does, the acceleration of the unsprung mass must be updated. (The force does not act on the sprung mass). The maximum force is added, the calculated force is subtracted, and this sum is divided by mass to obtain acceleration. This acceleration is the "error" in the calculated acceleration of the unsprung mass. The error is added as a negated value to the acceleration of the unsprung mass because the error points in the opposite direction of the assumed direction of the acceleration of the unsprung mass.</p><pre class="codeinput">    y_r = x(1);                 <span class="comment">% Easy access to y_r</span>
     y_u = x(2);                 <span class="comment">% Easy access to y_u</span>
 
     f_kt = k_t*(y_u-y_r);       <span class="comment">% Force in spring k_t (stuck)</span>
     fkt_max = w_c + w_u;        <span class="comment">% Saturation threshold</span>
 
     <span class="keyword">if</span> f_kt &gt; fkt_max
-        <span class="comment">% TODO</span>
+        <span class="comment">% Update the acceleration of the unsprung mass</span>
         xdot(4) = xdot(4) - (fkt_max-f_kt)/m_u;
     <span class="keyword">end</span>
 </pre><pre class="codeinput"><span class="keyword">end</span>
@@ -90,17 +88,15 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %% CarEOM Usage and Description
 % This function represents the equations of motion for the simulation. It
 % returns xdot with inputs of time, x, the A and B state-space matrices,
-% the slope data, and the horizontal velocity of the car. See the attached
-% sheet for hand calculations. TODO UPDATE
+% the slope data, the horizontal velocity of the car, the tire's spring
+% constant, the car's unsprung mass, the car's sprung weight, and the car's
+% unsprung weight. See the attached sheet for hand calculations.
 
 function [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
 
-    % Debugging statement
-%     t
-
     %% Solve for u
     % To find u (in this case, the vertical component of the velocity of
-    % the car) corresponding to the time and x value, this function solves
+    % the car) corresponding to the time and x value, the following solves
     % for the corresponding distance value, from which it interpolates the
     % corresponding slope value, from which it solves for the corresponding
     % u value, the vertical component of the velocity of the car. Then,
@@ -115,13 +111,23 @@ function [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
     
     
     %% Solve for xdot
-    % See attached sheet for hand calculations.
+    % See the attached sheet for hand calculations.
     xdot = A*x + B*u;
 
 
     
     %% Unstick Tires
-    % To unstick the tires, this function TODO
+    % To unstick the tires, the following checks whether the force in the
+    % tire's "spring" exceeds the maximum downward force before the tire
+    % separates from the ground. If it does, the acceleration of the
+    % unsprung mass must be updated. (The force does not act on the sprung
+    % mass). The maximum force is added, the calculated force is
+    % subtracted, and this sum is divided by mass to obtain acceleration.
+    % This acceleration is the "error" in the calculated acceleration of
+    % the unsprung mass. The error is added as a negated value to the
+    % acceleration of the unsprung mass because the error points in the
+    % opposite direction of the assumed direction of the acceleration of
+    % the unsprung mass.
     
     y_r = x(1);                 % Easy access to y_r
     y_u = x(2);                 % Easy access to y_u
@@ -130,7 +136,7 @@ function [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
     fkt_max = w_c + w_u;        % Saturation threshold
     
     if f_kt > fkt_max
-        % TODO
+        % Update the acceleration of the unsprung mass
         xdot(4) = xdot(4) - (fkt_max-f_kt)/m_u;
     end
     

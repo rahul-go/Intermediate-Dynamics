@@ -235,8 +235,10 @@ end
 %% Displacement of Sprung Mass vs. Time (5 mph)
 % TODO
 
+figure;
+
 plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
-title('Displacement of Sprung Mass vs. Time');
+title('Displacement of Sprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
         % Figure label
@@ -248,6 +250,8 @@ legend('Stuck','Unstuck');
 
 %% Displacement of Unsprung Mass vs. Time (5 mph)
 % TODO
+
+figure;
 
 plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (5 mph)');
@@ -263,6 +267,8 @@ legend('Stuck','Unstuck');
 %% Displacement of Sprung and Unsprung Mass vs. Time (5 mph)
 % TODO
 
+figure;
+
 % Subplot (stuck)
 subplot(2, 1, 1);
 plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
@@ -270,18 +276,79 @@ title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
         % Figure label
-        '\bfFigure 3: \rmStuck Tires'});
+        '\bfFigure 3a: \rmStuck Tires'});
 ylabel('Displacement (in)');
 legend('Sprung Mass','Unsprung Mass');
 
 % Subplot (unstuck)
 subplot(2, 1, 2);
 plot(t, y_unstuck(3, :), t, y_unstuck(2, :), 'LineWidth', 2);
-title('Displacement of Unsprung Mass vs. Time');
+title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
         % Figure label
-        '\bfFigure 3: \rmUnstuck Tires'});
+        '\bfFigure 3b: \rmUnstuck Tires'});
+ylabel('Displacement (in)');
+legend('Sprung Mass','Unsprung Mass');
+
+
+
+%% Displacement of Sprung Mass vs. Time (60 mph)
+% TODO
+
+figure;
+
+plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
+title('Displacement of Sprung Mass vs. Time (60 mph)');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 4: \rmDisplacement of Sprung Mass vs. Time (60 mph)'});
+ylabel('Displacement (in)');
+legend('Stuck','Unstuck');
+
+
+
+%% Displacement of Unsprung Mass vs. Time (60 mph)
+% TODO
+
+figure;
+
+plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time (60 mph)');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 5: \rmDisplacement of Unsprung Mass vs. Time (60 mph)'});
+ylabel('Displacement (in)');
+legend('Stuck','Unstuck');
+
+
+
+%% Displacement of Sprung and Unsprung Mass vs. Time (60 mph)
+% TODO
+
+figure;
+
+% Subplot (stuck)
+subplot(2, 1, 1);
+plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time (60 mph)');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 6a: \rmStuck Tires'});
+ylabel('Displacement (in)');
+legend('Sprung Mass','Unsprung Mass');
+
+% Subplot (unstuck)
+subplot(2, 1, 2);
+plot(t, y_unstuck(3, :), t, y_unstuck(2, :), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time (60 mph)');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 6b: \rmUnstuck Tires'});
 ylabel('Displacement (in)');
 legend('Sprung Mass','Unsprung Mass');
 
