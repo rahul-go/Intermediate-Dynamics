@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Rahul_Goyal_main Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-01-30"><meta name="DC.source" content="Rahul_Goyal_main.m"><style type="text/css">
+      --><title>Rahul_Goyal_main Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-06"><meta name="DC.source" content="Rahul_Goyal_main.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -159,7 +159,7 @@ u_lsim = v_x*mr_lsim;           <span class="comment">% Corresponding u (yr_dot)
 y_lsim = lsim(sys, u_lsim, t_lsim);
 
 <span class="comment">% Debugging statement</span>
-<span class="comment">% plot(xr_lsim, y_lsim)           % Plots y (7 variables) vs. x_r (ode45)</span>
+<span class="comment">% plot(xr_lsim, y_lsim)           % Plots y (7 variables) vs. x_r (lsim)</span>
 </pre><h2 id="8">Displacements of the Road, Unsprung Mass, and Sprung Mass vs. Distance Traveled</h2><p>The following plots the vertical displacements of the road, unsprung mass, and sprung mass as a function of the horizontal distance traveled. The data used is from the lsim simulation directly above.</p><p>As logically expected, the displacement of the car's sprung mass slightly lags the displacement of the car's unsprung mass, which slightly lags the displacement of the road. The amplitudes of each displacement vary; running the simulation with a different horizontal velocity of the car significantly affects the manner in which these amplitude vary. In the simulation below, the horizontal velocity of the car is 10 ft/s, a value I chose because it is small enough to distinguish the sinusoidal-esque shape of the plot but large enough to show an easily visible difference in the amplitudes. At this horizontal velocity, the vertical travel of car's sprung mass is larger than the vertical travel of the car's unsprung mass, which is larger than the vertical displacement of the road. Comparing the vertical travel of the car's sprung mass directly to the vertical displacement of the road indicates that the suspension (at this horizontal velocity of the car, at least) behaves ineffectively -- the purpose of suspension is to lessen the vertical travel of the car's sprung mass (that is, the humans and most of the car) relative to the vertical displacement of the road. As it is later explored, this suspension is more effective at certain horizontal velocities of the car than it is at others.</p><pre class="codeinput">plot(xr_lsim, y_lsim(:, 1:3), <span class="string">'LineWidth'</span>, 1);
 title(<span class="string">'Road, Unsprung Mass, Sprung Mass Displacements vs. Distance Traveled'</span>);
 xlabel({<span class="string">'Distance Traveled (ft)'</span>
@@ -412,7 +412,7 @@ u_lsim = v_x*mr_lsim;           % Corresponding u (yr_dot) values (in/s)
 y_lsim = lsim(sys, u_lsim, t_lsim);
 
 % Debugging statement
-% plot(xr_lsim, y_lsim)           % Plots y (7 variables) vs. x_r (ode45)
+% plot(xr_lsim, y_lsim)           % Plots y (7 variables) vs. x_r (lsim)
 
 
 
