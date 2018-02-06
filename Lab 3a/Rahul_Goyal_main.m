@@ -194,7 +194,7 @@ u_lsim = v_x*mr_lsim;           % Corresponding u (yr_dot) values (in/s)
 y_lsim = lsim(sys, u_lsim, t_lsim);
 
 % Debugging statement
-% plot(xr_lsim, y_lsim)           % Plots y (7 variables) vs. x_r (ode45)
+% plot(xr_lsim, y_lsim)           % Plots y (7 variables) vs. x_r (lsim)
 
 
 
