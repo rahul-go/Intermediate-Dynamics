@@ -1,0 +1,513 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Rahul_Goyal_main Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-05"><meta name="DC.source" content="Rahul_Goyal_main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #3B</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> January 30, 2018</p><p><b>Date Modified:</b> February 06, 2018</p><p><b>Description:</b> TODO</p><p><b>Required Files:</b></p><div><ul><li>CarEOM.m - TODO</li><li>TODO</li></ul><h2>Called Functions</h2><ul><li><a href="#CarEOM">CarEOM </a></li></ul></div><p><b>Still To Do:</b></p><div><ul><li>Fix</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Reset</a></li><li><a href="#3">Set Values</a></li><li><a href="#4">Given Values</a></li><li><a href="#5">Solved Values</a></li><li><a href="#6">Generate a Curb Profile</a></li><li><a href="#11">Simulating the Stuck Quarter-Car Using lsim</a></li><li><a href="#12">Simulating the Unstuck Quarter-Car Using ode45</a></li><li><a href="#13">Discussion</a></li></ul></div><h2 id="1">Problem Statement</h2><p>TODO</p><h2 id="2">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
+clear <span class="string">all</span>;
+clc;
+</pre><h2 id="3">Set Values</h2><p>The following is used to easily change the set horizontal velocity of the car. TODO?</p><pre class="codeinput">v_x = 10;                       <span class="comment">% Horizontal velocity of car (ft/s)</span>
+</pre><h2 id="4">Given Values</h2><p>The following assigns values given by the problem statement to variables. (The value of the gravitational constant is assumed).</p><pre class="codeinput"><span class="comment">% Given Values</span>
+w_c = 750;                      <span class="comment">% Weight of car's sprung mass (lb)</span>
+w_u = 85;                       <span class="comment">% Weight of car's unsprung mass (lb)</span>
+k_s = 200;                      <span class="comment">% Spring constant of the suspension (lb/in)</span>
+b_s = 60;                       <span class="comment">% Damping coeff of the suspension (lb*s/in)</span>
+k_t = 1600;                     <span class="comment">% Spring constant of tire (lb/in)</span>
+g = 32.174*12;                  <span class="comment">% Gravitational constant (in/s^2)</span>
+h = 4;                          <span class="comment">% Height of curb (in)</span>
+w = 6/12;                       <span class="comment">% Width of curb (ft)</span>
+
+<span class="comment">% Initial conditions (y_r, y_u, y_c, yu_dot, yc_dot)</span>
+ICs = [0;                       <span class="comment">% Road displacement (in)</span>
+       0;                       <span class="comment">% Car's unsprung mass dispacement (in)</span>
+       0;                       <span class="comment">% Car's sprung mass displacement (in)</span>
+       0;                       <span class="comment">% Car's unsprung mass velocity (in/s)</span>
+       0];                      <span class="comment">% Car's sprung mass velocity (in/s)</span>
+</pre><h2 id="5">Solved Values</h2><p>The following assigns values derived and/or solved from the given values to variables. See the attached sheet for hand calculations.</p><pre class="codeinput"><span class="comment">% Solved Values</span>
+m_c = w_c/g;                    <span class="comment">% Mass of car's sprung mass (slinches)</span>
+m_u = w_u/g;                    <span class="comment">% Mass of car's unsprung mass (slinches)</span>
+
+<span class="comment">% State-Space Matrices</span>
+A = [0, 0, 0, 0, 0;
+     0, 0, 0, 1, 0;
+     0, 0, 0, 0, 1;
+     k_t/m_u, -(k_s+k_t)/m_u, k_s/m_u, -b_s/m_u, b_s/m_u;
+     0, k_s/m_c, -k_s/m_c, b_s/m_c, -b_s/m_c];
+
+B = [1;
+     0;
+     0;
+     0;
+     0];
+
+C = [1, 0, 0, 0, 0;
+     0, 1, 0, 0, 0;
+     0, 0, 1, 0, 0;
+     0, 0, 0, 0, 0;
+     0, 0, 0, 1, 0;
+     0, 0, 0, 0, 1;
+     0, -k_s, k_s, -b_s, b_s];
+
+D = [0;
+     0;
+     0;
+     1;
+     0;
+     0;
+     0];
+</pre><h2 id="6">Generate a Curb Profile</h2><p>TODO COMMENT AND ORGANIZE SECTION</p><p>TODO EXPLAIN LARGE RESOLUTION = SMALLER STEPS TODO EXPLAIN TUNING: REALISM VS. PERFORMANCE</p><pre class="codeinput">res = 5;                        <span class="comment">% Resolution scalar (unitless)</span>
+</pre><p>TODO</p><pre class="codeinput"><span class="comment">% Curb Positions</span>
+d1 = 1;                         <span class="comment">% Curb start position (ft)</span>
+d2 = d1+w;                      <span class="comment">% Curb end position (ft)</span>
+
+<span class="comment">% Slope Impulses</span>
+dw = 0.001;                     <span class="comment">% Slope impulse "width" (ft)</span>
+k_w = h/dw;                     <span class="comment">% Slope impulse "height" (in/ft)</span>
+
+<span class="comment">% Curb Profile</span>
+d_f = 3/4*v_x;                  <span class="comment">% Simulation distance (ft)</span>
+d = (0:dw:d_f)';                <span class="comment">% Positions list (ft)</span>
+slope = [d, zeros(size(d))];	<span class="comment">% Empty curb profile (in/ft)</span>
+</pre><p>The following four lines add a (positive) "impulse" at from d1 to d1+dx and a (negative) "impulse" from d2 to d2+dx to simulate a dirac delta function at the start and end conditions of the curb. The code does this by adding the calculated impulse for all values corresponding to greater than d1, then subtracting the calculated impulse for all values corresponding to greater than d1+dx. Thus, only the values between d1 and d1+dx have the calculated impulse added to them. A similar procedure, but negated, is followed to add the negative impulse to the values between d2 and d2+dx.</p><pre class="codeinput"><span class="comment">% Add k_w to all corresponding slopes greater than d1</span>
+slope(d&gt;=d1, 2) = slope(d&gt;=d1, 2) + k_w;
+<span class="comment">% Subtract k_w from all corresponding slopes greater than d1 + dw</span>
+slope(d&gt;=d1+dw, 2) = slope(d&gt;=d1+dw, 2) - k_w;
+<span class="comment">% Add negative k_w to all corresponding slopes greater than d2</span>
+slope(d&gt;=d2, 2) = slope(d&gt;=d2, 2) - k_w;
+<span class="comment">% Subtract negative k_w from all corresponding slopes greater than d2 + dw</span>
+slope(d&gt;=d2+dw, 2) = slope(d&gt;=d2+dw, 2) + k_w;
+
+<span class="comment">% Debugging statement</span>
+<span class="comment">% plot(slope);</span>
+</pre><p>The following TODO</p><pre class="codeinput"><span class="comment">% t_step = (dw/v_x)/res;          % Time step (s)</span>
+<span class="comment">% t_f = d_f/v_x;                  % Time final (s)</span>
+<span class="comment">% t = (0:t_step:t_f)';            % Times list (s)</span>
+
+<span class="comment">% TODO TEMP</span>
+t_f = d_f/v_x;                  <span class="comment">% Time final (s)</span>
+t = [0, t_f];                   <span class="comment">% Times list (s)</span>
+</pre><h2 id="11">Simulating the Stuck Quarter-Car Using lsim</h2><p>The following TODO</p><pre class="codeinput"><span class="comment">% State-Space System Object</span>
+sys = ss(A, B, C, D);
+
+xr_stuck = v_x*t;               <span class="comment">% Corresponding distance values (ft)</span>
+<span class="comment">% Interpolate corresponding slope values from road_slope_data</span>
+mr_stuck = interp1(slope(:, 1), slope(:, 2), xr_stuck); <span class="comment">% (in/ft)</span>
+u_stuck = v_x*mr_stuck;         <span class="comment">% Corresponding u (yr_dot) values (in/s)</span>
+
+<span class="comment">% Solve for y</span>
+y_stuck = lsim(sys, u_stuck, t);
+
+<span class="comment">% Debugging statement</span>
+<span class="comment">% plot(xr_stuck, y_stuck);        % Plots y (7 variables) vs. x_r (stuck)</span>
+</pre><h2 id="12">Simulating the Unstuck Quarter-Car Using ode45</h2><p>The following TODO</p><pre class="codeinput"><span class="comment">% TODO TEMP</span>
+options = odeset(<span class="string">'MaxStep'</span>, dw/res);
+
+<span class="comment">% Quarter-Car Differential Equation Setup</span>
+CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, w_c, w_u, k_s, b_s, k_t, m_u);
+<span class="comment">% Solve for x</span>
+[t_unstuck, x_unstuck] = ode45(CarODE, t, ICs, options);
+
+plot(t_unstuck, x_unstuck(:, 1));
+figure;
+plot(t_unstuck, x_unstuck(:, 2));
+figure;
+plot(t_unstuck, x_unstuck(:, 3));
+figure;
+plot(t_unstuck, x_unstuck(:, 4));
+figure;
+plot(t_unstuck, x_unstuck(:, 5));
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_04.png" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_05.png" alt=""> <h2 id="13">Discussion</h2><p>TODO TODO EXPLAIN LSIM VS. ODE45</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Rahul_Goyal_main Usage and Description
+% ME 326 Winter 2018 - Laboratory Assignment #3B
+%
+% *Author:* RAHUL GOYAL
+%
+% California Polytechnic State University, San Luis Obispo, CA
+%
+% *Date Created:* January 30, 2018
+%
+% *Date Modified:* February 06, 2018
+%
+% *Description:*
+% TODO
+%
+% *Required Files:*
+%
+% * CarEOM.m - TODO
+% * TODO
+%
+% *Still To Do:*
+%
+% * Fix
+
+
+
+%% Problem Statement
+% TODO
+
+
+
+%% Reset
+% The following was used while debugging.
+
+close all;
+clear all;
+clc;
+
+
+
+%% Set Values
+% The following is used to easily change the set horizontal velocity of the
+% car. TODO?
+v_x = 10;                       % Horizontal velocity of car (ft/s)
+
+
+
+%% Given Values
+% The following assigns values given by the problem statement to variables.
+% (The value of the gravitational constant is assumed).
+
+% Given Values
+w_c = 750;                      % Weight of car's sprung mass (lb)
+w_u = 85;                       % Weight of car's unsprung mass (lb)
+k_s = 200;                      % Spring constant of the suspension (lb/in)
+b_s = 60;                       % Damping coeff of the suspension (lb*s/in)
+k_t = 1600;                     % Spring constant of tire (lb/in)
+g = 32.174*12;                  % Gravitational constant (in/s^2)
+h = 4;                          % Height of curb (in)
+w = 6/12;                       % Width of curb (ft)
+
+% Initial conditions (y_r, y_u, y_c, yu_dot, yc_dot)
+ICs = [0;                       % Road displacement (in)
+       0;                       % Car's unsprung mass dispacement (in)
+       0;                       % Car's sprung mass displacement (in)
+       0;                       % Car's unsprung mass velocity (in/s)
+       0];                      % Car's sprung mass velocity (in/s)
+
+
+
+%% Solved Values
+% The following assigns values derived and/or solved from the given values
+% to variables. See the attached sheet for hand calculations.
+
+% Solved Values
+m_c = w_c/g;                    % Mass of car's sprung mass (slinches)
+m_u = w_u/g;                    % Mass of car's unsprung mass (slinches)
+
+% State-Space Matrices
+A = [0, 0, 0, 0, 0;
+     0, 0, 0, 1, 0;
+     0, 0, 0, 0, 1;
+     k_t/m_u, -(k_s+k_t)/m_u, k_s/m_u, -b_s/m_u, b_s/m_u;
+     0, k_s/m_c, -k_s/m_c, b_s/m_c, -b_s/m_c];
+
+B = [1;
+     0;
+     0;
+     0;
+     0];
+
+C = [1, 0, 0, 0, 0;
+     0, 1, 0, 0, 0;
+     0, 0, 1, 0, 0;
+     0, 0, 0, 0, 0;
+     0, 0, 0, 1, 0;
+     0, 0, 0, 0, 1;
+     0, -k_s, k_s, -b_s, b_s];
+
+D = [0;
+     0;
+     0;
+     1;
+     0;
+     0;
+     0];
+
+
+
+%% Generate a Curb Profile
+% TODO COMMENT AND ORGANIZE SECTION
+
+%%
+% TODO EXPLAIN LARGE RESOLUTION = SMALLER STEPS
+% TODO EXPLAIN TUNING: REALISM VS. PERFORMANCE
+res = 5;                        % Resolution scalar (unitless)
+
+
+
+%%
+% TODO
+
+% Curb Positions
+d1 = 1;                         % Curb start position (ft)
+d2 = d1+w;                      % Curb end position (ft)
+
+% Slope Impulses
+dw = 0.001;                     % Slope impulse "width" (ft)
+k_w = h/dw;                     % Slope impulse "height" (in/ft)
+
+% Curb Profile
+d_f = 3/4*v_x;                  % Simulation distance (ft)
+d = (0:dw:d_f)';                % Positions list (ft)
+slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
+
+%%
+% The following four lines add a (positive) "impulse" at from d1 to d1+dx
+% and a (negative) "impulse" from d2 to d2+dx to simulate a dirac delta
+% function at the start and end conditions of the curb. The code does this
+% by adding the calculated impulse for all values corresponding to greater
+% than d1, then subtracting the calculated impulse for all values
+% corresponding to greater than d1+dx. Thus, only the values between d1 and
+% d1+dx have the calculated impulse added to them. A similar procedure, but
+% negated, is followed to add the negative impulse to the values between d2
+% and d2+dx.
+
+% Add k_w to all corresponding slopes greater than d1
+slope(d>=d1, 2) = slope(d>=d1, 2) + k_w;
+% Subtract k_w from all corresponding slopes greater than d1 + dw
+slope(d>=d1+dw, 2) = slope(d>=d1+dw, 2) - k_w;
+% Add negative k_w to all corresponding slopes greater than d2
+slope(d>=d2, 2) = slope(d>=d2, 2) - k_w;
+% Subtract negative k_w from all corresponding slopes greater than d2 + dw
+slope(d>=d2+dw, 2) = slope(d>=d2+dw, 2) + k_w;
+
+% Debugging statement
+% plot(slope);
+
+%%
+% The following TODO
+
+% t_step = (dw/v_x)/res;          % Time step (s)
+% t_f = d_f/v_x;                  % Time final (s)
+% t = (0:t_step:t_f)';            % Times list (s)
+
+% TODO TEMP
+t_f = d_f/v_x;                  % Time final (s)
+t = [0, t_f];                   % Times list (s)
+
+
+
+%% Simulating the Stuck Quarter-Car Using lsim
+% The following TODO
+
+% State-Space System Object
+sys = ss(A, B, C, D);  
+
+xr_stuck = v_x*t;               % Corresponding distance values (ft)
+% Interpolate corresponding slope values from road_slope_data
+mr_stuck = interp1(slope(:, 1), slope(:, 2), xr_stuck); % (in/ft)
+u_stuck = v_x*mr_stuck;         % Corresponding u (yr_dot) values (in/s)
+
+% Solve for y
+y_stuck = lsim(sys, u_stuck, t);
+
+% Debugging statement
+% plot(xr_stuck, y_stuck);        % Plots y (7 variables) vs. x_r (stuck)
+
+
+
+%% Simulating the Unstuck Quarter-Car Using ode45
+% The following TODO
+
+% TODO TEMP
+options = odeset('MaxStep', dw/res);
+
+% Quarter-Car Differential Equation Setup
+CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, w_c, w_u, k_s, b_s, k_t, m_u);
+% Solve for x
+[t_unstuck, x_unstuck] = ode45(CarODE, t, ICs, options);
+
+plot(t_unstuck, x_unstuck(:, 1));
+figure;
+plot(t_unstuck, x_unstuck(:, 2));
+figure;
+plot(t_unstuck, x_unstuck(:, 3));
+figure;
+plot(t_unstuck, x_unstuck(:, 4));
+figure;
+plot(t_unstuck, x_unstuck(:, 5));
+
+
+
+%% Discussion
+% TODO
+% TODO EXPLAIN LSIM VS. ODE45
+
+
+
+
+##### SOURCE END #####
+--></body></html>
+<a name="CarEOM"></a>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>CarEOM Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-05"><meta name="DC.source" content="CarEOM.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>CarEOM Usage and Description</h1><p>This function represents the equations of motion for the simulation. It returns xdot with inputs of time, x, the A and B state-space matrices, the slope data, and the horizontal velocity of the car. See the attached sheet for hand calculations. TODO UPDATE</p><p>To find u (in this case, the vertical component of the velocity of the car) corresponding to the time and x value, this function solves for the corresponding distance value, from which it interpolates the corresponding slope value, from which it solves for the corresponding u value, the vertical component of the velocity of the car. Then, knowing the x and u values, the script solves y = A*x + B*u using matrix multiplication.</p><p>To unstick the tires, this function TODO</p><pre class="codeinput"><span class="keyword">function</span> [xdot] = CarEOM(t, x, A, B, slope, v_x, w_c, w_u, k_s, b_s, k_t, m_u)
+
+    x_r = v_x*t;                <span class="comment">% Distance of car (ft)</span>
+    <span class="comment">% Interpolate slope (m) from distance (in/ft)</span>
+    m_r = interp1(slope(:, 1), slope(:, 2), x_r);
+    u = v_x*m_r;                <span class="comment">% Vertical velocity (yr_dot) of car (ft/s)</span>
+
+
+
+    xdot = A*x + B*u;
+
+
+
+    <span class="comment">% Unstuck tires</span>
+    y_r = x(1);                 <span class="comment">% Easy access to y_r</span>
+    y_u = x(2);                 <span class="comment">% Easy access to y_u</span>
+
+    f_kt = k_t*(y_u-y_r);       <span class="comment">% Force in spring k_t (stuck)</span>
+
+    <span class="keyword">if</span> f_kt &gt; (w_c+w_u)
+
+        f_kt = w_c+w_u;             <span class="comment">% Force in spring k_t (unstuck)</span>
+
+        y_c = x(3);                 <span class="comment">% Easy access to y_c</span>
+        yu_dot = x(4);              <span class="comment">% Easy access to yu_dot</span>
+        yc_dot = x(5);              <span class="comment">% Easy access to yc_dot</span>
+
+        f_ks = k_s*(y_c-y_u);       <span class="comment">% Force in spring k_s</span>
+        f_bs = b_s*(yc_dot-yu_dot); <span class="comment">% Force in damper b_s</span>
+
+        yu_2dot = (f_ks + f_bs - f_kt)/m_u;
+
+        xdot(4) = yu_2dot;
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+\n
+--></body></html>
