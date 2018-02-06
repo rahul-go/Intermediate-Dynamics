@@ -41,7 +41,7 @@ function [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
     
     if f_kt > fkt_max
         % TODO
-        xdot(4) = xdot(4) - (fkt_max - f_kt)/m_u;
+        xdot(4) = xdot(4) - (fkt_max-f_kt)/m_u;
     end
     
 end

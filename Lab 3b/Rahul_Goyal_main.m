@@ -19,7 +19,8 @@
 %
 % *Still To Do:*
 %
-% * Fix
+% * 5, 60 mph
+% * COMMENT
 
 
 
@@ -32,7 +33,7 @@
 % The following was used while debugging.
 
 close all;
-clear all;
+% clear all;
 clc;
 
 
@@ -40,7 +41,7 @@ clc;
 %% Set Values
 % The following is used to easily change the set horizontal velocity of the
 % car. TODO?
-v_x = 10;                       % Horizontal velocity of car (ft/s)
+v_x = 05;                       % Horizontal velocity of car (ft/s)
 
 
 
@@ -179,7 +180,7 @@ u_stuck = v_x*mr_stuck;         % Corresponding u (yr_dot) values (in/s)
 y_stuck = lsim(sys, u_stuck, t);
 
 % Debugging statement
-% plot(xr_stuck, y_stuck);        % Plots y (7 variables) vs. x_r (stuck)
+% plot(t, y_stuck);               % Plots y (7 variables) vs. t (stuck)
 
 
 
@@ -192,18 +193,74 @@ options = odeset('MaxStep', dw/res);
 % Quarter-Car Differential Equation Setup
 CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u);
 % Solve for x
-[t, x_unstuck] = ode45(CarODE, t, ICs, options);
+[~, x_unstuck] = ode45(CarODE, t, ICs, options);
 
-plot(t, x_unstuck(:, 1));
-figure;
-plot(t, x_unstuck(:, 2));
-figure;
-plot(t, x_unstuck(:, 3));
-figure;
-plot(t, x_unstuck(:, 4));
-figure;
-plot(t, x_unstuck(:, 5));
+xr_unstuck = v_x*t;             % Corresponding distance values (ft)
+% Interpolate corresponding slope values from road_slope_data
+mr_unstuck = interp1(slope(:, 1), slope(:, 2), xr_unstuck); % (in/ft)
+u_unstuck = v_x*mr_unstuck;     % Corresponding u (yr_dot) values (in/s)
 
+% Solve for y
+y_unstuck = C*x_unstuck' + D*u_unstuck';
+
+% Debugging statement
+% plot(t, y_unstuck);             % Plots y (7 variables) vs. t (unstuck)
+
+
+
+%% Displacement of Sprung Mass vs. Time
+% TODO
+
+plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
+title('Displacement of Sprung Mass vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 1: \rmDisplacement of Sprung Mass vs. Time'});
+ylabel('Displacement (in)');
+legend('Stuck','Unstuck');
+
+
+
+%% Displacement of Unsprung Mass vs. Time
+% TODO
+
+plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 2: \rmDisplacement of Unsprung Mass vs. Time'});
+ylabel('Displacement (in)');
+legend('Stuck','Unstuck');
+
+
+
+%% Displacement of Sprung and Unsprung Mass vs. Time
+
+figure;
+
+% Subplot (stuck)
+subplot(1, 2, 1);
+plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 3: \rmStuck Tires'});
+ylabel('Displacement (in)');
+legend('Sprung Mass','Unsprung Mass');
+
+% Subplot (unstuck)
+subplot(1, 2, 2);
+plot(t, y_unstuck(3, :), t, y_unstuck(2, :), 'LineWidth', 2);
+title('Displacement of Unsprung Mass vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 3: \rmUnstuck Tires'});
+ylabel('Displacement (in)');
+legend('Sprung Mass','Unsprung Mass');
 
 
 
