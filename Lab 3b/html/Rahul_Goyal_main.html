@@ -129,7 +129,7 @@ k_w = h/dw;                     <span class="comment">% Slope impulse "height" (
 
 <span class="comment">% Curb Profile</span>
 d_f = 3/4*v_x;                  <span class="comment">% Simulation distance (ft)</span>
-d = (0:dw:d_f)';                <span class="comment">% Positions list (ft)</span>
+d = (0:dw/res:d_f)';            <span class="comment">% Positions list (ft)</span>
 slope = [d, zeros(size(d))];	<span class="comment">% Empty curb profile (in/ft)</span>
 </pre><p>The following four lines add a (positive) "impulse" at from d1 to d1+dx and a (negative) "impulse" from d2 to d2+dx to simulate a dirac delta function at the start and end conditions of the curb. The code does this by adding the calculated impulse for all values corresponding to greater than d1, then subtracting the calculated impulse for all values corresponding to greater than d1+dx. Thus, only the values between d1 and d1+dx have the calculated impulse added to them. A similar procedure, but negated, is followed to add the negative impulse to the values between d2 and d2+dx.</p><pre class="codeinput"><span class="comment">% Add k_w to all corresponding slopes greater than d1</span>
 slope(d&gt;=d1, 2) = slope(d&gt;=d1, 2) + k_w;
@@ -142,13 +142,9 @@ slope(d&gt;=d2+dw, 2) = slope(d&gt;=d2+dw, 2) + k_w;
 
 <span class="comment">% Debugging statement</span>
 <span class="comment">% plot(slope);</span>
-</pre><p>The following TODO</p><pre class="codeinput"><span class="comment">% t_step = (dw/v_x)/res;          % Time step (s)</span>
-<span class="comment">% t_f = d_f/v_x;                  % Time final (s)</span>
-<span class="comment">% t = (0:t_step:t_f)';            % Times list (s)</span>
-
-<span class="comment">% TODO TEMP</span>
+</pre><p>The following TODO</p><pre class="codeinput">t_step = (dw/v_x)/res;          <span class="comment">% Time step (s)</span>
 t_f = d_f/v_x;                  <span class="comment">% Time final (s)</span>
-t = [0, t_f];                   <span class="comment">% Times list (s)</span>
+t = (0:t_step:t_f)';            <span class="comment">% Times list (s)</span>
 </pre><h2 id="11">Simulating the Stuck Quarter-Car Using lsim</h2><p>The following TODO</p><pre class="codeinput"><span class="comment">% State-Space System Object</span>
 sys = ss(A, B, C, D);
 
@@ -166,20 +162,20 @@ y_stuck = lsim(sys, u_stuck, t);
 options = odeset(<span class="string">'MaxStep'</span>, dw/res);
 
 <span class="comment">% Quarter-Car Differential Equation Setup</span>
-CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, w_c, w_u, k_s, b_s, k_t, m_u);
+CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u);
 <span class="comment">% Solve for x</span>
-[t_unstuck, x_unstuck] = ode45(CarODE, t, ICs, options);
+[t, x_unstuck] = ode45(CarODE, t, ICs, options);
 
-plot(t_unstuck, x_unstuck(:, 1));
+plot(t, x_unstuck(:, 1));
 figure;
-plot(t_unstuck, x_unstuck(:, 2));
+plot(t, x_unstuck(:, 2));
 figure;
-plot(t_unstuck, x_unstuck(:, 3));
+plot(t, x_unstuck(:, 3));
 figure;
-plot(t_unstuck, x_unstuck(:, 4));
+plot(t, x_unstuck(:, 4));
 figure;
-plot(t_unstuck, x_unstuck(:, 5));
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_04.png" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_05.png" alt=""> <h2 id="13">Discussion</h2><p>TODO TODO EXPLAIN LSIM VS. ODE45</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+plot(t, x_unstuck(:, 5));
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_04.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="Rahul_Goyal_main_05.png" style="width:560px;height:420px;" alt=""> <h2 id="13">Discussion</h2><p>TODO TODO EXPLAIN LSIM VS. ODE45</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Rahul_Goyal_main Usage and Description
 % ME 326 Winter 2018 - Laboratory Assignment #3B
@@ -312,7 +308,7 @@ k_w = h/dw;                     % Slope impulse "height" (in/ft)
 
 % Curb Profile
 d_f = 3/4*v_x;                  % Simulation distance (ft)
-d = (0:dw:d_f)';                % Positions list (ft)
+d = (0:dw/res:d_f)';            % Positions list (ft)
 slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
 
 %%
@@ -341,13 +337,9 @@ slope(d>=d2+dw, 2) = slope(d>=d2+dw, 2) + k_w;
 %%
 % The following TODO
 
-% t_step = (dw/v_x)/res;          % Time step (s)
-% t_f = d_f/v_x;                  % Time final (s)
-% t = (0:t_step:t_f)';            % Times list (s)
-
-% TODO TEMP
+t_step = (dw/v_x)/res;          % Time step (s)
 t_f = d_f/v_x;                  % Time final (s)
-t = [0, t_f];                   % Times list (s)
+t = (0:t_step:t_f)';            % Times list (s)
 
 
 
@@ -377,26 +369,26 @@ y_stuck = lsim(sys, u_stuck, t);
 options = odeset('MaxStep', dw/res);
 
 % Quarter-Car Differential Equation Setup
-CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, w_c, w_u, k_s, b_s, k_t, m_u);
+CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u);
 % Solve for x
-[t_unstuck, x_unstuck] = ode45(CarODE, t, ICs, options);
+[t, x_unstuck] = ode45(CarODE, t, ICs, options);
 
-plot(t_unstuck, x_unstuck(:, 1));
+plot(t, x_unstuck(:, 1));
 figure;
-plot(t_unstuck, x_unstuck(:, 2));
+plot(t, x_unstuck(:, 2));
 figure;
-plot(t_unstuck, x_unstuck(:, 3));
+plot(t, x_unstuck(:, 3));
 figure;
-plot(t_unstuck, x_unstuck(:, 4));
+plot(t, x_unstuck(:, 4));
 figure;
-plot(t_unstuck, x_unstuck(:, 5));
+plot(t, x_unstuck(:, 5));
+
 
 
 
 %% Discussion
 % TODO
 % TODO EXPLAIN LSIM VS. ODE45
-
 
 
 

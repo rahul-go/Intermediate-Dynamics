@@ -129,7 +129,7 @@ k_w = h/dw;                     % Slope impulse "height" (in/ft)
 
 % Curb Profile
 d_f = 3/4*v_x;                  % Simulation distance (ft)
-d = (0:dw:d_f)';                % Positions list (ft)
+d = (0:dw/res:d_f)';            % Positions list (ft)
 slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
 
 %%
@@ -158,13 +158,9 @@ slope(d>=d2+dw, 2) = slope(d>=d2+dw, 2) + k_w;
 %%
 % The following TODO
 
-% t_step = (dw/v_x)/res;          % Time step (s)
-% t_f = d_f/v_x;                  % Time final (s)
-% t = (0:t_step:t_f)';            % Times list (s)
-
-% TODO TEMP
+t_step = (dw/v_x)/res;          % Time step (s)
 t_f = d_f/v_x;                  % Time final (s)
-t = [0, t_f];                   % Times list (s)
+t = (0:t_step:t_f)';            % Times list (s)
 
 
 
@@ -194,25 +190,25 @@ y_stuck = lsim(sys, u_stuck, t);
 options = odeset('MaxStep', dw/res);
 
 % Quarter-Car Differential Equation Setup
-CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, w_c, w_u, k_s, b_s, k_t, m_u);
+CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u);
 % Solve for x
-[t_unstuck, x_unstuck] = ode45(CarODE, t, ICs, options);
+[t, x_unstuck] = ode45(CarODE, t, ICs, options);
 
-plot(t_unstuck, x_unstuck(:, 1));
+plot(t, x_unstuck(:, 1));
 figure;
-plot(t_unstuck, x_unstuck(:, 2));
+plot(t, x_unstuck(:, 2));
 figure;
-plot(t_unstuck, x_unstuck(:, 3));
+plot(t, x_unstuck(:, 3));
 figure;
-plot(t_unstuck, x_unstuck(:, 4));
+plot(t, x_unstuck(:, 4));
 figure;
-plot(t_unstuck, x_unstuck(:, 5));
+plot(t, x_unstuck(:, 5));
+
 
 
 
 %% Discussion
 % TODO
 % TODO EXPLAIN LSIM VS. ODE45
-
 
 
