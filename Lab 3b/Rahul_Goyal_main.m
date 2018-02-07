@@ -19,22 +19,21 @@
 % the two models, and it compares the vertical displacements of the car's
 % unsprung mass across the two models. Additionally the script compares the
 % relationship between the vertical displacements of the car's sprung mass
-% and the car's sprung mass side-by-side as an effect of each model. This
-% is repeated for all horizontal velocities (and corresponding simulation
+% and the car's unsprung mass side-by-side as an effect of each model. This
+% is repeated for both horizontal velocities (and corresponding simulation
 % distances) supplied.
 % 
 % *Required Files:*
 %
 % * CarEOM.m - This file contains a function that represents the equations
-% of motion for the simulation. It returns xdot with inputs of time, x, the
-% A and B state-space matrices, the slope data, the horizontal velocity of
-% the car, the tire's spring constant, the car's unsprung mass, the car's
-% sprung weight, and the car's unsprung weight.
+% of motion for the "unstuck" simulation. It returns xdot with inputs of
+% time, x, the A and B state-space matrices, the slope data, the horizontal
+% velocity of the car, the tire's spring constant, the car's unsprung mass,
+% the car's sprung weight, and the car's unsprung weight.
 %
 % *Still To Do:*
 %
-% * 5, 60 mph
-% * COMMENT
+% * Done!
 
 
 
@@ -128,7 +127,7 @@ D = [0;
 
 
 %% Start a "for" Loop
-% The following starts a for loop to run the simulation at various
+% The following starts a "for" loop to run the simulation at various
 % horizontal velocities with their corresponding simulation distances
 % (supplied above in the "Set Values" section).
 for i = 1:length(v_x)
@@ -139,7 +138,8 @@ for i = 1:length(v_x)
 % The following generates a curb profile by setting a resolution, setting
 % the curb's start position, and setting the slope impulse's width. From
 % these, it calculates the curb's end position and the slope impulse's
-% height. Knowing all these, TODO
+% height. Knowing these provides all the information required for
+% generating a curb profile.
 
 
 %%
@@ -180,7 +180,7 @@ k_w = h/dw;                     % Slope impulse "height" (in/ft)
 % values between d2 and d2+dx.
 
 d = (0:dw/res:d_f(i))';         % Positions list (ft)
-slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
+slope = [d, zeros(size(d))];	% Empty curb profile (ft, in/ft)
 
 % Add k_w to all corresponding slopes greater than d1
 slope(d>=d1, 2) = slope(d>=d1, 2) + k_w;
@@ -206,7 +206,7 @@ t{i} = (0:t_step:t_f)';         % Times list (s)
 
 %% Simulating the Stuck Quarter-Car Using lsim
 % The following simulates the stuck quarter-car using lsim. It creates a
-% state-space system opject, calculates the u values corresponding to the
+% state-space system object, calculates the u values corresponding to the
 % time values, then solves for y using lsim.
 
 % State-Space System Object
@@ -261,13 +261,24 @@ y_unstuck{i} = C*x_unstuck' + D*u_unstuck';
 
 
 %% End the "for" Loop
-% The following ends the for loop.
+% The following ends the "for" loop.
 end
 
 
 
 %% Displacement of Sprung Mass vs. Time (5 mph)
-% TODO
+% The following plots the vertical displacement of the sprung mass as a
+% function of time when the horizontal velocity of the car is 5 mph,
+% comparing the models plotted on each other.
+% 
+% The plot indicates a significant difference between the stuck and unstuck
+% models at 5 mph. Whereas the stuck model exhibits a sudden shift from
+% upward displacement to downward displacement as soon as the curb ends,
+% the unstuck model shows a continuous upward displacement until
+% experiencing a gradual change in direction to downward displacement,
+% probably as a result from the energy of the compressed suspension. Both
+% displacements eventually dampen to a steady-state of 0, as expected with
+% no further road input.
 
 figure;
 
@@ -283,7 +294,12 @@ legend('Stuck','Unstuck');
 
 
 %% Displacement of Unsprung Mass vs. Time (5 mph)
-% TODO
+% The following plots the vertical displacement of the unsprung mass as a
+% function of time when the horizontal velocity of the car is 5 mph,
+% comparing the models plotted on each other.
+% 
+% The analysis of this plot falls in line with the analysis of the previous
+% plot.
 
 figure;
 
@@ -299,7 +315,14 @@ legend('Stuck','Unstuck');
 
 
 %% Displacement of Sprung and Unsprung Mass vs. Time (5 mph)
-% TODO
+% The following plots the vertical displacement of the sprung and unsprung
+% mass as a function of time when the horizontal velocity of the car is 5
+% mph, comparing the stuck and unstuck models side-by-side.
+% 
+% As expected, the plot indicates that the unsprung mass reacts more
+% suddenly than the sprung mass; yet, the sprung mass follows closely,
+% probably because the horizontal velocity of the car is relatively slow at
+% 5 mph.
 
 figure;
 
@@ -328,7 +351,13 @@ legend('Sprung Mass','Unsprung Mass');
 
 
 %% Displacement of Sprung Mass vs. Time (60 mph)
-% TODO
+% The following plots the vertical displacement of the sprung mass as a
+% function of time when the horizontal velocity of the car is 60 mph,
+% comparing the models plotted on each other.
+% 
+% The plot indicates an insignificant difference between the stuck and
+% unstuck models at 60 mph, probably because the tires do not leave the
+% ground for long at such relatively high speeds.
 
 figure;
 
@@ -344,7 +373,12 @@ legend('Stuck','Unstuck');
 
 
 %% Displacement of Unsprung Mass vs. Time (60 mph)
-% TODO
+% The following plots the vertical displacement of the unsprung mass as a
+% function of time when the horizontal velocity of the car is 60 mph,
+% comparing the models plotted on each other.
+% 
+% The analysis of this plot falls in line with the analysis of the previous
+% plot.
 
 figure;
 
@@ -360,7 +394,14 @@ legend('Stuck','Unstuck');
 
 
 %% Displacement of Sprung and Unsprung Mass vs. Time (60 mph)
-% TODO
+% The following plots the vertical displacement of the sprung and unsprung
+% mass as a function of time when the horizontal velocity of the car is 5
+% mph, comparing the stuck and unstuck models side-by-side.
+% 
+% % As expected, the plot indicates that the unsprung mass reacts more
+% suddenly than the sprung mass; the sprung mass displaces relatively
+% little, probably because the horizontal velocity of the car is relatively
+% fast at 60 mph.
 
 figure;
 
@@ -391,7 +432,7 @@ legend('Sprung Mass','Unsprung Mass');
 %% Discussion
 % While lsim generally produces quicker results, ode45 allows for more
 % user control. Each method is better suited for different purposes. Using
-% lsim was easier to simulate the quarter-car assuming that the tires never
+% lsim was easier to simulate the quarter-car assuming that the tire never
 % leave the ground, for example, as in lab 3a. Using ode45 was easier to
 % simulate the quarter-car if it cannot be assumed that the tires never
 % leave the ground. Using ode45, it is easy to add logic that allows the
@@ -400,5 +441,6 @@ legend('Sprung Mass','Unsprung Mass');
 % running ode45 with narrow impulses meant to simulate Dirac delta
 % functions is tricky because ode45 often "steps" over the narrow input.
 % Thus, the maximum step used by ode45 must be manually set for that one
-% specific condition, slowing the entire run process. TODO
+% specific condition, slowing the entire run process. Thus, the choice
+% between using lsim and ode45 should depend on the application.
 
