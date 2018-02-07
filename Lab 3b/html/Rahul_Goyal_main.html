@@ -66,11 +66,11 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #3B</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> January 30, 2018</p><p><b>Date Modified:</b> February 06, 2018</p><p><b>Description:</b> TODO</p><p><b>Required Files:</b></p><div><ul><li>CarEOM.m - This file contains a function that represents the equations of motion for the simulation. It returns xdot with inputs of time, x, the A and B state-space matrices, the slope data, the horizontal velocity of the car, the tire's spring constant, the car's unsprung mass, the car's sprung weight, and the car's unsprung weight.</li></ul></div><p><b>Still To Do:</b></p><div><ul><li>5, 60 mph</li><li>COMMENT</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Reset</a></li><li><a href="#3">Set Values</a></li><li><a href="#4">Given Values</a></li><li><a href="#5">Solved Values</a></li><li><a href="#6">TODO START FOR LOOP</a></li><li><a href="#8">Generate a Curb Profile</a></li><li><a href="#13">Setup y_stuck and y_unstuck (First Iteration Only)</a></li><li><a href="#14">Simulating the Stuck Quarter-Car Using lsim</a></li><li><a href="#15">Simulating the Unstuck Quarter-Car Using ode45</a></li><li><a href="#16">TODO END FOR LOOP</a></li><li><a href="#18">Displacement of Sprung Mass vs. Time (5 mph)</a></li><li><a href="#19">Displacement of Unsprung Mass vs. Time (5 mph)</a></li><li><a href="#20">Displacement of Sprung and Unsprung Mass vs. Time (5 mph)</a></li><li><a href="#21">Displacement of Sprung Mass vs. Time (60 mph)</a></li><li><a href="#22">Displacement of Unsprung Mass vs. Time (60 mph)</a></li><li><a href="#23">Displacement of Sprung and Unsprung Mass vs. Time (60 mph)</a></li><li><a href="#24">Discussion</a></li></ul></div><h2 id="1">Problem Statement</h2><p>TODO</p><h2 id="2">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
+  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #3B</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> January 30, 2018</p><p><b>Date Modified:</b> February 06, 2018</p><p><b>Description:</b> This script simulates the suspension of a quarter-car, modeled with state-space representation. Two models are evaluated at two separate horizontal velocities. The first model assumes that the tires never leave the ground, that is, they stick to the ground. The second model does not make this invalid assumption. This script then compares the two models: it compares the vertical displacements of the car's sprung mass across the two models, and it compares the vertical displacements of the car's unsprung mass across the two models. Additionally the script compares the relationship between the vertical displacements of the car's sprung mass and the car's sprung mass side-by-side as an effect of each model. This is repeated for all horizontal velocities (and corresponding simulation distances) supplied.</p><p><b>Required Files:</b></p><div><ul><li>CarEOM.m - This file contains a function that represents the equations of motion for the simulation. It returns xdot with inputs of time, x, the A and B state-space matrices, the slope data, the horizontal velocity of the car, the tire's spring constant, the car's unsprung mass, the car's sprung weight, and the car's unsprung weight.</li></ul></div><p><b>Still To Do:</b></p><div><ul><li>5, 60 mph</li><li>COMMENT</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Reset</a></li><li><a href="#3">Set Values</a></li><li><a href="#4">Given Values</a></li><li><a href="#5">Solved Values</a></li><li><a href="#6">Start a "for" Loop</a></li><li><a href="#8">Generate a Curb Profile</a></li><li><a href="#13">Simulating the Stuck Quarter-Car Using lsim</a></li><li><a href="#14">Simulating the Unstuck Quarter-Car Using ode45</a></li><li><a href="#15">End the "for" Loop</a></li><li><a href="#17">Displacement of Sprung Mass vs. Time (5 mph)</a></li><li><a href="#18">Displacement of Unsprung Mass vs. Time (5 mph)</a></li><li><a href="#19">Displacement of Sprung and Unsprung Mass vs. Time (5 mph)</a></li><li><a href="#20">Displacement of Sprung Mass vs. Time (60 mph)</a></li><li><a href="#21">Displacement of Unsprung Mass vs. Time (60 mph)</a></li><li><a href="#22">Displacement of Sprung and Unsprung Mass vs. Time (60 mph)</a></li><li><a href="#23">Discussion</a></li></ul></div><h2 id="1">Problem Statement</h2><p>Continue the analysis of the quarter-car model. The associated parameters will be the same as in the previous portion of the assignment. That is: wc = 750 lb, wu = 85 lb, ks = 200 lb/in, bs = 60 lb &middot; s/in, and kt = 1600 lb/in. However, the inputs to the system will change; compute the response of your quarter-car to an approximation of a 4-inch tall by 6-inch wide curb.</p><h2 id="2">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
 clear <span class="string">all</span>;
 clc;
-</pre><h2 id="3">Set Values</h2><p>The following is used to easily change the set horizontal velocity of the car and the corresponding simulation distances.</p><pre class="codeinput">v_x = 22/15 * [5, 10];          <span class="comment">% Horizontal velocity of car (ft/s)</span>
-d_f = [10, 05];                 <span class="comment">% Corresponding simulation distances (ft)</span>
+</pre><h2 id="3">Set Values</h2><p>The following is used to easily change the set horizontal velocity of the car and the corresponding simulation distances.</p><pre class="codeinput">v_x = 22/15 * [5, 60];          <span class="comment">% Horizontal velocity of car (ft/s)</span>
+d_f = [10, 30];                 <span class="comment">% Corresponding simulation distances (ft)</span>
 </pre><h2 id="4">Given Values</h2><p>The following assigns values given by the problem statement to variables. (The value of the gravitational constant is assumed).</p><pre class="codeinput"><span class="comment">% Given Values</span>
 w_c = 750;                      <span class="comment">% Weight of car's sprung mass (lb)</span>
 w_u = 85;                       <span class="comment">% Weight of car's unsprung mass (lb)</span>
@@ -119,20 +119,19 @@ D = [0;
      0;
      0;
      0];
-</pre><h2 id="6">TODO START FOR LOOP</h2><pre class="codeinput"><span class="keyword">for</span> i = 1:length(v_x)
-</pre><h2 id="8">Generate a Curb Profile</h2><p>TODO COMMENT AND ORGANIZE SECTION</p><p>TODO EXPLAIN LARGE RESOLUTION = SMALLER STEPS TODO EXPLAIN TUNING: REALISM VS. PERFORMANCE</p><pre class="codeinput">res = 1;                        <span class="comment">% Resolution scalar (unitless)</span>
-</pre><p>TODO</p><pre class="codeinput"><span class="comment">% Curb Positions</span>
+</pre><h2 id="6">Start a "for" Loop</h2><p>The following starts a for loop to run the simulation at various horizontal velocities with their corresponding simulation distances (supplied above in the "Set Values" section).</p><pre class="codeinput"><span class="keyword">for</span> i = 1:length(v_x)
+</pre><h2 id="8">Generate a Curb Profile</h2><p>The following generates a curb profile by setting a resolution, setting the curb's start position, and setting the slope impulse's width. From these, it calculates the curb's end position and the slope impulse's height. Knowing all these, TODO</p><p>A smaller resolution sacrifices realism for performance. My simulation provides visually indistinguishable results for resolutions greater than or equal to 1.</p><pre class="codeinput">res = 1;                        <span class="comment">% Resolution scalar (unitless)</span>
+</pre><p>The curb's start position is set arbitrarily (yet reasonably); the curb's end position is calculated as the curb's start position plus the width of the curb. The slope impulse's width is theoretically inifinitesimal; it is set to a value that balances realism with performance. Because integrating the slope impulse must equal the height of the curb, the slope impulse's width times the slope impulse's height must also equal the height of the curb. Thus, the slope's height is calculated as the height of the curb divided by slope impulse's width.</p><pre class="codeinput"><span class="comment">% Curb Positions</span>
 d1 = 1;                         <span class="comment">% Curb start position (ft)</span>
 d2 = d1+w;                      <span class="comment">% Curb end position (ft)</span>
 
 <span class="comment">% Slope Impulses</span>
 dw = 0.001;                     <span class="comment">% Slope impulse "width" (ft)</span>
 k_w = h/dw;                     <span class="comment">% Slope impulse "height" (in/ft)</span>
-
-<span class="comment">% Curb Profile</span>
-d = (0:dw/res:d_f(i))';             <span class="comment">% Positions list (ft)</span>
+</pre><p>The following creates an empty curb profile, then adds a (positive) "impulse" at from d1 to d1+dx and a (negative) "impulse" from d2 to d2+dx to simulate a Dirac delta function at the start and end conditions of the curb. The code does this by adding the calculated impulse for all values corresponding to greater than d1, then subtracting the calculated impulse for all values corresponding to greater than d1+dx. Thus, only the values between d1 and d1+dx have the calculated impulse added to them. A similar procedure, but negated, is followed to add the negative impulse to the values between d2 and d2+dx.</p><pre class="codeinput">d = (0:dw/res:d_f(i))';         <span class="comment">% Positions list (ft)</span>
 slope = [d, zeros(size(d))];	<span class="comment">% Empty curb profile (in/ft)</span>
-</pre><p>The following four lines add a (positive) "impulse" at from d1 to d1+dx and a (negative) "impulse" from d2 to d2+dx to simulate a dirac delta function at the start and end conditions of the curb. The code does this by adding the calculated impulse for all values corresponding to greater than d1, then subtracting the calculated impulse for all values corresponding to greater than d1+dx. Thus, only the values between d1 and d1+dx have the calculated impulse added to them. A similar procedure, but negated, is followed to add the negative impulse to the values between d2 and d2+dx.</p><pre class="codeinput"><span class="comment">% Add k_w to all corresponding slopes greater than d1</span>
+
+<span class="comment">% Add k_w to all corresponding slopes greater than d1</span>
 slope(d&gt;=d1, 2) = slope(d&gt;=d1, 2) + k_w;
 <span class="comment">% Subtract k_w from all corresponding slopes greater than d1 + dw</span>
 slope(d&gt;=d1+dw, 2) = slope(d&gt;=d1+dw, 2) - k_w;
@@ -143,48 +142,45 @@ slope(d&gt;=d2+dw, 2) = slope(d&gt;=d2+dw, 2) + k_w;
 
 <span class="comment">% Debugging statement</span>
 <span class="comment">% plot(slope);</span>
-</pre><p>The following TODO</p><pre class="codeinput">t_step = (dw/v_x(i));           <span class="comment">% Time step (s)</span>
+</pre><p>The following calculates the time step and the final time to create a list of times.</p><pre class="codeinput">t_step = (dw/v_x(i));           <span class="comment">% Time step (s)</span>
 t_f = d_f(i)/v_x(i);            <span class="comment">% Time final (s)</span>
-t = (0:t_step:t_f)';            <span class="comment">% Times list (s)</span>
-</pre><h2 id="13">Setup y_stuck and y_unstuck (First Iteration Only)</h2><p>TODO DELETE?</p><pre class="codeinput"><span class="comment">% if i == 1</span>
-<span class="comment">%     y_stuck = zeros(length(t), size(C, 1), length(v_x));</span>
-<span class="comment">%     y_unstuck = zeros(size(C, 1), length(t), length(v_x));</span>
-<span class="comment">% end</span>
-</pre><h2 id="14">Simulating the Stuck Quarter-Car Using lsim</h2><p>The following TODO</p><pre class="codeinput"><span class="comment">% State-Space System Object</span>
+t{i} = (0:t_step:t_f)';         <span class="comment">% Times list (s)</span>
+</pre><h2 id="13">Simulating the Stuck Quarter-Car Using lsim</h2><p>The following simulates the stuck quarter-car using lsim. It creates a state-space system opject, calculates the u values corresponding to the time values, then solves for y using lsim.</p><pre class="codeinput"><span class="comment">% State-Space System Object</span>
 sys = ss(A, B, C, D);
 
-xr_stuck = v_x(i)*t;            <span class="comment">% Corresponding distance values (ft)</span>
+xr_stuck = v_x(i)*t{i};         <span class="comment">% Corresponding distance values (ft)</span>
 <span class="comment">% Interpolate corresponding slope values from road_slope_data</span>
 mr_stuck = interp1(slope(:, 1), slope(:, 2), xr_stuck); <span class="comment">% (in/ft)</span>
 u_stuck = v_x(i)*mr_stuck;      <span class="comment">% Corresponding u (yr_dot) values (in/s)</span>
 
 <span class="comment">% Solve for y</span>
-y_stuck = lsim(sys, u_stuck, t);
+y_stuck{i} = lsim(sys, u_stuck, t{i});
 
 <span class="comment">% Debugging statement</span>
 <span class="comment">% plot(t, y_stuck);               % Plots y (7 variables) vs. t (stuck)</span>
-</pre><h2 id="15">Simulating the Unstuck Quarter-Car Using ode45</h2><p>The following TODO</p><pre class="codeinput"><span class="comment">% TODO TEMP</span>
+</pre><h2 id="14">Simulating the Unstuck Quarter-Car Using ode45</h2><p>The following solves the differential equation xdot = A*x + B*u using ode45. The function CarEOM, which represents this differential equation, contains logic that allows the quarter-car's tire to leave the ground. Because ode45 does not return the u values (in this case, the vertical component component of the velocity of the car) corresponding to the time and x values it returns, the main script finds them by solving for the corresponding distance values, from which it interpolates the corresponding slope values, from which it solves for the corresponding u values, the vertical component of the velocity of the car. Then, knowing the x and u values, the script solves y = C*x + D*u using matrix multiplication.</p><pre class="codeinput"><span class="comment">% The following line prevents ode45 from stepping over the narrow slope</span>
+<span class="comment">% impulse.</span>
 options = odeset(<span class="string">'MaxStep'</span>, t_step);
 
 <span class="comment">% Quarter-Car Differential Equation Setup</span>
 CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x(i), k_t, m_u, w_c, w_u);
 <span class="comment">% Solve for x</span>
-[~, x_unstuck] = ode45(CarODE, t, ICs, options);
+[~, x_unstuck] = ode45(CarODE, t{i}, ICs, options);
 
-xr_unstuck = v_x(i)*t;          <span class="comment">% Corresponding distance values (ft)</span>
+xr_unstuck = v_x(i)*t{i};       <span class="comment">% Corresponding distance values (ft)</span>
 <span class="comment">% Interpolate corresponding slope values from road_slope_data</span>
 mr_unstuck = interp1(slope(:, 1), slope(:, 2), xr_unstuck); <span class="comment">% (in/ft)</span>
 u_unstuck = v_x(i)*mr_unstuck;  <span class="comment">% Corresponding u (yr_dot) values (in/s)</span>
 
 <span class="comment">% Solve for y</span>
-y_unstuck = C*x_unstuck' + D*u_unstuck';
+y_unstuck{i} = C*x_unstuck' + D*u_unstuck';
 
 <span class="comment">% Debugging statement</span>
 <span class="comment">% plot(t, y_unstuck);             % Plots y (7 variables) vs. t (unstuck)</span>
-</pre><h2 id="16">TODO END FOR LOOP</h2><p>TODO</p><pre class="codeinput"><span class="keyword">end</span>
-</pre><h2 id="18">Displacement of Sprung Mass vs. Time (5 mph)</h2><p>TODO</p><pre class="codeinput">figure;
+</pre><h2 id="15">End the "for" Loop</h2><p>The following ends the for loop.</p><pre class="codeinput"><span class="keyword">end</span>
+</pre><h2 id="17">Displacement of Sprung Mass vs. Time (5 mph)</h2><p>TODO</p><pre class="codeinput">figure;
 
-plot(t, y_stuck(:, 3), t, y_unstuck(3, :), <span class="string">'LineWidth'</span>, 2);
+plot(t{1}, y_stuck{1}(:, 3), t{1}, y_unstuck{1}(3, :), <span class="string">'LineWidth'</span>, 2);
 title(<span class="string">'Displacement of Sprung Mass vs. Time (5 mph)'</span>);
 xlabel({<span class="string">'Time (s)'</span>
         <span class="string">''</span>
@@ -192,9 +188,9 @@ xlabel({<span class="string">'Time (s)'</span>
         <span class="string">'\bfFigure 1: \rmDisplacement of Sprung Mass vs. Time (5 mph)'</span>});
 ylabel(<span class="string">'Displacement (in)'</span>);
 legend(<span class="string">'Stuck'</span>,<span class="string">'Unstuck'</span>);
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <h2 id="19">Displacement of Unsprung Mass vs. Time (5 mph)</h2><p>TODO</p><pre class="codeinput">figure;
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <h2 id="18">Displacement of Unsprung Mass vs. Time (5 mph)</h2><p>TODO</p><pre class="codeinput">figure;
 
-plot(t, y_stuck(:, 2), t, y_unstuck(2, :), <span class="string">'LineWidth'</span>, 2);
+plot(t{1}, y_stuck{1}(:, 2), t{1}, y_unstuck{1}(2, :), <span class="string">'LineWidth'</span>, 2);
 title(<span class="string">'Displacement of Unsprung Mass vs. Time (5 mph)'</span>);
 xlabel({<span class="string">'Time (s)'</span>
         <span class="string">''</span>
@@ -202,11 +198,11 @@ xlabel({<span class="string">'Time (s)'</span>
         <span class="string">'\bfFigure 2: \rmDisplacement of Unsprung Mass vs. Time (5 mph)'</span>});
 ylabel(<span class="string">'Displacement (in)'</span>);
 legend(<span class="string">'Stuck'</span>,<span class="string">'Unstuck'</span>);
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" style="width:560px;height:420px;" alt=""> <h2 id="20">Displacement of Sprung and Unsprung Mass vs. Time (5 mph)</h2><p>TODO</p><pre class="codeinput">figure;
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" style="width:560px;height:420px;" alt=""> <h2 id="19">Displacement of Sprung and Unsprung Mass vs. Time (5 mph)</h2><p>TODO</p><pre class="codeinput">figure;
 
 <span class="comment">% Subplot (stuck)</span>
 subplot(2, 1, 1);
-plot(t, y_stuck(:, 3), t, y_stuck(:, 2), <span class="string">'LineWidth'</span>, 2);
+plot(t{1}, y_stuck{1}(:, 3), t{1}, y_stuck{1}(:, 2), <span class="string">'LineWidth'</span>, 2);
 title(<span class="string">'Displacement of Unsprung Mass vs. Time (5 mph)'</span>);
 xlabel({<span class="string">'Time (s)'</span>
         <span class="string">''</span>
@@ -217,7 +213,7 @@ legend(<span class="string">'Sprung Mass'</span>,<span class="string">'Unsprung 
 
 <span class="comment">% Subplot (unstuck)</span>
 subplot(2, 1, 2);
-plot(t, y_unstuck(3, :), t, y_unstuck(2, :), <span class="string">'LineWidth'</span>, 2);
+plot(t{1}, y_unstuck{1}(3, :), t{1}, y_unstuck{1}(2, :), <span class="string">'LineWidth'</span>, 2);
 title(<span class="string">'Displacement of Unsprung Mass vs. Time (5 mph)'</span>);
 xlabel({<span class="string">'Time (s)'</span>
         <span class="string">''</span>
@@ -225,9 +221,9 @@ xlabel({<span class="string">'Time (s)'</span>
         <span class="string">'\bfFigure 3b: \rmUnstuck Tires'</span>});
 ylabel(<span class="string">'Displacement (in)'</span>);
 legend(<span class="string">'Sprung Mass'</span>,<span class="string">'Unsprung Mass'</span>);
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" style="width:560px;height:420px;" alt=""> <h2 id="21">Displacement of Sprung Mass vs. Time (60 mph)</h2><p>TODO</p><pre class="codeinput">figure;
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" style="width:560px;height:420px;" alt=""> <h2 id="20">Displacement of Sprung Mass vs. Time (60 mph)</h2><p>TODO</p><pre class="codeinput">figure;
 
-plot(t, y_stuck(:, 3), t, y_unstuck(3, :), <span class="string">'LineWidth'</span>, 2);
+plot(t{2}, y_stuck{2}(:, 3), t{2}, y_unstuck{2}(3, :), <span class="string">'LineWidth'</span>, 2);
 title(<span class="string">'Displacement of Sprung Mass vs. Time (60 mph)'</span>);
 xlabel({<span class="string">'Time (s)'</span>
         <span class="string">''</span>
@@ -235,9 +231,9 @@ xlabel({<span class="string">'Time (s)'</span>
         <span class="string">'\bfFigure 4: \rmDisplacement of Sprung Mass vs. Time (60 mph)'</span>});
 ylabel(<span class="string">'Displacement (in)'</span>);
 legend(<span class="string">'Stuck'</span>,<span class="string">'Unstuck'</span>);
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_04.png" style="width:560px;height:420px;" alt=""> <h2 id="22">Displacement of Unsprung Mass vs. Time (60 mph)</h2><p>TODO</p><pre class="codeinput">figure;
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_04.png" style="width:560px;height:420px;" alt=""> <h2 id="21">Displacement of Unsprung Mass vs. Time (60 mph)</h2><p>TODO</p><pre class="codeinput">figure;
 
-plot(t, y_stuck(:, 2), t, y_unstuck(2, :), <span class="string">'LineWidth'</span>, 2);
+plot(t{2}, y_stuck{2}(:, 2), t{2}, y_unstuck{2}(2, :), <span class="string">'LineWidth'</span>, 2);
 title(<span class="string">'Displacement of Unsprung Mass vs. Time (60 mph)'</span>);
 xlabel({<span class="string">'Time (s)'</span>
         <span class="string">''</span>
@@ -245,11 +241,11 @@ xlabel({<span class="string">'Time (s)'</span>
         <span class="string">'\bfFigure 5: \rmDisplacement of Unsprung Mass vs. Time (60 mph)'</span>});
 ylabel(<span class="string">'Displacement (in)'</span>);
 legend(<span class="string">'Stuck'</span>,<span class="string">'Unstuck'</span>);
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_05.png" style="width:560px;height:420px;" alt=""> <h2 id="23">Displacement of Sprung and Unsprung Mass vs. Time (60 mph)</h2><p>TODO</p><pre class="codeinput">figure;
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_05.png" style="width:560px;height:420px;" alt=""> <h2 id="22">Displacement of Sprung and Unsprung Mass vs. Time (60 mph)</h2><p>TODO</p><pre class="codeinput">figure;
 
 <span class="comment">% Subplot (stuck)</span>
 subplot(2, 1, 1);
-plot(t, y_stuck(:, 3), t, y_stuck(:, 2), <span class="string">'LineWidth'</span>, 2);
+plot(t{2}, y_stuck{2}(:, 3), t{2}, y_stuck{2}(:, 2), <span class="string">'LineWidth'</span>, 2);
 title(<span class="string">'Displacement of Unsprung Mass vs. Time (60 mph)'</span>);
 xlabel({<span class="string">'Time (s)'</span>
         <span class="string">''</span>
@@ -260,7 +256,7 @@ legend(<span class="string">'Sprung Mass'</span>,<span class="string">'Unsprung 
 
 <span class="comment">% Subplot (unstuck)</span>
 subplot(2, 1, 2);
-plot(t, y_unstuck(3, :), t, y_unstuck(2, :), <span class="string">'LineWidth'</span>, 2);
+plot(t{2}, y_unstuck{2}(3, :), t{2}, y_unstuck{2}(2, :), <span class="string">'LineWidth'</span>, 2);
 title(<span class="string">'Displacement of Unsprung Mass vs. Time (60 mph)'</span>);
 xlabel({<span class="string">'Time (s)'</span>
         <span class="string">''</span>
@@ -268,7 +264,7 @@ xlabel({<span class="string">'Time (s)'</span>
         <span class="string">'\bfFigure 6b: \rmUnstuck Tires'</span>});
 ylabel(<span class="string">'Displacement (in)'</span>);
 legend(<span class="string">'Sprung Mass'</span>,<span class="string">'Unsprung Mass'</span>);
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_06.png" style="width:560px;height:420px;" alt=""> <h2 id="24">Discussion</h2><p>TODO TODO EXPLAIN LSIM VS. ODE45</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_06.png" style="width:560px;height:420px;" alt=""> <h2 id="23">Discussion</h2><p>While lsim generally produces quicker results, ode45 allows for more user control. Each method is better suited for different purposes. Using lsim was easier to simulate the quarter-car assuming that the tires never leave the ground, for example, as in lab 3a. Using ode45 was easier to simulate the quarter-car if it cannot be assumed that the tires never leave the ground. Using ode45, it is easy to add logic that allows the quarter-car's tire to leave the ground because the programmer has easy access to the non-mathematical relationship between xdot and x. However, running ode45 with narrow impulses meant to simulate Dirac delta functions is tricky because ode45 often "steps" over the narrow input. Thus, the maximum step used by ode45 must be manually set for that one specific condition, slowing the entire run process. TODO</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Rahul_Goyal_main Usage and Description
 % ME 326 Winter 2018 - Laboratory Assignment #3B
@@ -282,8 +278,19 @@ legend(<span class="string">'Sprung Mass'</span>,<span class="string">'Unsprung 
 % *Date Modified:* February 06, 2018
 %
 % *Description:*
-% TODO
-%
+% This script simulates the suspension of a quarter-car, modeled with
+% state-space representation. Two models are evaluated at two separate
+% horizontal velocities. The first model assumes that the tires never leave
+% the ground, that is, they stick to the ground. The second model does not
+% make this invalid assumption. This script then compares the two models:
+% it compares the vertical displacements of the car's sprung mass across
+% the two models, and it compares the vertical displacements of the car's
+% unsprung mass across the two models. Additionally the script compares the
+% relationship between the vertical displacements of the car's sprung mass
+% and the car's sprung mass side-by-side as an effect of each model. This
+% is repeated for all horizontal velocities (and corresponding simulation
+% distances) supplied.
+% 
 % *Required Files:*
 %
 % * CarEOM.m - This file contains a function that represents the equations
@@ -300,7 +307,12 @@ legend(<span class="string">'Sprung Mass'</span>,<span class="string">'Unsprung 
 
 
 %% Problem Statement
-% TODO
+% Continue the analysis of the quarter-car model. The associated parameters
+% will be the same as in the previous portion of the assignment. That is:
+% wc = 750 lb, wu = 85 lb, ks = 200 lb/in, bs = 60 lb · s/in, and kt = 1600
+% lb/in. However, the inputs to the system will change; compute the
+% response of your quarter-car to an approximation of a 4-inch tall by
+% 6-inch wide curb.
 
 
 
@@ -316,8 +328,8 @@ clc;
 %% Set Values
 % The following is used to easily change the set horizontal velocity of the
 % car and the corresponding simulation distances.
-v_x = 22/15 * [5, 10];          % Horizontal velocity of car (ft/s)
-d_f = [10, 05];                 % Corresponding simulation distances (ft)
+v_x = 22/15 * [5, 60];          % Horizontal velocity of car (ft/s)
+d_f = [10, 30];                 % Corresponding simulation distances (ft)
 
 
 
@@ -383,24 +395,38 @@ D = [0;
 
 
 
-%% TODO START FOR LOOP
-% 
+%% Start a "for" Loop
+% The following starts a for loop to run the simulation at various
+% horizontal velocities with their corresponding simulation distances
+% (supplied above in the "Set Values" section).
 for i = 1:length(v_x)
 
     
     
 %% Generate a Curb Profile
-% TODO COMMENT AND ORGANIZE SECTION
+% The following generates a curb profile by setting a resolution, setting
+% the curb's start position, and setting the slope impulse's width. From
+% these, it calculates the curb's end position and the slope impulse's
+% height. Knowing all these, TODO
+
 
 %%
-% TODO EXPLAIN LARGE RESOLUTION = SMALLER STEPS
-% TODO EXPLAIN TUNING: REALISM VS. PERFORMANCE
+% A smaller resolution sacrifices realism for performance. My simulation
+% provides visually indistinguishable results for resolutions greater than
+% or equal to 1.
 res = 1;                        % Resolution scalar (unitless)
 
 
 
 %%
-% TODO
+% The curb's start position is set arbitrarily (yet reasonably); the curb's
+% end position is calculated as the curb's start position plus the width of
+% the curb. The slope impulse's width is theoretically inifinitesimal; it
+% is set to a value that balances realism with performance. Because
+% integrating the slope impulse must equal the height of the curb, the
+% slope impulse's width times the slope impulse's height must also equal
+% the height of the curb. Thus, the slope's height is calculated as the
+% height of the curb divided by slope impulse's width.
 
 % Curb Positions
 d1 = 1;                         % Curb start position (ft)
@@ -410,20 +436,19 @@ d2 = d1+w;                      % Curb end position (ft)
 dw = 0.001;                     % Slope impulse "width" (ft)
 k_w = h/dw;                     % Slope impulse "height" (in/ft)
 
-% Curb Profile
-d = (0:dw/res:d_f(i))';             % Positions list (ft)
-slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
-
 %%
-% The following four lines add a (positive) "impulse" at from d1 to d1+dx
-% and a (negative) "impulse" from d2 to d2+dx to simulate a dirac delta
-% function at the start and end conditions of the curb. The code does this
-% by adding the calculated impulse for all values corresponding to greater
-% than d1, then subtracting the calculated impulse for all values
-% corresponding to greater than d1+dx. Thus, only the values between d1 and
-% d1+dx have the calculated impulse added to them. A similar procedure, but
-% negated, is followed to add the negative impulse to the values between d2
-% and d2+dx.
+% The following creates an empty curb profile, then adds a (positive)
+% "impulse" at from d1 to d1+dx and a (negative) "impulse" from d2 to d2+dx
+% to simulate a Dirac delta function at the start and end conditions of the
+% curb. The code does this by adding the calculated impulse for all values
+% corresponding to greater than d1, then subtracting the calculated impulse
+% for all values corresponding to greater than d1+dx. Thus, only the values
+% between d1 and d1+dx have the calculated impulse added to them. A similar
+% procedure, but negated, is followed to add the negative impulse to the
+% values between d2 and d2+dx.
+
+d = (0:dw/res:d_f(i))';         % Positions list (ft)
+slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
 
 % Add k_w to all corresponding slopes greater than d1
 slope(d>=d1, 2) = slope(d>=d1, 2) + k_w;
@@ -438,36 +463,30 @@ slope(d>=d2+dw, 2) = slope(d>=d2+dw, 2) + k_w;
 % plot(slope);
 
 %%
-% The following TODO
+% The following calculates the time step and the final time to create a
+% list of times.
 
 t_step = (dw/v_x(i));           % Time step (s)
 t_f = d_f(i)/v_x(i);            % Time final (s)
-t = (0:t_step:t_f)';            % Times list (s)
+t{i} = (0:t_step:t_f)';         % Times list (s)
 
-
-
-%% Setup y_stuck and y_unstuck (First Iteration Only)
-% TODO DELETE?
-
-% if i == 1
-%     y_stuck = zeros(length(t), size(C, 1), length(v_x));
-%     y_unstuck = zeros(size(C, 1), length(t), length(v_x));
-% end
 
 
 %% Simulating the Stuck Quarter-Car Using lsim
-% The following TODO
+% The following simulates the stuck quarter-car using lsim. It creates a
+% state-space system opject, calculates the u values corresponding to the
+% time values, then solves for y using lsim.
 
 % State-Space System Object
 sys = ss(A, B, C, D);  
 
-xr_stuck = v_x(i)*t;            % Corresponding distance values (ft)
+xr_stuck = v_x(i)*t{i};         % Corresponding distance values (ft)
 % Interpolate corresponding slope values from road_slope_data
 mr_stuck = interp1(slope(:, 1), slope(:, 2), xr_stuck); % (in/ft)
 u_stuck = v_x(i)*mr_stuck;      % Corresponding u (yr_dot) values (in/s)
 
 % Solve for y
-y_stuck = lsim(sys, u_stuck, t);
+y_stuck{i} = lsim(sys, u_stuck, t{i});
 
 % Debugging statement
 % plot(t, y_stuck);               % Plots y (7 variables) vs. t (stuck)
@@ -475,31 +494,42 @@ y_stuck = lsim(sys, u_stuck, t);
 
 
 %% Simulating the Unstuck Quarter-Car Using ode45
-% The following TODO
+% The following solves the differential equation xdot = A*x + B*u using
+% ode45. The function CarEOM, which represents this differential equation,
+% contains logic that allows the quarter-car's tire to leave the ground.
+% Because ode45 does not return the u values (in this case, the vertical
+% component component of the velocity of the car) corresponding to the time
+% and x values it returns, the main script finds them by solving for the
+% corresponding distance values, from which it interpolates the
+% corresponding slope values, from which it solves for the corresponding u
+% values, the vertical component of the velocity of the car. Then, knowing
+% the x and u values, the script solves y = C*x + D*u using matrix
+% multiplication.
 
-% TODO TEMP
+% The following line prevents ode45 from stepping over the narrow slope
+% impulse.
 options = odeset('MaxStep', t_step);
 
 % Quarter-Car Differential Equation Setup
 CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x(i), k_t, m_u, w_c, w_u);
 % Solve for x
-[~, x_unstuck] = ode45(CarODE, t, ICs, options);
+[~, x_unstuck] = ode45(CarODE, t{i}, ICs, options);
 
-xr_unstuck = v_x(i)*t;          % Corresponding distance values (ft)
+xr_unstuck = v_x(i)*t{i};       % Corresponding distance values (ft)
 % Interpolate corresponding slope values from road_slope_data
 mr_unstuck = interp1(slope(:, 1), slope(:, 2), xr_unstuck); % (in/ft)
 u_unstuck = v_x(i)*mr_unstuck;  % Corresponding u (yr_dot) values (in/s)
 
 % Solve for y
-y_unstuck = C*x_unstuck' + D*u_unstuck';
+y_unstuck{i} = C*x_unstuck' + D*u_unstuck';
 
 % Debugging statement
 % plot(t, y_unstuck);             % Plots y (7 variables) vs. t (unstuck)
 
 
 
-%% TODO END FOR LOOP
-% TODO
+%% End the "for" Loop
+% The following ends the for loop.
 end
 
 
@@ -509,7 +539,7 @@ end
 
 figure;
 
-plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
+plot(t{1}, y_stuck{1}(:, 3), t{1}, y_unstuck{1}(3, :), 'LineWidth', 2);
 title('Displacement of Sprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
@@ -525,7 +555,7 @@ legend('Stuck','Unstuck');
 
 figure;
 
-plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
+plot(t{1}, y_stuck{1}(:, 2), t{1}, y_unstuck{1}(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
@@ -543,7 +573,7 @@ figure;
 
 % Subplot (stuck)
 subplot(2, 1, 1);
-plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
+plot(t{1}, y_stuck{1}(:, 3), t{1}, y_stuck{1}(:, 2), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
@@ -554,7 +584,7 @@ legend('Sprung Mass','Unsprung Mass');
 
 % Subplot (unstuck)
 subplot(2, 1, 2);
-plot(t, y_unstuck(3, :), t, y_unstuck(2, :), 'LineWidth', 2);
+plot(t{1}, y_unstuck{1}(3, :), t{1}, y_unstuck{1}(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
@@ -570,7 +600,7 @@ legend('Sprung Mass','Unsprung Mass');
 
 figure;
 
-plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
+plot(t{2}, y_stuck{2}(:, 3), t{2}, y_unstuck{2}(3, :), 'LineWidth', 2);
 title('Displacement of Sprung Mass vs. Time (60 mph)');
 xlabel({'Time (s)'
         ''
@@ -586,7 +616,7 @@ legend('Stuck','Unstuck');
 
 figure;
 
-plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
+plot(t{2}, y_stuck{2}(:, 2), t{2}, y_unstuck{2}(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (60 mph)');
 xlabel({'Time (s)'
         ''
@@ -604,7 +634,7 @@ figure;
 
 % Subplot (stuck)
 subplot(2, 1, 1);
-plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
+plot(t{2}, y_stuck{2}(:, 3), t{2}, y_stuck{2}(:, 2), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (60 mph)');
 xlabel({'Time (s)'
         ''
@@ -615,7 +645,7 @@ legend('Sprung Mass','Unsprung Mass');
 
 % Subplot (unstuck)
 subplot(2, 1, 2);
-plot(t, y_unstuck(3, :), t, y_unstuck(2, :), 'LineWidth', 2);
+plot(t{2}, y_unstuck{2}(3, :), t{2}, y_unstuck{2}(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (60 mph)');
 xlabel({'Time (s)'
         ''
@@ -627,9 +657,18 @@ legend('Sprung Mass','Unsprung Mass');
 
 
 %% Discussion
-% TODO
-% TODO EXPLAIN LSIM VS. ODE45
-
+% While lsim generally produces quicker results, ode45 allows for more
+% user control. Each method is better suited for different purposes. Using
+% lsim was easier to simulate the quarter-car assuming that the tires never
+% leave the ground, for example, as in lab 3a. Using ode45 was easier to
+% simulate the quarter-car if it cannot be assumed that the tires never
+% leave the ground. Using ode45, it is easy to add logic that allows the
+% quarter-car's tire to leave the ground because the programmer has easy
+% access to the non-mathematical relationship between xdot and x. However,
+% running ode45 with narrow impulses meant to simulate Dirac delta
+% functions is tricky because ode45 often "steps" over the narrow input.
+% Thus, the maximum step used by ode45 must be manually set for that one
+% specific condition, slowing the entire run process. TODO
 
 
 ##### SOURCE END #####

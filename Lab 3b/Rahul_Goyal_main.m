@@ -60,8 +60,8 @@ clc;
 %% Set Values
 % The following is used to easily change the set horizontal velocity of the
 % car and the corresponding simulation distances.
-v_x = 22/15 * [5, 10];          % Horizontal velocity of car (ft/s)
-d_f = [10, 05];                 % Corresponding simulation distances (ft)
+v_x = 22/15 * [5, 60];          % Horizontal velocity of car (ft/s)
+d_f = [10, 30];                 % Corresponding simulation distances (ft)
 
 
 
@@ -200,7 +200,7 @@ slope(d>=d2+dw, 2) = slope(d>=d2+dw, 2) + k_w;
 
 t_step = (dw/v_x(i));           % Time step (s)
 t_f = d_f(i)/v_x(i);            % Time final (s)
-t = (0:t_step:t_f)';            % Times list (s)
+t{i} = (0:t_step:t_f)';         % Times list (s)
 
 
 
@@ -212,13 +212,13 @@ t = (0:t_step:t_f)';            % Times list (s)
 % State-Space System Object
 sys = ss(A, B, C, D);  
 
-xr_stuck = v_x(i)*t;            % Corresponding distance values (ft)
+xr_stuck = v_x(i)*t{i};         % Corresponding distance values (ft)
 % Interpolate corresponding slope values from road_slope_data
 mr_stuck = interp1(slope(:, 1), slope(:, 2), xr_stuck); % (in/ft)
 u_stuck = v_x(i)*mr_stuck;      % Corresponding u (yr_dot) values (in/s)
 
 % Solve for y
-y_stuck = lsim(sys, u_stuck, t);
+y_stuck{i} = lsim(sys, u_stuck, t{i});
 
 % Debugging statement
 % plot(t, y_stuck);               % Plots y (7 variables) vs. t (stuck)
@@ -245,15 +245,15 @@ options = odeset('MaxStep', t_step);
 % Quarter-Car Differential Equation Setup
 CarODE = @(t, x) CarEOM(t, x, A, B, slope, v_x(i), k_t, m_u, w_c, w_u);
 % Solve for x
-[~, x_unstuck] = ode45(CarODE, t, ICs, options);
+[~, x_unstuck] = ode45(CarODE, t{i}, ICs, options);
 
-xr_unstuck = v_x(i)*t;          % Corresponding distance values (ft)
+xr_unstuck = v_x(i)*t{i};       % Corresponding distance values (ft)
 % Interpolate corresponding slope values from road_slope_data
 mr_unstuck = interp1(slope(:, 1), slope(:, 2), xr_unstuck); % (in/ft)
 u_unstuck = v_x(i)*mr_unstuck;  % Corresponding u (yr_dot) values (in/s)
 
 % Solve for y
-y_unstuck = C*x_unstuck' + D*u_unstuck';
+y_unstuck{i} = C*x_unstuck' + D*u_unstuck';
 
 % Debugging statement
 % plot(t, y_unstuck);             % Plots y (7 variables) vs. t (unstuck)
@@ -271,7 +271,7 @@ end
 
 figure;
 
-plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
+plot(t{1}, y_stuck{1}(:, 3), t{1}, y_unstuck{1}(3, :), 'LineWidth', 2);
 title('Displacement of Sprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
@@ -287,7 +287,7 @@ legend('Stuck','Unstuck');
 
 figure;
 
-plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
+plot(t{1}, y_stuck{1}(:, 2), t{1}, y_unstuck{1}(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
@@ -305,7 +305,7 @@ figure;
 
 % Subplot (stuck)
 subplot(2, 1, 1);
-plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
+plot(t{1}, y_stuck{1}(:, 3), t{1}, y_stuck{1}(:, 2), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
@@ -316,7 +316,7 @@ legend('Sprung Mass','Unsprung Mass');
 
 % Subplot (unstuck)
 subplot(2, 1, 2);
-plot(t, y_unstuck(3, :), t, y_unstuck(2, :), 'LineWidth', 2);
+plot(t{1}, y_unstuck{1}(3, :), t{1}, y_unstuck{1}(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (5 mph)');
 xlabel({'Time (s)'
         ''
@@ -332,7 +332,7 @@ legend('Sprung Mass','Unsprung Mass');
 
 figure;
 
-plot(t, y_stuck(:, 3), t, y_unstuck(3, :), 'LineWidth', 2);
+plot(t{2}, y_stuck{2}(:, 3), t{2}, y_unstuck{2}(3, :), 'LineWidth', 2);
 title('Displacement of Sprung Mass vs. Time (60 mph)');
 xlabel({'Time (s)'
         ''
@@ -348,7 +348,7 @@ legend('Stuck','Unstuck');
 
 figure;
 
-plot(t, y_stuck(:, 2), t, y_unstuck(2, :), 'LineWidth', 2);
+plot(t{2}, y_stuck{2}(:, 2), t{2}, y_unstuck{2}(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (60 mph)');
 xlabel({'Time (s)'
         ''
@@ -366,7 +366,7 @@ figure;
 
 % Subplot (stuck)
 subplot(2, 1, 1);
-plot(t, y_stuck(:, 3), t, y_stuck(:, 2), 'LineWidth', 2);
+plot(t{2}, y_stuck{2}(:, 3), t{2}, y_stuck{2}(:, 2), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (60 mph)');
 xlabel({'Time (s)'
         ''
@@ -377,7 +377,7 @@ legend('Sprung Mass','Unsprung Mass');
 
 % Subplot (unstuck)
 subplot(2, 1, 2);
-plot(t, y_unstuck(3, :), t, y_unstuck(2, :), 'LineWidth', 2);
+plot(t{2}, y_unstuck{2}(3, :), t{2}, y_unstuck{2}(2, :), 'LineWidth', 2);
 title('Displacement of Unsprung Mass vs. Time (60 mph)');
 xlabel({'Time (s)'
         ''
