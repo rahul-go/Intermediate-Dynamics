@@ -10,8 +10,19 @@
 % *Date Modified:* February 06, 2018
 %
 % *Description:*
-% TODO
-%
+% This script simulates the suspension of a quarter-car, modeled with
+% state-space representation. Two models are evaluated at two separate
+% horizontal velocities. The first model assumes that the tires never leave
+% the ground, that is, they stick to the ground. The second model does not
+% make this invalid assumption. This script then compares the two models:
+% it compares the vertical displacements of the car's sprung mass across
+% the two models, and it compares the vertical displacements of the car's
+% unsprung mass across the two models. Additionally the script compares the
+% relationship between the vertical displacements of the car's sprung mass
+% and the car's sprung mass side-by-side as an effect of each model. This
+% is repeated for all horizontal velocities (and corresponding simulation
+% distances) supplied.
+% 
 % *Required Files:*
 %
 % * CarEOM.m - This file contains a function that represents the equations
@@ -28,7 +39,12 @@
 
 
 %% Problem Statement
-% TODO
+% Continue the analysis of the quarter-car model. The associated parameters
+% will be the same as in the previous portion of the assignment. That is:
+% wc = 750 lb, wu = 85 lb, ks = 200 lb/in, bs = 60 lb · s/in, and kt = 1600
+% lb/in. However, the inputs to the system will change; compute the
+% response of your quarter-car to an approximation of a 4-inch tall by
+% 6-inch wide curb.
 
 
 
@@ -111,24 +127,38 @@ D = [0;
 
 
 
-%% TODO START FOR LOOP
-% 
+%% Start a "for" Loop
+% The following starts a for loop to run the simulation at various
+% horizontal velocities with their corresponding simulation distances
+% (supplied above in the "Set Values" section).
 for i = 1:length(v_x)
 
     
     
 %% Generate a Curb Profile
-% TODO COMMENT AND ORGANIZE SECTION
+% The following generates a curb profile by setting a resolution, setting
+% the curb's start position, and setting the slope impulse's width. From
+% these, it calculates the curb's end position and the slope impulse's
+% height. Knowing all these, TODO
+
 
 %%
-% TODO EXPLAIN LARGE RESOLUTION = SMALLER STEPS
-% TODO EXPLAIN TUNING: REALISM VS. PERFORMANCE
+% A smaller resolution sacrifices realism for performance. My simulation
+% provides visually indistinguishable results for resolutions greater than
+% or equal to 1.
 res = 1;                        % Resolution scalar (unitless)
 
 
 
 %%
-% TODO
+% The curb's start position is set arbitrarily (yet reasonably); the curb's
+% end position is calculated as the curb's start position plus the width of
+% the curb. The slope impulse's width is theoretically inifinitesimal; it
+% is set to a value that balances realism with performance. Because
+% integrating the slope impulse must equal the height of the curb, the
+% slope impulse's width times the slope impulse's height must also equal
+% the height of the curb. Thus, the slope's height is calculated as the
+% height of the curb divided by slope impulse's width.
 
 % Curb Positions
 d1 = 1;                         % Curb start position (ft)
@@ -138,20 +168,19 @@ d2 = d1+w;                      % Curb end position (ft)
 dw = 0.001;                     % Slope impulse "width" (ft)
 k_w = h/dw;                     % Slope impulse "height" (in/ft)
 
-% Curb Profile
-d = (0:dw/res:d_f(i))';             % Positions list (ft)
-slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
-
 %%
-% The following four lines add a (positive) "impulse" at from d1 to d1+dx
-% and a (negative) "impulse" from d2 to d2+dx to simulate a dirac delta
-% function at the start and end conditions of the curb. The code does this
-% by adding the calculated impulse for all values corresponding to greater
-% than d1, then subtracting the calculated impulse for all values
-% corresponding to greater than d1+dx. Thus, only the values between d1 and
-% d1+dx have the calculated impulse added to them. A similar procedure, but
-% negated, is followed to add the negative impulse to the values between d2
-% and d2+dx.
+% The following creates an empty curb profile, then adds a (positive)
+% "impulse" at from d1 to d1+dx and a (negative) "impulse" from d2 to d2+dx
+% to simulate a Dirac delta function at the start and end conditions of the
+% curb. The code does this by adding the calculated impulse for all values
+% corresponding to greater than d1, then subtracting the calculated impulse
+% for all values corresponding to greater than d1+dx. Thus, only the values
+% between d1 and d1+dx have the calculated impulse added to them. A similar
+% procedure, but negated, is followed to add the negative impulse to the
+% values between d2 and d2+dx.
+
+d = (0:dw/res:d_f(i))';         % Positions list (ft)
+slope = [d, zeros(size(d))];	% Empty curb profile (in/ft)
 
 % Add k_w to all corresponding slopes greater than d1
 slope(d>=d1, 2) = slope(d>=d1, 2) + k_w;
@@ -166,7 +195,8 @@ slope(d>=d2+dw, 2) = slope(d>=d2+dw, 2) + k_w;
 % plot(slope);
 
 %%
-% The following TODO
+% The following calculates the time step and the final time to create a
+% list of times.
 
 t_step = (dw/v_x(i));           % Time step (s)
 t_f = d_f(i)/v_x(i);            % Time final (s)
@@ -174,17 +204,10 @@ t = (0:t_step:t_f)';            % Times list (s)
 
 
 
-%% Setup y_stuck and y_unstuck (First Iteration Only)
-% TODO DELETE?
-
-% if i == 1
-%     y_stuck = zeros(length(t), size(C, 1), length(v_x));
-%     y_unstuck = zeros(size(C, 1), length(t), length(v_x));
-% end
-
-
 %% Simulating the Stuck Quarter-Car Using lsim
-% The following TODO
+% The following simulates the stuck quarter-car using lsim. It creates a
+% state-space system opject, calculates the u values corresponding to the
+% time values, then solves for y using lsim.
 
 % State-Space System Object
 sys = ss(A, B, C, D);  
@@ -203,9 +226,20 @@ y_stuck = lsim(sys, u_stuck, t);
 
 
 %% Simulating the Unstuck Quarter-Car Using ode45
-% The following TODO
+% The following solves the differential equation xdot = A*x + B*u using
+% ode45. The function CarEOM, which represents this differential equation,
+% contains logic that allows the quarter-car's tire to leave the ground.
+% Because ode45 does not return the u values (in this case, the vertical
+% component component of the velocity of the car) corresponding to the time
+% and x values it returns, the main script finds them by solving for the
+% corresponding distance values, from which it interpolates the
+% corresponding slope values, from which it solves for the corresponding u
+% values, the vertical component of the velocity of the car. Then, knowing
+% the x and u values, the script solves y = C*x + D*u using matrix
+% multiplication.
 
-% TODO TEMP
+% The following line prevents ode45 from stepping over the narrow slope
+% impulse.
 options = odeset('MaxStep', t_step);
 
 % Quarter-Car Differential Equation Setup
@@ -226,8 +260,8 @@ y_unstuck = C*x_unstuck' + D*u_unstuck';
 
 
 
-%% TODO END FOR LOOP
-% TODO
+%% End the "for" Loop
+% The following ends the for loop.
 end
 
 
@@ -355,7 +389,16 @@ legend('Sprung Mass','Unsprung Mass');
 
 
 %% Discussion
-% TODO
-% TODO EXPLAIN LSIM VS. ODE45
-
+% While lsim generally produces quicker results, ode45 allows for more
+% user control. Each method is better suited for different purposes. Using
+% lsim was easier to simulate the quarter-car assuming that the tires never
+% leave the ground, for example, as in lab 3a. Using ode45 was easier to
+% simulate the quarter-car if it cannot be assumed that the tires never
+% leave the ground. Using ode45, it is easy to add logic that allows the
+% quarter-car's tire to leave the ground because the programmer has easy
+% access to the non-mathematical relationship between xdot and x. However,
+% running ode45 with narrow impulses meant to simulate Dirac delta
+% functions is tricky because ode45 often "steps" over the narrow input.
+% Thus, the maximum step used by ode45 must be manually set for that one
+% specific condition, slowing the entire run process. TODO
 
