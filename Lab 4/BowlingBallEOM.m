@@ -1,4 +1,5 @@
 %% BowlingBallEOM Usage and Description
+% TODO
 
 
 
@@ -15,7 +16,7 @@ function [xdot] = BowlingBallEOM(x)
     m = w/g;                    % Mass of bowling ball (slug)
     
     
-
+    
     v_x = x(1);                 % Easy access to v_x
     v_y = x(2);                 % Easy access to v_y
     omega_x = x(3);             % Easy access to omega_x
