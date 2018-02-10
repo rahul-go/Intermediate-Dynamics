@@ -24,7 +24,7 @@ function [xdot] = BowlingBallEOM(x)
     
     
     
-    % Easy access
+    % Easy access to variables
     v_x = x(1);                 % Easy access to v_x
     v_y = x(2);                 % Easy access to v_y
     omega_x = x(3);             % Easy access to omega_x
@@ -34,14 +34,14 @@ function [xdot] = BowlingBallEOM(x)
         ok = 0;
     
     else
-    N = m*g;                    % Normal force (lb)
-    
-    vc_x = v_x - omega_y*r;     % Velocity[x] (m/s)
-    vc_y = v_y + omega_x*r;     % Velocity[y] (m/s)
-    theta = atan2(vc_y,vc_x);   % Theta (deg)
+        N = m*g;                    % Normal force (lb)
 
-    F_x = -mu_k*N*cosd(theta);  % Friction force[x] (lb)
-    F_y = -mu_k*N*sind(theta);  % Friction force[y] (lb)
+        vc_x = v_x - omega_y*r;     % Velocity[x] (m/s)
+        vc_y = v_y + omega_x*r;     % Velocity[y] (m/s)
+        theta = atan2(vc_y,vc_x);   % Theta (deg)
+
+        F_x = -mu_k*N*cosd(theta);  % Friction force[x] (lb)
+        F_y = -mu_k*N*sind(theta);  % Friction force[y] (lb)
     
     end
     
