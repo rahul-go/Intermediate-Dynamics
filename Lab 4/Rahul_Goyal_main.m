@@ -23,7 +23,32 @@
 
 
 %% Problem Statement
-% TODO
+% Consider a bowling ball thrown with an initial angular velocity ?0 and an
+% initial linear velocity v0 from the instant it makes contact with an
+% alley lane. The velocity at the contact point, vC, is due to the velocity
+% of the center of mass of the bowling ball, vB, and due to the relative
+% velocity, vC/B, caused by the angular velocity of the bowling ball. The
+% surface of the bowling alley will be defined as the xy-plane, where the
+% y-axis extends down the alley and the x-axis extends toward the right
+% gutter. The direction of the contact velocity is what determines the
+% direction of the friction force. Angle theta is defined as the angle
+% between the positive extension of the x-axis and the contact velocity
+% vector. Therefore, when theta = ?/2 the ball will be traveling straight
+% down the alley toward the pins.
+% 
+% The friction present between the ball and the smooth wooden lane is best
+% approximated by a Coulomb friction model. That is |F| = 탃N if the ball
+% is slipping and |F| ? 탎N if the ball is rolling without slip. In each
+% regime the friction force opposes the relative velocity (or impending
+% relative velocity) at the contact point. In order to develop equations of
+% motion, the magnitude and direction of the coulomb friction force must be
+% computed, and then put into component form in the xy plane.
+% 
+% The bowling ball is modeled as a sphere of uniform density that weighs 15
+% lb and has a diameter of 8.5 in. The kinetic friction coefficient, 탃,
+% between the ball and surface is assumed to be 0.12 and the static
+% friction coefficient, 탎, between the ball and surface is assumed to be
+% 0.14.
 
 
 
@@ -52,7 +77,7 @@ x_0 = [1.5;
 %% Simulink
 % TODO
 
-sim('example');
+sim('Integrator');
 
 
 
@@ -66,6 +91,6 @@ for i = 1
     hold on;
     
     % TODO
-    viscircles([0, 1], 1, 'Color', 'b')
+    viscircles([0, 1], 1, 'Color', 'b');
     
 end
