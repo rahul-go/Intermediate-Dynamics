@@ -23,7 +23,6 @@
 
 
 %% Problem Statement
-% TODO
 
 
 
@@ -33,6 +32,10 @@
 close all;
 clear all;
 clc;
+
+
+
+%% Set Values
 
 
 
@@ -50,22 +53,10 @@ x_0 = [1.5;
 
 
 %% Simulink
-% TODO
-
-sim('example');
+sim('example')
 
 
 
 %% Plotting
-% TODO
 
-for i = 1
-    
-    % Plot the lane
-    plot_lane();
-    hold on;
-    
-    % TODO
-    viscircles([0, 1], 1, 'Color', 'b')
-    
-end
+
