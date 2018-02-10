@@ -23,6 +23,8 @@ function [xdot] = BowlingBallEOM(x)
 
     
     
+    %% Solve for Friction Force
+    % TODO
     
     % Easy access to variables
     v_x = x(1);                 % Easy access to v_x
