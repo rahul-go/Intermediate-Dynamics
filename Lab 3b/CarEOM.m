@@ -45,8 +45,8 @@ function [xdot] = CarEOM(t, x, A, B, slope, v_x, k_t, m_u, w_c, w_u)
     y_r = x(1);                 % Easy access to y_r
     y_u = x(2);                 % Easy access to y_u
     
-    f_kt = k_t*(y_u-y_r);       % Force in spring k_t (stuck)
-    fkt_max = w_c + w_u;        % Saturation threshold
+    f_kt = k_t*(y_u-y_r);       % Force in spring k_t (stuck) (N)
+    fkt_max = w_c + w_u;        % Saturation threshold (N)
     
     if f_kt > fkt_max
         % Update the acceleration of the unsprung mass
