@@ -72,8 +72,8 @@ v_x = 10;                       % Horizontal velocity of car (ft/s)
 % Given Values
 w_c = 750;                      % Weight of car's sprung mass (lb)
 w_u = 85;                       % Weight of car's unsprung mass (lb)
-k_s = 200;                      % Spring constant of the suspension (lb/in)
-b_s = 60;                       % Damping coeff of the suspension (lb*s/in)
+k_s = 200;                      % Spring constant of suspension (lb/in)
+b_s = 60;                       % Damping coeff of suspension (lb*s/in)
 k_t = 1600;                     % Spring constant of tire (lb/in)
 g = 32.174*12;                  % Gravitational constant (in/s^2)
 
