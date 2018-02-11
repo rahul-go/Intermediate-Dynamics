@@ -23,7 +23,7 @@
 
 
 %% Problem Statement
-% Consider a bowling ball thrown with an initial angular velocity ?0 and an
+% Consider a bowling ball thrown with an initial angular velocity w0 and an
 % initial linear velocity v0 from the instant it makes contact with an
 % alley lane. The velocity at the contact point, vC, is due to the velocity
 % of the center of mass of the bowling ball, vB, and due to the relative
@@ -33,12 +33,12 @@
 % gutter. The direction of the contact velocity is what determines the
 % direction of the friction force. Angle theta is defined as the angle
 % between the positive extension of the x-axis and the contact velocity
-% vector. Therefore, when theta = ?/2 the ball will be traveling straight
+% vector. Therefore, when theta = pi/2 the ball will be traveling straight
 % down the alley toward the pins.
 % 
 % The friction present between the ball and the smooth wooden lane is best
 % approximated by a Coulomb friction model. That is |F| = µkN if the ball
-% is slipping and |F| ? µsN if the ball is rolling without slip. In each
+% is slipping and |F| <= µsN if the ball is rolling without slip. In each
 % regime the friction force opposes the relative velocity (or impending
 % relative velocity) at the contact point. In order to develop equations of
 % motion, the magnitude and direction of the coulomb friction force must be
@@ -65,16 +65,16 @@ clc;
 % TODO
 
 % Initial Conditions
-x_0 = [1.5;
-       30;
-       0;
-       -25;
-       0;
-       0];
+x_0 = [1.5;                     % Velocity[x] of ball (ft/s)
+       30;                      % Velocity[y] of ball (ft/s)
+       0;                       % Angular Velocity[x] of ball (rad/s)
+       -25;                     % Angular Velocity[y] of ball (rad/s)
+       0;                       % Displacement[x] of ball (ft)
+       0];                      % Displacement[y] of ball (ft)
 
 
 
-%% Simulink
+%% Solve for x Using Simulink
 % TODO
 
 sim('Integrator');
