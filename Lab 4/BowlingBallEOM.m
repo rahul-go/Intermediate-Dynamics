@@ -1,5 +1,5 @@
 %% BowlingBallEOM Usage and Description
-% TODO
+% TODO See attached sheet for hand calculations.
 
 
 
@@ -24,23 +24,27 @@ function [xdot] = BowlingBallEOM(x)
     
     
     %% Solve for Friction Force
-    % TODO
+    % TODO See attached sheet for hand calculations.
     
     % Easy access to variables
-    v_x = x(1);                 % Easy access to v_x
-    v_y = x(2);                 % Easy access to v_y
-    omega_x = x(3);             % Easy access to omega_x
-    omega_y = x(4);             % Easy access to omega_y
+    v_x = x(1);                 % Easy access to v_x (ft/s)
+    v_y = x(2);                 % Easy access to v_y (ft/s)
+    omega_x = x(3);             % Easy access to omega_x (rad/s)
+    omega_y = x(4);             % Easy access to omega_y (rad/s)
     
+    % Velocity at contact point
     vc_x = v_x - omega_y*r;     % Velocity at contact point[x] (ft/s)
     vc_y = v_y + omega_x*r;     % Velocity at contact point[y] (ft/s)
+
     
+    % If not slipping
     deadband = 0.001;
     if abs(vc_x) < deadband && abs(vc_y) < deadband
         
-        F_x = 0;
-        F_y = 0;
-        
+        F_x = 0;                    % Friction force[x] (lb)
+        F_y = 0;                    % Friction force[x] (lb)
+    
+    % Else (slipping)
     else
         
         N = w;                      % Normal force (lb)

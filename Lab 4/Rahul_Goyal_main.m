@@ -14,11 +14,13 @@
 % 
 % *Required Files:*
 %
+% * Integrator.slx - TODO
 % * BowlingBallEOM.m - TODO
 %
 % *Still To Do:*
 %
-% * Start!
+% * Better solution to chatter?
+% * Animation
 
 
 
@@ -78,19 +80,3 @@ x_0 = [1.5;                     % Velocity[x] of ball (ft/s)
 % TODO
 
 sim('Integrator');
-
-
-
-%% Plotting
-% TODO
-
-for i = 1
-    
-%     % Plot the lane
-%     plot_lane();
-%     hold on;
-%     
-%     % TODO
-%     viscircles([0, 1], 1, 'Color', 'b');
-    
-end
