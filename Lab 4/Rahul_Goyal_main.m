@@ -68,15 +68,15 @@ clc;
 
 % Initial Conditions
 x_0 = [1.5;                     % Velocity[x] of ball (ft/s)
-       1.5;                     % Velocity[y] of ball (ft/s)
+       30;                      % Velocity[y] of ball (ft/s)
        0;                       % Angular velocity[x] of ball (rad/s)
-       0;                       % Angular velocity[y] of ball (rad/s)
+       -25;                     % Angular velocity[y] of ball (rad/s)
        0;                       % Displacement[x] of ball (ft)
        0];                      % Displacement[y] of ball (ft)
 
 
 
-%% Solve for x Using Simulink
+%% Simulate the Bowling Ball Using Simulink
 % TODO
 
 sim('Integrator');
