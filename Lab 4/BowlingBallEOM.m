@@ -32,18 +32,14 @@ function [xdot] = BowlingBallEOM(x)
     omega_x = x(3);             % Easy access to omega_x
     omega_y = x(4);             % Easy access to omega_y
     
-    vc_x = v_x + omega_y*r;     % Velocity at contact point[x] (ft/s)
-    vc_y = v_y - omega_x*r;     % Velocity at contact point[y] (ft/s)
+    vc_x = v_x - omega_y*r;     % Velocity at contact point[x] (ft/s)
+    vc_y = v_y + omega_x*r;     % Velocity at contact point[y] (ft/s)
     
-    vc_x
-    v_x
-    omega_y
-
-    err = 1;
-    if abs(vc_x) < err && abs(vc_y) < err
+    deadband = 0.001;
+    if abs(vc_x) < deadband && abs(vc_y) < deadband
         
-        F_x = 0
-        F_y = 0
+        F_x = 0;
+        F_y = 0;
         
     else
         

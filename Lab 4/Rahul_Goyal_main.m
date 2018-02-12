@@ -56,7 +56,7 @@
 % The following was used while debugging.
 
 close all;
-% clear all;
+clear all;
 clc;
 
 
