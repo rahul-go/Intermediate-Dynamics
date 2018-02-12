@@ -80,3 +80,38 @@ x_0 = [1.5;                     % Velocity[x] of ball (ft/s)
 % TODO
 
 sim('Integrator');
+
+
+
+%% Animation
+%  TODO
+
+for t = 1:length(tout)
+    
+    % TODO
+    lane_length = 62+(10+3/16)/12;  % Lane length in units of feet
+    if simout(t, 6) > lane_length
+        break 
+    end
+    
+    % Plot the Lane
+    plot_lane();
+    title('Bowling Ball Animation');
+    xlabel({'X Position (ft)'
+            ''
+            % Figure label
+            '\bfFigure 1: \rmBowling Ball Animation'});
+    ylabel('Y Position (ft)');
+    
+    % Plot the Bowling Ball
+    x = simout(t, 5);
+    y = simout(t, 6);
+    viscircles([x, y], 1, 'Color', 'b');
+    
+    % TODO
+    if t ~= length(tout)
+        t_step = tout(t+1) - tout(t);
+        pause(t_step);
+    end
+
+end
