@@ -16,11 +16,14 @@
 %
 % * Integrator.slx - TODO
 % * BowlingBallEOM.m - TODO
+% * plot_lane.m - TODO
 %
 % *Still To Do:*
 %
 % * Better solution to chatter?
-% * Animation
+% * Consistent plot dimensions
+% * Smaller sampling rate
+% * Solid bowling ball
 
 
 
@@ -89,7 +92,7 @@ sim('Integrator');
 for t = 1:length(tout)
     
     % TODO
-    lane_length = 62+(10+3/16)/12;  % Lane length in units of feet
+    lane_length = 62+(10+3/16)/12;  % Lane length (ft)
     if simout(t, 6) > lane_length
         break 
     end
@@ -102,16 +105,22 @@ for t = 1:length(tout)
             % Figure label
             '\bfFigure 1: \rmBowling Ball Animation'});
     ylabel('Y Position (ft)');
+    hold on
     
     % Plot the Bowling Ball
-    x = simout(t, 5);
-    y = simout(t, 6);
-    viscircles([x, y], 1, 'Color', 'b');
+    d = 8.5;                        % Given diameter (in)
+    r = (d/2)/12;                   % Solved radius (ft)
+    x = simout(t, 5);               % X position of ball's center (ft)
+    y = simout(t, 6);               % Y position of ball's center (ft)
+    viscircles([x, y], r);          % Plot the bowling ball
+%     plot(x, y, 'r.', 'MarkerSize', 100);
     
     % TODO
     if t ~= length(tout)
         t_step = tout(t+1) - tout(t);
         pause(t_step);
     end
+    
+    hold off
 
 end
