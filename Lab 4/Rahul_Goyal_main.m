@@ -56,7 +56,7 @@
 % The following was used while debugging.
 
 close all;
-clear all;
+% clear all;
 clc;
 
 
@@ -66,9 +66,9 @@ clc;
 
 % Initial Conditions
 x_0 = [1.5;                     % Velocity[x] of ball (ft/s)
-       30;                      % Velocity[y] of ball (ft/s)
-       0;                       % Angular Velocity[x] of ball (rad/s)
-       -25;                     % Angular Velocity[y] of ball (rad/s)
+       1.5;                     % Velocity[y] of ball (ft/s)
+       0;                       % Angular velocity[x] of ball (rad/s)
+       0;                       % Angular velocity[y] of ball (rad/s)
        0;                       % Displacement[x] of ball (ft)
        0];                      % Displacement[y] of ball (ft)
 
@@ -86,11 +86,11 @@ sim('Integrator');
 
 for i = 1
     
-    % Plot the lane
-    plot_lane();
-    hold on;
-    
-    % TODO
-    viscircles([0, 1], 1, 'Color', 'b');
+%     % Plot the lane
+%     plot_lane();
+%     hold on;
+%     
+%     % TODO
+%     viscircles([0, 1], 1, 'Color', 'b');
     
 end
