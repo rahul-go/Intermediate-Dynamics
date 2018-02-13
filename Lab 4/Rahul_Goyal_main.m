@@ -21,12 +21,11 @@
 % *Still To Do:*
 %
 % * Display x, y of no-slip
-% * Y-axis limits
 % * Smaller sampling rate
 % * Solid bowling ball
 % * Simulink end time
 % * Better solution to chatter
-
+% * Comment throughout
 
 
 
@@ -103,7 +102,8 @@ for t = 1:length(tout)
     
     
     % Plot the Lane
-    plot_lane();
+    plot_lane();                    % TODO
+    ylim([0, lane_length]);         % TODO
     axis equal;                     % TODO
     
     % Plot the Bowling Ball
