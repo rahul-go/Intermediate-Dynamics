@@ -197,7 +197,6 @@ slope(d>=d2+dw, 2) = slope(d>=d2+dw, 2) + k_w;
 %%
 % The following calculates the time step and the final time to create a
 % list of times.
-
 t_step = (dw/v_x(i));           % Time step (s)
 t_f = d_f(i)/v_x(i);            % Time final (s)
 t{i} = (0:t_step:t_f)';         % Times list (s)
