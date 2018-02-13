@@ -20,7 +20,7 @@
 %
 % *Still To Do:*
 %
-% * Better solution to chatter?
+% * Better solution to chatter
 % * Consistent plot dimensions
 % * Smaller sampling rate
 % * Solid bowling ball
@@ -42,17 +42,17 @@
 % down the alley toward the pins.
 % 
 % The friction present between the ball and the smooth wooden lane is best
-% approximated by a Coulomb friction model. That is |F| = 탃N if the ball
-% is slipping and |F| <= 탎N if the ball is rolling without slip. In each
+% approximated by a Coulomb friction model. That is |F| = mukN if the ball
+% is slipping and |F| <= musN if the ball is rolling without slip. In each
 % regime the friction force opposes the relative velocity (or impending
 % relative velocity) at the contact point. In order to develop equations of
 % motion, the magnitude and direction of the coulomb friction force must be
 % computed, and then put into component form in the xy plane.
 % 
 % The bowling ball is modeled as a sphere of uniform density that weighs 15
-% lb and has a diameter of 8.5 in. The kinetic friction coefficient, 탃,
+% lb and has a diameter of 8.5 in. The kinetic friction coefficient, muk,
 % between the ball and surface is assumed to be 0.12 and the static
-% friction coefficient, 탎, between the ball and surface is assumed to be
+% friction coefficient, mus, between the ball and surface is assumed to be
 % 0.14.
 
 
@@ -93,8 +93,8 @@ for t = 1:length(tout)
     
     % TODO
     lane_length = 62+(10+3/16)/12;  % Lane length (ft)
-    if simout(t, 6) > lane_length
-        break 
+    if xout(t, 6) > lane_length
+        break;
     end
     
     % Plot the Lane
@@ -110,8 +110,8 @@ for t = 1:length(tout)
     % Plot the Bowling Ball
     d = 8.5;                        % Given diameter (in)
     r = (d/2)/12;                   % Solved radius (ft)
-    x = simout(t, 5);               % X position of ball's center (ft)
-    y = simout(t, 6);               % Y position of ball's center (ft)
+    x = xout(t, 5);                 % X position of ball's center (ft)
+    y = xout(t, 6);                 % Y position of ball's center (ft)
     viscircles([x, y], r);          % Plot the bowling ball
 %     plot(x, y, 'r.', 'MarkerSize', 100);
     

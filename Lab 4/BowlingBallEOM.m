@@ -38,7 +38,7 @@ function [xdot] = BowlingBallEOM(x)
 
     
     % If not slipping
-    deadband = 0.001;
+    deadband = 0.02;
     if abs(vc_x) < deadband && abs(vc_y) < deadband
         
         F_x = 0;                    % Friction force[x] (lb)
