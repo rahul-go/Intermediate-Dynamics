@@ -97,6 +97,8 @@ for t = 1:length(tout)
         break;
     end
     
+    
+    
     % Plot the Lane
     plot_lane();
     axis equal;                     % TODO
@@ -106,21 +108,29 @@ for t = 1:length(tout)
     r = (d/2)/12;                   % Solved radius (ft)
     x = xout(t, 5);                 % X position of ball's center (ft)
     y = xout(t, 6);                 % Y position of ball's center (ft)
+    
     % Acceleration[linear, angular] (ft/s, ft/s, rad/s^2, rad/s^2)
     a = xdot(t, 1:4);
+    
     % Check if no slip
-    if all(a == 0)
+    if a == 0
         color = 'green';
     else
         color = 'blue';
     end
-    viscircles([x, y], r, 'Color', color);      % Plot the bowling ball
+    
+    % Draw circle (bowling ball)
+    viscircles([x, y], r, 'Color', color);
+    
+    
     
     % Calculate the time step and pause accordingly
     if t ~= length(tout)            % Prevent index error
         t_step = tout(t+1) - tout(t);
-        pause(t_step);
+        pause(t_step);              % Assume negligible processing time
     end
+    
+    
     
     % TODO
     title('Bowling Ball Animation');
@@ -129,5 +139,5 @@ for t = 1:length(tout)
             % Figure label
             '\bfFigure 1: \rmBowling Ball Animation'});
     ylabel('Y Position (ft)');
-
+    
 end
