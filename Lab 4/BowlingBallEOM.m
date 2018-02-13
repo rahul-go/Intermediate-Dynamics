@@ -1,8 +1,6 @@
 %% BowlingBallEOM Usage and Description
-% TODO See the attached sheet for hand calculations.
-
-
-
+% This function represents the equations of motion for the simulation. It
+% returns xdot with an input of x.
 function [xdot] = BowlingBallEOM(x)
 
 %% Given Values
@@ -24,7 +22,11 @@ I = 2/5*m*r^2;                  % Moment of inertia (slug*ft^2)
 
 
 %% Solve for Friction Force
-% TODO See the attached sheet for hand calculations.
+% To find the friction force, the following first checks whether the
+% bowling ball is slipping by evaluating the velocity of the contact point.
+% A contact point velocity of 0 corresponds to a ball that rolls without
+% slip; otherwise, the ball is slipping. A deadband is used to avoid
+% chatter. See the attached file for hand calculations.
 
 % Easy access to variables
 v_x = x(1);                     % Easy access to v_x (ft/s)
@@ -35,7 +37,6 @@ omega_y = x(4);                 % Easy access to omega_y (rad/s)
 % Velocity at contact point
 vc_x = v_x - omega_y*r;         % Velocity at contact point[x] (ft/s)
 vc_y = v_y + omega_x*r;         % Velocity at contact point[y] (ft/s)
-
 
 % If no slip, set friction force to 0
 deadband = 0.02;
@@ -59,7 +60,7 @@ end
 
 
 %% Solve for xdot
-% See the attached sheet for hand calculations.
+% See the attached file for hand calculations.
 xdot = [F_x/m;
         F_y/m;
         F_y*r/I;

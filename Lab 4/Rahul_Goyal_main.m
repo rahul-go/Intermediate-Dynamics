@@ -10,13 +10,22 @@
 % *Date Modified:* February 13, 2018
 %
 % *Description:*
-% TODO
+% This script simulates the motion of a bowling ball. It detects when the
+% ball stops slipping and adjusts the acting friction accordingly.
+% Additionally, it produces an animated GIF of the simulation in which the
+% bowling ball changes its color from blue to green when it stops slipping.
 % 
 % *Required Files:*
 %
-% * Integrator.slx - TODO
-% * BowlingBallEOM.m - TODO
-% * plot_lane.m - TODO
+% * HandCalculations.TODO - This file contains the hand calculations.
+% * Integrator.slx - This file uses Simlunk to integrate a MATLAB Function
+% Block which describes the equations of motion. It outputs xdot as xdot, 
+% time as tout, and x as xout.
+% * BowlingBallEOM.m - Thie file contains a function that represents the
+% equations of motion for the simulation. It returns xdot with an input of
+% x.
+% * plot_lane.m - This file contains a function that generates a properly
+% dimensioned plot of a lane including all ten pins
 %
 % *Still To Do:*
 %
@@ -155,14 +164,12 @@ end
 
 
 %% Export as GIF
-% TODO
-% COMMENT ALL
-
+% The following exports the animation as a GIF.
 file_name = 'BowlingBallAnimation.gif';
 for i = 1:length(image)
-    % TODO
+    % Convert the RGB image to an indexed image
     [A, map] = rgb2ind(image{i}, 256);
-    % If first iteration, run setup code
+    % If first iteration, also run setup code
     if i == 1
         imwrite(A, map, file_name, ...
                 'LoopCount', inf, ...
