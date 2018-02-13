@@ -71,7 +71,8 @@
 
 
 %% Hand Calculations
-% The following TODO
+% The hand calculations below provide foundation for the MATLAB solution.
+%
 % <<HandCalculations.jpg>>
 
 
@@ -108,7 +109,14 @@ sim('Integrator');
 
 
 %% Animation
-%  TODO
+%  The following animates the motion of the bowling ball. It plots the lane
+%  and the bowling ball (color dependent on whether the bowling ball is
+%  slipping). Additionally, it stores the frames of the animation
+%  (converted to images) for exporting them as an animated GIF afterwards.
+
+was_slipping = true;            % Initialize slip -> no-slip boolean
+no-slip_x = -1;                 % Initialize start of no-slip[x]
+no-slip_y = -1;                 % Initialize start of no-slip[y]
 
 for t = 1:length(tout)
     
@@ -137,6 +145,10 @@ for t = 1:length(tout)
     % If no slip, set bowling ball color to green
     if a == 0
         color = 'g';
+        % If the bowling ball was slipping, TODO
+        if was_slipping
+            ok = 0;
+        end
     % Else, set bowling ball color to blue
     else
         color = 'b';
@@ -162,7 +174,6 @@ for t = 1:length(tout)
 %             ''
 %             % Figure label
 %             '\bfFigure 1: \rmBowling Ball Animation'});
-%     ylabel('Y Position (ft)');
     
     
     
@@ -174,7 +185,7 @@ end
 
 
 %% Export as GIF
-% The following exports the animation as a GIF.
+% The following exports the animation as an animated GIF.
 
 file_name = 'BowlingBallAnimation.gif';
 for i = 1:length(image)
