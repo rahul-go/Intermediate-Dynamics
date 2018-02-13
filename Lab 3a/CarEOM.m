@@ -13,13 +13,13 @@
 % multiplication.
 function [xdot] = CarEOM(t, x, A, B, slope, v_x)
 
-    x_r = v_x*t;                % Distance of car (ft)
-    
-    % Interpolate slope (m) from distance (in/ft)
-    m_r = interp1(slope(:, 1), slope(:, 2), x_r);
-    
-    u = v_x*m_r;                % Vertical velocity (yr_dot) of car (ft/s)
-    
-    xdot = A*x + B*u;
+x_r = v_x*t;                    % Distance of car (ft)
+
+% Interpolate slope (m) from distance (in/ft)
+m_r = interp1(slope(:, 1), slope(:, 2), x_r);
+
+u = v_x*m_r;                    % Vertical velocity (yr_dot) of car (ft/s)
+
+xdot = A*x + B*u;
 
 end
