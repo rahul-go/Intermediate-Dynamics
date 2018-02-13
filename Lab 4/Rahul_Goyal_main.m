@@ -17,7 +17,7 @@
 % 
 % *Required Files:*
 %
-% * HandCalculations.TODO - This file contains the hand calculations.
+% * html/HandCalculations.jpg - This file contains the hand calculations.
 % * Integrator.slx - This file uses Simlunk to integrate a MATLAB Function
 % Block which describes the equations of motion. It outputs x as xout
 % (and the corresponding xdot and time values as xdot and tout,
@@ -67,6 +67,12 @@
 % between the ball and surface is assumed to be 0.12 and the static
 % friction coefficient, mus, between the ball and surface is assumed to be
 % 0.14.
+
+
+
+%% Hand Calculations
+% The following TODO
+% <<HandCalculations.jpg>>
 
 
 
@@ -169,19 +175,25 @@ end
 
 %% Export as GIF
 % The following exports the animation as a GIF.
+
 file_name = 'BowlingBallAnimation.gif';
 for i = 1:length(image)
+    
     % Convert the RGB image to an indexed image
     [A, map] = rgb2ind(image{i}, 256);
+    
     % If first iteration, also run setup code
     if i == 1
         imwrite(A, map, file_name, ...
                 'LoopCount', inf, ...
                 'DelayTime', t_step(i));
+    
     % Else, append images
     else
         imwrite(A, map, file_name, ...
                 'WriteMode', 'append', ...
                 'DelayTime', t_step(i));
+    
     end
+    
 end
