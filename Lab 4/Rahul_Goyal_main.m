@@ -91,7 +91,7 @@ sim('Integrator');
 
 for t = 1:length(tout)
     
-    % Check if Bowling Ball has Traveled the Lane Length
+    % Check if the bowling ball has traveled the lane length
     lane_length = 62+(10+3/16)/12;  % Lane length (ft)
     if xout(t, 6) > lane_length
         break;
@@ -106,7 +106,15 @@ for t = 1:length(tout)
     r = (d/2)/12;                   % Solved radius (ft)
     x = xout(t, 5);                 % X position of ball's center (ft)
     y = xout(t, 6);                 % Y position of ball's center (ft)
-    viscircles([x, y], r);          % Plot the bowling ball
+    % Acceleration[linear, angular] (ft/s, ft/s, rad/s^2, rad/s^2)
+    a = xdot(t, 1:4);
+    % Check if no slip
+    if all(a == 0)
+        color = 'green';
+    else
+        color = 'blue';
+    end
+    viscircles([x, y], r, 'Color', color);      % Plot the bowling ball
     
     % Calculate the time step and pause accordingly
     if t ~= length(tout)            % Prevent index error

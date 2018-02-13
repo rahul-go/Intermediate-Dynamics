@@ -37,7 +37,7 @@ function [xdot] = BowlingBallEOM(x)
     vc_y = v_y + omega_x*r;     % Velocity at contact point[y] (ft/s)
 
     
-    % If not slipping
+    % Check if no slip
     deadband = 0.02;
     if abs(vc_x) < deadband && abs(vc_y) < deadband
         
