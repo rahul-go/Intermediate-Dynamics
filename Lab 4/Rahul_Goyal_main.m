@@ -20,10 +20,13 @@
 %
 % *Still To Do:*
 %
-% * Better solution to chatter
-% * Consistent plot dimensions
+% * Display x, y of no-slip
+% * Y-axis limits
 % * Smaller sampling rate
 % * Solid bowling ball
+% * Simulink end time
+% * Better solution to chatter
+
 
 
 
@@ -91,7 +94,7 @@ sim('Integrator');
 
 for t = 1:length(tout)
     
-    % Check if the bowling ball has traveled the lane length
+    % If the bowling ball has traveled the lane length, finish
     lane_length = 62+(10+3/16)/12;  % Lane length (ft)
     if xout(t, 6) > lane_length
         break;
@@ -112,9 +115,10 @@ for t = 1:length(tout)
     % Acceleration[linear, angular] (ft/s, ft/s, rad/s^2, rad/s^2)
     a = xdot(t, 1:4);
     
-    % Check if no slip
+    % If no slip, set bowling ball color to green
     if a == 0
         color = 'green';
+    % Else, set bowling ball color to blue
     else
         color = 'blue';
     end
@@ -126,18 +130,47 @@ for t = 1:length(tout)
     
     % Calculate the time step and pause accordingly
     if t ~= length(tout)            % Prevent index error
-        t_step = tout(t+1) - tout(t);
-        pause(t_step);              % Assume negligible processing time
+        % Calculate the time step (s) and store for later use
+        t_step(t) = tout(t+1) - tout(t);
+        pause(t_step(t));           % Assume negligible processing time
     end
     
     
     
-    % TODO
-    title('Bowling Ball Animation');
-    xlabel({'X Position (ft)'
-            ''
-            % Figure label
-            '\bfFigure 1: \rmBowling Ball Animation'});
-    ylabel('Y Position (ft)');
+    % Format Plot
+%     title('Bowling Ball Animation');
+%     xlabel({'X Position (ft)'
+%             ''
+%             % Figure label
+%             '\bfFigure 1: \rmBowling Ball Animation'});
+%     ylabel('Y Position (ft)');
     
+    
+    
+    % Convert plot frame to image and store for later use
+    image{t} = frame2im(getframe());
+    
+end
+
+
+
+%% Export as GIF
+% TODO
+% COMMENT ALL
+
+file_name = 'BowlingBallAnimation.gif';
+for i = 1:length(image)
+    % TODO
+    [A, map] = rgb2ind(image{i}, 256);
+    % If first iteration, run setup code
+    if i == 1
+        imwrite(A, map, file_name, ...
+                'LoopCount', inf, ...
+                'DelayTime', t_step(i));
+    % Else, append images
+    else
+        imwrite(A, map, file_name, ...
+                'WriteMode', 'append', ...
+                'DelayTime', t_step(i));
+    end
 end

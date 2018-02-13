@@ -37,14 +37,14 @@ vc_x = v_x - omega_y*r;         % Velocity at contact point[x] (ft/s)
 vc_y = v_y + omega_x*r;         % Velocity at contact point[y] (ft/s)
 
 
-% Check if no slip
+% If no slip, set friction force to 0
 deadband = 0.02;
 if abs(vc_x) < deadband && abs(vc_y) < deadband
 
     F_x = 0;                        % Friction force[x] (lb)
     F_y = 0;                        % Friction force[x] (lb)
 
-% Else (slipping)
+% Else, set friction force to kinetic friction
 else
 
     N = w;                          % Normal force (lb)
