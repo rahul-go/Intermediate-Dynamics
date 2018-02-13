@@ -91,7 +91,7 @@ sim('Integrator');
 
 for t = 1:length(tout)
     
-    % TODO
+    % Check if Bowling Ball has Traveled the Lane Length
     lane_length = 62+(10+3/16)/12;  % Lane length (ft)
     if xout(t, 6) > lane_length
         break;
@@ -99,13 +99,7 @@ for t = 1:length(tout)
     
     % Plot the Lane
     plot_lane();
-    title('Bowling Ball Animation');
-    xlabel({'X Position (ft)'
-            ''
-            % Figure label
-            '\bfFigure 1: \rmBowling Ball Animation'});
-    ylabel('Y Position (ft)');
-    hold on
+    axis equal;                     % TODO
     
     % Plot the Bowling Ball
     d = 8.5;                        % Given diameter (in)
@@ -113,14 +107,19 @@ for t = 1:length(tout)
     x = xout(t, 5);                 % X position of ball's center (ft)
     y = xout(t, 6);                 % Y position of ball's center (ft)
     viscircles([x, y], r);          % Plot the bowling ball
-%     plot(x, y, 'r.', 'MarkerSize', 100);
     
-    % TODO
-    if t ~= length(tout)
+    % Calculate the time step and pause accordingly
+    if t ~= length(tout)            % Prevent index error
         t_step = tout(t+1) - tout(t);
         pause(t_step);
     end
     
-    hold off
+    % TODO
+    title('Bowling Ball Animation');
+    xlabel({'X Position (ft)'
+            ''
+            % Figure label
+            '\bfFigure 1: \rmBowling Ball Animation'});
+    ylabel('Y Position (ft)');
 
 end
