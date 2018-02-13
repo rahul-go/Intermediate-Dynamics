@@ -30,13 +30,9 @@
 %
 % *Still To Do:*
 %
-% * HIGH PRIORITY:
-% * Display x, y of no-slip
 % * LOW PRIORITY:
 % * Smaller sampling rate
-% * Solid bowling ball
 % * Simulink end time
-% * Better solution to chatter
 
 
 
@@ -114,10 +110,31 @@ sim('Integrator');
 %  slipping). Additionally, it stores the frames of the animation
 %  (converted to images) for exporting them as an animated GIF afterwards.
 
-was_slipping = true;            % Initialize slip -> no-slip boolean
-noslip_x0 = -1;                 % Initialize start of no-slip[x]
-noslip_y0 = -1;                 % Initialize start of no-slip[y]
+% Calculate when the bowling ball stops slipping
+for t = 1:length(tout)
+    
+    % Acceleration[linear[x, y], angular[x, y]]
+    a = xdot(t, 1:4);               % (ft/s, ft/s, rad/s^2, rad/s^2)
+    
+    % If no slip, set bowling ball color to green
+    if a == 0
+        % Set start of no-slip[x]
+        x0_noslip = num2str(xout(t, 5));
+        % Set start of no-slip[y]
+        y0_noslip = num2str(xout(t, 6));
+        break
+    end
+    
+end
 
+% Format start of no-slip position as text
+txt = ['The bowling ball' ...
+       'stops slipping at:' ...
+       '(', x0_noslip, ', ', y0_noslip, ')'];
+
+
+
+% Plot the bowling ball on the lane
 for t = 1:length(tout)
     
     % If the bowling ball has traveled the lane length, finish
@@ -145,10 +162,6 @@ for t = 1:length(tout)
     % If no slip, set bowling ball color to green
     if a == 0
         color = 'g';
-        % If the bowling ball was slipping, TODO
-        if was_slipping
-            ok = 0;
-        end
     % Else, set bowling ball color to blue
     else
         color = 'b';
@@ -169,17 +182,18 @@ for t = 1:length(tout)
     
     
     % Format Plot
-%     title('Bowling Ball Animation');
-%     xlabel({'X Position (ft)'
-%             ''
-%             % Figure label
-%             '\bfFigure 1: \rmBowling Ball Animation'});
-%     ylabel('Y Position (ft)');
+    title('Bowling Ball Animation');
+    xlabel({'X Position (ft)'
+            ''
+            % Figure label
+            '\bfFigure 1: \rmBowling Ball Animation'});
+    ylabel('Y Position (ft)');
+    text(5, 10, txt);
     
     
     
     % Convert the plot frame to an image and store for later use
-    image{t} = frame2im(getframe());
+    image{t} = frame2im(getframe(1));
     
 end
 
