@@ -19,9 +19,10 @@
 %
 % * HandCalculations.TODO - This file contains the hand calculations.
 % * Integrator.slx - This file uses Simlunk to integrate a MATLAB Function
-% Block which describes the equations of motion. It outputs xdot as xdot, 
-% time as tout, and x as xout.
-% * BowlingBallEOM.m - Thie file contains a function that represents the
+% Block which describes the equations of motion. It outputs x as xout
+% (and the corresponding xdot and time values as xdot and tout,
+% respectively) with inputs of the MATLAB function and initial conditions.
+% * BowlingBallEOM.m - This file contains a function that represents the
 % equations of motion for the simulation. It returns xdot with an input of
 % x.
 % * plot_lane.m - This file contains a function that generates a properly
@@ -29,12 +30,13 @@
 %
 % *Still To Do:*
 %
+% * HIGH PRIORITY:
 % * Display x, y of no-slip
+% * LOW PRIORITY:
 % * Smaller sampling rate
 % * Solid bowling ball
 % * Simulink end time
 % * Better solution to chatter
-% * Comment throughout
 
 
 
@@ -78,7 +80,7 @@ clc;
 
 
 %% Initial Conditions
-% TODO
+% The following sets the initial conditions of the bowling ball.
 
 % Initial Conditions
 x_0 = [1.5;                     % Velocity[x] of ball (ft/s)
@@ -91,8 +93,10 @@ x_0 = [1.5;                     % Velocity[x] of ball (ft/s)
 
 
 %% Simulate the Bowling Ball Using Simulink
-% TODO
-
+% The following calls the Simulink file Integrator.slx, which outputs x as
+% xout (and the corresponding xdot and time values as xdot and tout,
+% respectively) with BowlingBallEOM.m as the input for the MATLAB Fuction
+% and x_0 as the input for the initial conditions.
 sim('Integrator');
 
 
@@ -111,9 +115,9 @@ for t = 1:length(tout)
     
     
     % Plot the Lane
-    plot_lane();                    % TODO
-    ylim([0, lane_length]);         % TODO
-    axis equal;                     % TODO
+    plot_lane();                    % Plot the lane
+    ylim([0, lane_length]);         % Set y-axis limits to lane length
+    axis equal;                     % Scale x-axis and y-axis equally
     
     % Plot the Bowling Ball
     d = 8.5;                        % Given diameter (in)
@@ -121,18 +125,18 @@ for t = 1:length(tout)
     x = xout(t, 5);                 % X position of ball's center (ft)
     y = xout(t, 6);                 % Y position of ball's center (ft)
     
-    % Acceleration[linear, angular] (ft/s, ft/s, rad/s^2, rad/s^2)
-    a = xdot(t, 1:4);
+    % Acceleration[linear[x, y], angular[x, y]]
+    a = xdot(t, 1:4);               % (ft/s, ft/s, rad/s^2, rad/s^2)
     
     % If no slip, set bowling ball color to green
     if a == 0
-        color = 'green';
+        color = 'g';
     % Else, set bowling ball color to blue
     else
-        color = 'blue';
+        color = 'b';
     end
     
-    % Draw circle (bowling ball)
+    % Draw the bowling ball
     viscircles([x, y], r, 'Color', color);
     
     
@@ -156,7 +160,7 @@ for t = 1:length(tout)
     
     
     
-    % Convert plot frame to image and store for later use
+    % Convert the plot frame to an image and store for later use
     image{t} = frame2im(getframe());
     
 end
