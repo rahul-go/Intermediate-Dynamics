@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #4</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> February 06, 2018</p><p><b>Date Modified:</b> February 13, 2018</p><p><b>Description:</b> This script simulates the motion of a bowling ball. It detects when the ball stops slipping and adjusts the acting friction accordingly. Additionally, it produces an animated GIF of the simulation in which the bowling ball changes its color from blue to green when it stops slipping.</p><p><b>Required Files:</b></p><div><ul><li>html/HandCalculations.jpg - This file contains the hand calculations.</li><li>Integrator.slx - This file uses Simlunk to integrate a MATLAB Function Block which describes the equations of motion. It outputs x as xout (and the corresponding xdot and time values as xdot and tout, respectively) with inputs of the MATLAB function and initial conditions.</li><li>BowlingBallEOM.m - This file contains a function that represents the equations of motion for the simulation. It returns xdot with an input of x.</li><li>plot_lane.m - This file contains a function that generates a properly dimensioned plot of a lane including all ten pins</li></ul><h2>Called Functions</h2><ul><li><a href="#plot_lane">plot_lane </a></li></ul></div><p><b>Still To Do:</b></p><div><ul><li>HIGH PRIORITY:</li><li>Display x, y of no-slip</li><li>LOW PRIORITY:</li><li>Smaller sampling rate</li><li>Solid bowling ball</li><li>Simulink end time</li><li>Better solution to chatter</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Hand Calculations</a></li><li><a href="#3">Reset</a></li><li><a href="#4">Initial Conditions</a></li><li><a href="#5">Simulate the Bowling Ball Using Simulink</a></li><li><a href="#6">Animation</a></li><li><a href="#7">Export as GIF</a></li></ul></div><h2 id="1">Problem Statement</h2><p>Consider a bowling ball thrown with an initial angular velocity w0 and an initial linear velocity v0 from the instant it makes contact with an alley lane. The velocity at the contact point, vC, is due to the velocity of the center of mass of the bowling ball, vB, and due to the relative velocity, vC/B, caused by the angular velocity of the bowling ball. The surface of the bowling alley will be defined as the xy-plane, where the y-axis extends down the alley and the x-axis extends toward the right gutter. The direction of the contact velocity is what determines the direction of the friction force. Angle theta is defined as the angle between the positive extension of the x-axis and the contact velocity vector. Therefore, when theta = pi/2 the ball will be traveling straight down the alley toward the pins.</p><p>The friction present between the ball and the smooth wooden lane is best approximated by a Coulomb friction model. That is <tt>F</tt> = mukN if the ball is slipping and <tt>F</tt> &lt;= musN if the ball is rolling without slip. In each regime the friction force opposes the relative velocity (or impending relative velocity) at the contact point. In order to develop equations of motion, the magnitude and direction of the coulomb friction force must be computed, and then put into component form in the xy plane.</p><p>The bowling ball is modeled as a sphere of uniform density that weighs 15 lb and has a diameter of 8.5 in. The kinetic friction coefficient, muk, between the ball and surface is assumed to be 0.12 and the static friction coefficient, mus, between the ball and surface is assumed to be 0.14.</p><h2 id="2">Hand Calculations</h2><p>The hand calculations below provide foundation for the MATLAB solution.</p><p><img vspace="5" hspace="5" src="HandCalculations.jpg" alt=""> </p><h2 id="3">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
+  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #4</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> February 06, 2018</p><p><b>Date Modified:</b> February 13, 2018</p><p><b>Description:</b> This script simulates the motion of a bowling ball. It detects when the ball stops slipping and adjusts the acting friction accordingly. Additionally, it produces an animated GIF of the simulation in which the bowling ball changes its color from blue to green when it stops slipping.</p><p><b>Required Files:</b></p><div><ul><li>html/HandCalculations.jpg - This file contains the hand calculations.</li><li>Integrator.slx - This file uses Simlunk to integrate a MATLAB Function Block which describes the equations of motion. It outputs x as xout (and the corresponding xdot and time values as xdot and tout, respectively) with inputs of the MATLAB function and initial conditions.</li><li>BowlingBallEOM.m - This file contains a function that represents the equations of motion for the simulation. It returns xdot with an input of x.</li><li>plot_lane.m - This file contains a function that generates a properly dimensioned plot of a lane including all ten pins</li></ul><h2>Called Functions</h2><ul><li><a href="#plot_lane">plot_lane </a></li></ul></div><p><b>Still To Do:</b></p><div><ul><li>LOW PRIORITY:</li><li>Smaller sampling rate</li><li>Simulink end time</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Hand Calculations</a></li><li><a href="#3">Reset</a></li><li><a href="#4">Initial Conditions</a></li><li><a href="#5">Simulate the Bowling Ball Using Simulink</a></li><li><a href="#6">Animation</a></li><li><a href="#7">Export as GIF</a></li></ul></div><h2 id="1">Problem Statement</h2><p>Consider a bowling ball thrown with an initial angular velocity w0 and an initial linear velocity v0 from the instant it makes contact with an alley lane. The velocity at the contact point, vC, is due to the velocity of the center of mass of the bowling ball, vB, and due to the relative velocity, vC/B, caused by the angular velocity of the bowling ball. The surface of the bowling alley will be defined as the xy-plane, where the y-axis extends down the alley and the x-axis extends toward the right gutter. The direction of the contact velocity is what determines the direction of the friction force. Angle theta is defined as the angle between the positive extension of the x-axis and the contact velocity vector. Therefore, when theta = pi/2 the ball will be traveling straight down the alley toward the pins.</p><p>The friction present between the ball and the smooth wooden lane is best approximated by a Coulomb friction model. That is <tt>F</tt> = mukN if the ball is slipping and <tt>F</tt> &lt;= musN if the ball is rolling without slip. In each regime the friction force opposes the relative velocity (or impending relative velocity) at the contact point. In order to develop equations of motion, the magnitude and direction of the coulomb friction force must be computed, and then put into component form in the xy plane.</p><p>The bowling ball is modeled as a sphere of uniform density that weighs 15 lb and has a diameter of 8.5 in. The kinetic friction coefficient, muk, between the ball and surface is assumed to be 0.12 and the static friction coefficient, mus, between the ball and surface is assumed to be 0.14.</p><h2 id="2">Hand Calculations</h2><p>The hand calculations below provide foundation for the MATLAB solution.</p><p><img vspace="5" hspace="5" src="HandCalculations.jpg" alt=""> </p><h2 id="3">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
 clear <span class="string">all</span>;
 clc;
 </pre><h2 id="4">Initial Conditions</h2><p>The following sets the initial conditions of the bowling ball.</p><pre class="codeinput"><span class="comment">% Initial Conditions</span>
@@ -80,10 +80,31 @@ x_0 = [1.5;                     <span class="comment">% Velocity[x] of ball (ft/
 </pre><h2 id="6">Animation</h2><pre>The following animates the motion of the bowling ball. It plots the lane
 and the bowling ball (color dependent on whether the bowling ball is
 slipping). Additionally, it stores the frames of the animation
-(converted to images) for exporting them as an animated GIF afterwards.</pre><pre class="codeinput">was_slipping = true;            <span class="comment">% Initialize slip -&gt; no-slip boolean</span>
-noslip_x0 = -1;                 <span class="comment">% Initialize start of no-slip[x]</span>
-noslip_y0 = -1;                 <span class="comment">% Initialize start of no-slip[y]</span>
+(converted to images) for exporting them as an animated GIF afterwards.</pre><pre class="codeinput"><span class="comment">% Calculate when the bowling ball stops slipping</span>
+<span class="keyword">for</span> t = 1:length(tout)
 
+    <span class="comment">% Acceleration[linear[x, y], angular[x, y]]</span>
+    a = xdot(t, 1:4);               <span class="comment">% (ft/s, ft/s, rad/s^2, rad/s^2)</span>
+
+    <span class="comment">% If no slip, set bowling ball color to green</span>
+    <span class="keyword">if</span> a == 0
+        <span class="comment">% Set start of no-slip[x]</span>
+        x0_noslip = num2str(xout(t, 5));
+        <span class="comment">% Set start of no-slip[y]</span>
+        y0_noslip = num2str(xout(t, 6));
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">% Format start of no-slip position as text</span>
+txt = char(<span class="string">'The bowling ball'</span>, <span class="keyword">...</span>
+           <span class="string">'stops slipping at:'</span>, <span class="keyword">...</span>
+           [<span class="string">'('</span>, x0_noslip, <span class="string">', '</span>, y0_noslip, <span class="string">') ft.'</span>]);
+
+
+
+<span class="comment">% Plot the bowling ball on the lane</span>
 <span class="keyword">for</span> t = 1:length(tout)
 
     <span class="comment">% If the bowling ball has traveled the lane length, finish</span>
@@ -111,10 +132,6 @@ noslip_y0 = -1;                 <span class="comment">% Initialize start of no-s
     <span class="comment">% If no slip, set bowling ball color to green</span>
     <span class="keyword">if</span> a == 0
         color = <span class="string">'g'</span>;
-        <span class="comment">% If the bowling ball was slipping, TODO</span>
-        <span class="keyword">if</span> was_slipping
-            ok = 0;
-        <span class="keyword">end</span>
     <span class="comment">% Else, set bowling ball color to blue</span>
     <span class="keyword">else</span>
         color = <span class="string">'b'</span>;
@@ -129,23 +146,24 @@ noslip_y0 = -1;                 <span class="comment">% Initialize start of no-s
     <span class="keyword">if</span> t ~= length(tout)            <span class="comment">% Prevent index error</span>
         <span class="comment">% Calculate the time step (s) and store for later use</span>
         t_step(t) = tout(t+1) - tout(t);
-        pause(t_step(t));           <span class="comment">% Assume negligible processing time</span>
+<span class="comment">%         pause(t_step(t));           % Assume negligible processing time</span>
     <span class="keyword">end</span>
 
 
 
     <span class="comment">% Format Plot</span>
-<span class="comment">%     title('Bowling Ball Animation');</span>
-<span class="comment">%     xlabel({'X Position (ft)'</span>
-<span class="comment">%             ''</span>
-<span class="comment">%             % Figure label</span>
-<span class="comment">%             '\bfFigure 1: \rmBowling Ball Animation'});</span>
-<span class="comment">%     ylabel('Y Position (ft)');</span>
+    title(<span class="string">'Bowling Ball Animation'</span>);
+    xlabel({<span class="string">'X Position (ft)'</span>
+            <span class="string">''</span>
+            <span class="comment">% Figure label</span>
+            <span class="string">'\bfFigure 1: \rmBowling Ball Animation'</span>});
+    ylabel(<span class="string">'Y Position (ft)'</span>);
+    text(5, 10, txt);
 
 
 
     <span class="comment">% Convert the plot frame to an image and store for later use</span>
-    image{t} = frame2im(getframe());
+    image{t} = frame2im(getframe(1));
 
 <span class="keyword">end</span>
 </pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <h2 id="7">Export as GIF</h2><p>The following exports the animation as an animated GIF.</p><pre class="codeinput">file_name = <span class="string">'BowlingBallAnimation.gif'</span>;
@@ -203,13 +221,9 @@ noslip_y0 = -1;                 <span class="comment">% Initialize start of no-s
 %
 % *Still To Do:*
 %
-% * HIGH PRIORITY:
-% * Display x, y of no-slip
 % * LOW PRIORITY:
 % * Smaller sampling rate
-% * Solid bowling ball
 % * Simulink end time
-% * Better solution to chatter
 
 
 
@@ -287,10 +301,31 @@ sim('Integrator');
 %  slipping). Additionally, it stores the frames of the animation
 %  (converted to images) for exporting them as an animated GIF afterwards.
 
-was_slipping = true;            % Initialize slip -> no-slip boolean
-noslip_x0 = -1;                 % Initialize start of no-slip[x]
-noslip_y0 = -1;                 % Initialize start of no-slip[y]
+% Calculate when the bowling ball stops slipping
+for t = 1:length(tout)
+    
+    % Acceleration[linear[x, y], angular[x, y]]
+    a = xdot(t, 1:4);               % (ft/s, ft/s, rad/s^2, rad/s^2)
+    
+    % If no slip, set bowling ball color to green
+    if a == 0
+        % Set start of no-slip[x]
+        x0_noslip = num2str(xout(t, 5));
+        % Set start of no-slip[y]
+        y0_noslip = num2str(xout(t, 6));
+        break
+    end
+    
+end
 
+% Format start of no-slip position as text
+txt = char('The bowling ball', ...
+           'stops slipping at:', ...
+           ['(', x0_noslip, ', ', y0_noslip, ') ft.']);
+
+
+
+% Plot the bowling ball on the lane
 for t = 1:length(tout)
     
     % If the bowling ball has traveled the lane length, finish
@@ -318,10 +353,6 @@ for t = 1:length(tout)
     % If no slip, set bowling ball color to green
     if a == 0
         color = 'g';
-        % If the bowling ball was slipping, TODO
-        if was_slipping
-            ok = 0;
-        end
     % Else, set bowling ball color to blue
     else
         color = 'b';
@@ -336,23 +367,24 @@ for t = 1:length(tout)
     if t ~= length(tout)            % Prevent index error
         % Calculate the time step (s) and store for later use
         t_step(t) = tout(t+1) - tout(t);
-        pause(t_step(t));           % Assume negligible processing time
+%         pause(t_step(t));           % Assume negligible processing time
     end
     
     
     
     % Format Plot
-%     title('Bowling Ball Animation');
-%     xlabel({'X Position (ft)'
-%             ''
-%             % Figure label
-%             '\bfFigure 1: \rmBowling Ball Animation'});
-%     ylabel('Y Position (ft)');
+    title('Bowling Ball Animation');
+    xlabel({'X Position (ft)'
+            ''
+            % Figure label
+            '\bfFigure 1: \rmBowling Ball Animation'});
+    ylabel('Y Position (ft)');
+    text(5, 10, txt);
     
     
     
     % Convert the plot frame to an image and store for later use
-    image{t} = frame2im(getframe());
+    image{t} = frame2im(getframe(1));
     
 end
 

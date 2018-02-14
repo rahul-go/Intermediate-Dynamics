@@ -128,9 +128,9 @@ for t = 1:length(tout)
 end
 
 % Format start of no-slip position as text
-txt = ['The bowling ball' ...
-       'stops slipping at:' ...
-       '(', x0_noslip, ', ', y0_noslip, ')'];
+txt = char('The bowling ball', ...
+           'stops slipping at:', ...
+           ['(', x0_noslip, ', ', y0_noslip, ') ft.']);
 
 
 
@@ -176,7 +176,7 @@ for t = 1:length(tout)
     if t ~= length(tout)            % Prevent index error
         % Calculate the time step (s) and store for later use
         t_step(t) = tout(t+1) - tout(t);
-        pause(t_step(t));           % Assume negligible processing time
+%         pause(t_step(t));           % Assume negligible processing time
     end
     
     
