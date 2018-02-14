@@ -1,0 +1,194 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>BowlingBallEOM</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-13"><meta name="DC.source" content="BowlingBallEOM.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">BowlingBallEOM Usage and Description</a></li><li><a href="#2">Given Values</a></li><li><a href="#3">Solve for the Friction Force</a></li><li><a href="#4">Solve for xdot</a></li></ul></div><h2 id="1">BowlingBallEOM Usage and Description</h2><p>This function represents the equations of motion for the simulation. It returns xdot with an input of x.</p><pre class="codeinput"><span class="keyword">function</span> [xdot] = BowlingBallEOM(x)
+</pre><h2 id="2">Given Values</h2><p>The following assigns values given by the problem statement to variables. (The value of the gravitational constant is assumed).</p><pre class="codeinput"><span class="comment">% Given Values</span>
+w = 15;                         <span class="comment">% Weight of bowling ball (lb)</span>
+d = 8.5;                        <span class="comment">% Diameter of bowling ball (in)</span>
+mu_k = 0.12;                    <span class="comment">% Kinetic friction coefficient (unitless)</span>
+mu_s = 0.14;                    <span class="comment">% Static friction coefficient (unitless)</span>
+g = 32.174;                     <span class="comment">% Gravitational constant (ft/s^2)</span>
+
+<span class="comment">% Solved Values</span>
+m = w/g;                        <span class="comment">% Mass of bowling ball (slug)</span>
+r = (d/2)/12;                   <span class="comment">% Radius of bowling ball (ft)</span>
+I = 2/5*m*r^2;                  <span class="comment">% Moment of inertia (slug*ft^2)</span>
+</pre><h2 id="3">Solve for the Friction Force</h2><p>To find the friction force, the following first checks whether the bowling ball is slipping by evaluating the velocity of the contact point. A contact point velocity of 0 corresponds to a ball that rolls without slip; otherwise, the ball is slipping. A deadband is used to avoid chatter. See the attached file for hand calculations.</p><pre class="codeinput"><span class="comment">% Easy access to variables</span>
+v_x = x(1);                     <span class="comment">% Easy access to v_x (ft/s)</span>
+v_y = x(2);                     <span class="comment">% Easy access to v_y (ft/s)</span>
+omega_x = x(3);                 <span class="comment">% Easy access to omega_x (rad/s)</span>
+omega_y = x(4);                 <span class="comment">% Easy access to omega_y (rad/s)</span>
+
+<span class="comment">% Velocity at contact point</span>
+vc_x = v_x - omega_y*r;         <span class="comment">% Velocity at contact point[x] (ft/s)</span>
+vc_y = v_y + omega_x*r;         <span class="comment">% Velocity at contact point[y] (ft/s)</span>
+
+<span class="comment">% If no slip, set friction force to 0</span>
+deadband = 0.02;
+<span class="keyword">if</span> abs(vc_x) &lt; deadband &amp;&amp; abs(vc_y) &lt; deadband
+
+    F_x = 0;                        <span class="comment">% Friction force[x] (lb)</span>
+    F_y = 0;                        <span class="comment">% Friction force[x] (lb)</span>
+
+<span class="comment">% Else, set friction force to kinetic friction</span>
+<span class="keyword">else</span>
+
+    N = w;                          <span class="comment">% Normal force (lb)</span>
+
+    theta = atan2(vc_y, vc_x);      <span class="comment">% Theta (rad)</span>
+
+    F_x = -mu_k*N*cos(theta);       <span class="comment">% Friction force[x] (lb)</span>
+    F_y = -mu_k*N*sin(theta);       <span class="comment">% Friction force[y] (lb)</span>
+
+<span class="keyword">end</span>
+</pre><pre class="codeoutput error">Not enough input arguments.
+
+Error in BowlingBallEOM (line 32)
+v_x = x(1);                     % Easy access to v_x (ft/s)
+</pre><h2 id="4">Solve for xdot</h2><p>See the attached file for hand calculations.</p><pre class="codeinput">xdot = [F_x/m;
+        F_y/m;
+        F_y*r/I;
+        -F_x*r/I;
+        v_x;
+        v_y];
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% BowlingBallEOM Usage and Description
+% This function represents the equations of motion for the simulation. It
+% returns xdot with an input of x.
+function [xdot] = BowlingBallEOM(x)
+
+%% Given Values
+% The following assigns values given by the problem statement to variables.
+% (The value of the gravitational constant is assumed).
+
+% Given Values
+w = 15;                         % Weight of bowling ball (lb)
+d = 8.5;                        % Diameter of bowling ball (in)
+mu_k = 0.12;                    % Kinetic friction coefficient (unitless)
+mu_s = 0.14;                    % Static friction coefficient (unitless)
+g = 32.174;                     % Gravitational constant (ft/s^2)
+
+% Solved Values
+m = w/g;                        % Mass of bowling ball (slug)
+r = (d/2)/12;                   % Radius of bowling ball (ft)
+I = 2/5*m*r^2;                  % Moment of inertia (slug*ft^2)
+
+
+
+%% Solve for the Friction Force
+% To find the friction force, the following first checks whether the
+% bowling ball is slipping by evaluating the velocity of the contact point.
+% A contact point velocity of 0 corresponds to a ball that rolls without
+% slip; otherwise, the ball is slipping. A deadband is used to avoid
+% chatter. See the attached file for hand calculations.
+
+% Easy access to variables
+v_x = x(1);                     % Easy access to v_x (ft/s)
+v_y = x(2);                     % Easy access to v_y (ft/s)
+omega_x = x(3);                 % Easy access to omega_x (rad/s)
+omega_y = x(4);                 % Easy access to omega_y (rad/s)
+
+% Velocity at contact point
+vc_x = v_x - omega_y*r;         % Velocity at contact point[x] (ft/s)
+vc_y = v_y + omega_x*r;         % Velocity at contact point[y] (ft/s)
+
+% If no slip, set friction force to 0
+deadband = 0.02;
+if abs(vc_x) < deadband && abs(vc_y) < deadband
+
+    F_x = 0;                        % Friction force[x] (lb)
+    F_y = 0;                        % Friction force[x] (lb)
+
+% Else, set friction force to kinetic friction
+else
+
+    N = w;                          % Normal force (lb)
+
+    theta = atan2(vc_y, vc_x);      % Theta (rad)
+
+    F_x = -mu_k*N*cos(theta);       % Friction force[x] (lb)
+    F_y = -mu_k*N*sin(theta);       % Friction force[y] (lb)
+
+end
+
+
+
+%% Solve for xdot
+% See the attached file for hand calculations.
+xdot = [F_x/m;
+        F_y/m;
+        F_y*r/I;
+        -F_x*r/I;
+        v_x;
+        v_y];
+
+end
+##### SOURCE END #####
+--></body></html>

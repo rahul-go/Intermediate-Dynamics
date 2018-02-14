@@ -66,18 +66,18 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #4</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> February 06, 2018</p><p><b>Date Modified:</b> February 13, 2018</p><p><b>Description:</b> This script simulates the motion of a bowling ball. It detects when the ball stops slipping and adjusts the acting friction accordingly. Additionally, it produces an animated GIF of the simulation in which the bowling ball changes its color from blue to green when it stops slipping.</p><p><b>Required Files:</b></p><div><ul><li>html/HandCalculations.jpg - This file contains the hand calculations.</li><li>Integrator.slx - This file uses Simlunk to integrate a MATLAB Function Block which describes the equations of motion. It outputs x as xout (and the corresponding xdot and time values as xdot and tout, respectively) with inputs of the MATLAB function and initial conditions.</li><li>BowlingBallEOM.m - This file contains a function that represents the equations of motion for the simulation. It returns xdot with an input of x.</li><li>plot_lane.m - This file contains a function that generates a properly dimensioned plot of a lane including all ten pins</li></ul><h2>Called Functions</h2><ul><li><a href="#plot_lane">plot_lane </a></li></ul></div><p><b>Still To Do:</b></p><div><ul><li>LOW PRIORITY:</li><li>Smaller sampling rate</li><li>Simulink end time</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Hand Calculations</a></li><li><a href="#3">Reset</a></li><li><a href="#4">Initial Conditions</a></li><li><a href="#5">Simulate the Bowling Ball Using Simulink</a></li><li><a href="#6">Animation</a></li><li><a href="#7">Export as GIF</a></li></ul></div><h2 id="1">Problem Statement</h2><p>Consider a bowling ball thrown with an initial angular velocity w0 and an initial linear velocity v0 from the instant it makes contact with an alley lane. The velocity at the contact point, vC, is due to the velocity of the center of mass of the bowling ball, vB, and due to the relative velocity, vC/B, caused by the angular velocity of the bowling ball. The surface of the bowling alley will be defined as the xy-plane, where the y-axis extends down the alley and the x-axis extends toward the right gutter. The direction of the contact velocity is what determines the direction of the friction force. Angle theta is defined as the angle between the positive extension of the x-axis and the contact velocity vector. Therefore, when theta = pi/2 the ball will be traveling straight down the alley toward the pins.</p><p>The friction present between the ball and the smooth wooden lane is best approximated by a Coulomb friction model. That is <tt>F</tt> = mukN if the ball is slipping and <tt>F</tt> &lt;= musN if the ball is rolling without slip. In each regime the friction force opposes the relative velocity (or impending relative velocity) at the contact point. In order to develop equations of motion, the magnitude and direction of the coulomb friction force must be computed, and then put into component form in the xy plane.</p><p>The bowling ball is modeled as a sphere of uniform density that weighs 15 lb and has a diameter of 8.5 in. The kinetic friction coefficient, muk, between the ball and surface is assumed to be 0.12 and the static friction coefficient, mus, between the ball and surface is assumed to be 0.14.</p><h2 id="2">Hand Calculations</h2><p>The hand calculations below provide foundation for the MATLAB solution.</p><p><img vspace="5" hspace="5" src="HandCalculations.jpg" alt=""> </p><h2 id="3">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
+  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #4</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> February 06, 2018</p><p><b>Date Modified:</b> February 13, 2018</p><p><b>Description:</b> This script simulates the motion of a bowling ball. It detects when the ball stops slipping and adjusts the acting friction accordingly. Additionally, it produces an animated GIF of the simulation in which the bowling ball changes its color from blue to green when it stops slipping.</p><p><b>Required Files:</b></p><div><ul><li>Integrator.slx - This file uses Simlunk to integrate a MATLAB Function Block which describes the equations of motion. It outputs x as xout (and the corresponding xdot and time values as xdot and tout, respectively) with inputs of the MATLAB function and initial conditions.</li><li>BowlingBallEOM.m - This file contains a function that represents the equations of motion for the simulation. It returns xdot with an input of x.</li><li>plot_lane.m - This file contains a function that generates a properly dimensioned plot of a lane including all ten pins.</li></ul><h2>Called Functions</h2><ul><li><a href="#plot_lane">plot_lane </a></li></ul></div><p><b>Still To Do:</b></p><div><ul><li>Done!</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Reset</a></li><li><a href="#3">Initial Conditions</a></li><li><a href="#4">Simulate the Bowling Ball Using Simulink</a></li><li><a href="#5">Animation</a></li><li><a href="#6">Export as GIF</a></li></ul></div><h2 id="1">Problem Statement</h2><p>Consider a bowling ball thrown with an initial angular velocity w0 and an initial linear velocity v0 from the instant it makes contact with an alley lane. The velocity at the contact point, vC, is due to the velocity of the center of mass of the bowling ball, vB, and due to the relative velocity, vC/B, caused by the angular velocity of the bowling ball. The surface of the bowling alley will be defined as the xy-plane, where the y-axis extends down the alley and the x-axis extends toward the right gutter. The direction of the contact velocity is what determines the direction of the friction force. Angle theta is defined as the angle between the positive extension of the x-axis and the contact velocity vector. Therefore, when theta = pi/2 the ball will be traveling straight down the alley toward the pins.</p><p>The friction present between the ball and the smooth wooden lane is best approximated by a Coulomb friction model. That is <tt>F</tt> = mukN if the ball is slipping and <tt>F</tt> &lt;= musN if the ball is rolling without slip. In each regime the friction force opposes the relative velocity (or impending relative velocity) at the contact point. In order to develop equations of motion, the magnitude and direction of the coulomb friction force must be computed, and then put into component form in the xy plane.</p><p>The bowling ball is modeled as a sphere of uniform density that weighs 15 lb and has a diameter of 8.5 in. The kinetic friction coefficient, muk, between the ball and surface is assumed to be 0.12 and the static friction coefficient, mus, between the ball and surface is assumed to be 0.14.</p><h2 id="2">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
 clear <span class="string">all</span>;
 clc;
-</pre><h2 id="4">Initial Conditions</h2><p>The following sets the initial conditions of the bowling ball.</p><pre class="codeinput"><span class="comment">% Initial Conditions</span>
+</pre><h2 id="3">Initial Conditions</h2><p>The following sets the initial conditions of the bowling ball.</p><pre class="codeinput"><span class="comment">% Initial Conditions</span>
 x_0 = [1.5;                     <span class="comment">% Velocity[x] of ball (ft/s)</span>
        30;                      <span class="comment">% Velocity[y] of ball (ft/s)</span>
        0;                       <span class="comment">% Angular velocity[x] of ball (rad/s)</span>
        -25;                     <span class="comment">% Angular velocity[y] of ball (rad/s)</span>
        0;                       <span class="comment">% Displacement[x] of ball (ft)</span>
        0];                      <span class="comment">% Displacement[y] of ball (ft)</span>
-</pre><h2 id="5">Simulate the Bowling Ball Using Simulink</h2><p>The following calls the Simulink file Integrator.slx, which outputs x as xout (and the corresponding xdot and time values as xdot and tout, respectively) with BowlingBallEOM.m as the input for the MATLAB Fuction and x_0 as the input for the initial conditions.</p><pre class="codeinput">sim(<span class="string">'Integrator'</span>);
-</pre><h2 id="6">Animation</h2><pre>The following animates the motion of the bowling ball. It plots the lane
+</pre><h2 id="4">Simulate the Bowling Ball Using Simulink</h2><p>The following calls the Simulink file Integrator.slx, which outputs x as xout (and the corresponding xdot and time values as xdot and tout, respectively) with BowlingBallEOM.m as the input for the MATLAB Fuction and x_0 as the input for the initial conditions.</p><pre class="codeinput">sim(<span class="string">'Integrator'</span>);
+</pre><h2 id="5">Animation</h2><pre>The following animates the motion of the bowling ball. It plots the lane
 and the bowling ball (color dependent on whether the bowling ball is
 slipping). Additionally, it stores the frames of the animation
 (converted to images) for exporting them as an animated GIF afterwards.</pre><pre class="codeinput"><span class="comment">% Calculate when the bowling ball stops slipping</span>
@@ -166,7 +166,7 @@ txt = char(<span class="string">'The bowling ball'</span>, <span class="keyword"
     image{t} = frame2im(getframe(1));
 
 <span class="keyword">end</span>
-</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <h2 id="7">Export as GIF</h2><p>The following exports the animation as an animated GIF.</p><pre class="codeinput">file_name = <span class="string">'BowlingBallAnimation.gif'</span>;
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <h2 id="6">Export as GIF</h2><p>The following exports the animation as an animated GIF.</p><pre class="codeinput">file_name = <span class="string">'BowlingBallAnimation.gif'</span>;
 <span class="keyword">for</span> i = 1:length(image)
 
     <span class="comment">% Convert the RGB image to an indexed image</span>
@@ -208,7 +208,6 @@ txt = char(<span class="string">'The bowling ball'</span>, <span class="keyword"
 % 
 % *Required Files:*
 %
-% * html/HandCalculations.jpg - This file contains the hand calculations.
 % * Integrator.slx - This file uses Simlunk to integrate a MATLAB Function
 % Block which describes the equations of motion. It outputs x as xout
 % (and the corresponding xdot and time values as xdot and tout,
@@ -217,13 +216,11 @@ txt = char(<span class="string">'The bowling ball'</span>, <span class="keyword"
 % equations of motion for the simulation. It returns xdot with an input of
 % x.
 % * plot_lane.m - This file contains a function that generates a properly
-% dimensioned plot of a lane including all ten pins
+% dimensioned plot of a lane including all ten pins.
 %
 % *Still To Do:*
 %
-% * LOW PRIORITY:
-% * Smaller sampling rate
-% * Simulink end time
+% * Done!
 
 
 
@@ -254,13 +251,6 @@ txt = char(<span class="string">'The bowling ball'</span>, <span class="keyword"
 % between the ball and surface is assumed to be 0.12 and the static
 % friction coefficient, mus, between the ball and surface is assumed to be
 % 0.14.
-
-
-
-%% Hand Calculations
-% The hand calculations below provide foundation for the MATLAB solution.
-%
-% <<HandCalculations.jpg>>
 
 
 

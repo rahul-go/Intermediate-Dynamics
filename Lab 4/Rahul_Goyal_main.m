@@ -17,7 +17,6 @@
 % 
 % *Required Files:*
 %
-% * html/HandCalculations.jpg - This file contains the hand calculations.
 % * Integrator.slx - This file uses Simlunk to integrate a MATLAB Function
 % Block which describes the equations of motion. It outputs x as xout
 % (and the corresponding xdot and time values as xdot and tout,
@@ -26,13 +25,11 @@
 % equations of motion for the simulation. It returns xdot with an input of
 % x.
 % * plot_lane.m - This file contains a function that generates a properly
-% dimensioned plot of a lane including all ten pins
+% dimensioned plot of a lane including all ten pins.
 %
 % *Still To Do:*
 %
-% * LOW PRIORITY:
-% * Smaller sampling rate
-% * Simulink end time
+% * Done!
 
 
 
@@ -63,13 +60,6 @@
 % between the ball and surface is assumed to be 0.12 and the static
 % friction coefficient, mus, between the ball and surface is assumed to be
 % 0.14.
-
-
-
-%% Hand Calculations
-% The hand calculations below provide foundation for the MATLAB solution.
-%
-% <<HandCalculations.jpg>>
 
 
 

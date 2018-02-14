@@ -21,7 +21,7 @@ I = 2/5*m*r^2;                  % Moment of inertia (slug*ft^2)
 
 
 
-%% Solve for Friction Force
+%% Solve for the Friction Force
 % To find the friction force, the following first checks whether the
 % bowling ball is slipping by evaluating the velocity of the contact point.
 % A contact point velocity of 0 corresponds to a ball that rolls without
