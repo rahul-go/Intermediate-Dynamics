@@ -44,4 +44,5 @@ for i = 1:numt-1
     x_array(i+1, :) = x_array(i, :) + xdot'*t_step;
 
 end
+
 end
