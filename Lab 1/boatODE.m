@@ -15,6 +15,7 @@
 %
 % Replace the following code with the equations of motion you determined
 % during your hand calculations
+
 function [xdot] = boatODE(t, x)
 
 m = 147150 / 9.81;              % Fishing boat mass (kg)
