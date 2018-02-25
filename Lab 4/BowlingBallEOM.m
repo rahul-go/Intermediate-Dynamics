@@ -1,6 +1,7 @@
 %% BowlingBallEOM Usage and Description
 % This function represents the equations of motion for the simulation. It
 % returns xdot with an input of x.
+
 function [xdot] = BowlingBallEOM(x)
 
 %% Given Values
