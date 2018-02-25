@@ -11,6 +11,7 @@
 % value, the vertical component of the velocity of the car. Then, knowing
 % the x and u values, the script solves y = A*x + B*u using matrix
 % multiplication.
+
 function [xdot] = CarEOM(t, x, A, B, slope, v_x)
 
 x_r = v_x*t;                    % Distance of car (ft)
