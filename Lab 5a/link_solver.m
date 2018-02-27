@@ -32,7 +32,7 @@ A = [cos(t_3), -r_3*sin(t_3), 0, 0, 0, 0;
      -cos(t_3), (r_3-l_ab/2)*sin(t_3), 0, 0, 1, 0;
      -sin(t_3), -(r_3-l_ab/2)*cos(t_3), 0, 0, 0, 1];
 
-B = [2*rdot_3*tdot_3*sin(t_3) + r_3*tdot_3^2*cos(t_3) - r_2*tdot_2^2*cos(t_2);
+b = [2*rdot_3*tdot_3*sin(t_3) + r_3*tdot_3^2*cos(t_3) - r_2*tdot_2^2*cos(t_2);
      -2*rdot_3*tdot_3*cos(t_3) + r_3*tdot_3^2*sin(t_3) - r_2*tdot_2^2*sin(t_2);
      -1/2*r_2*tdot_2^2*cos(t_2);
      -1/2*r_2*tdot_2^2*sin(t_2);
@@ -43,6 +43,6 @@ B = [2*rdot_3*tdot_3*sin(t_3) + r_3*tdot_3^2*cos(t_3) - r_2*tdot_2^2*cos(t_2);
 
 %% Solve for x
 % TODO
-x = A \ B;
+x = A \ b;
 
 end
