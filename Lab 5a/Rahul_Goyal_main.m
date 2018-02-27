@@ -113,67 +113,98 @@ r1_y = [0, 0];
 %% Tip-to-Tail Animation
 % TODO
 
-for t = 1:length(tout)
+% for t = 1:length(tout)
+% 
+%     t_2 = t2_0 + tdot_2 * tout(t);  % Angular position of link OA (m)
+% 
+%     % Cartesian Coordinates of Vector R2, Link AB (tip-to-tail)
+%     r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
+%     r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
+%     r3_x = [r2_x(end), r1_x(1)];
+%     r3_y = [r2_y(end), r2_y(1)];
+% 
+%     % Plot the vector links
+%     plot(r1_x, r1_y, r2_x, r2_y, r3_x, r3_y, 'LineWidth', 2);
+%     title('Tip-to-Tail Animation');
+%     xlabel({'X Position (m)'
+%             ''
+%             % Figure label
+%             '\bfFigure 1: \rmTip-to-Tail Animation'});
+%     ylabel('Y Position (m)');
+% 
+%     % Keep the frame consistent
+%     axis equal;
+%     axis([-0.2, 0.4, -0.1, 0.1]);
+%     
+%     % Calculate the time step and pause accordingly
+%     if t ~= length(tout)            % Prevent index error
+%         % Calculate the time step (s)
+%         t_step = tout(t+1) - tout(t);
+%         pause(t_step);              % Assume negligible processing time
+%     end
+% 
+% end
 
-    t_2 = t2_0 + tdot_2 * tout(t);  % Angular position of link OA (m)
-
-    % Cartesian Coordinates of Link OA, AB (tip-to-tail)
-    r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
-    r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
-    r3_x = [r2_x(end), r1_x(1)];
-    r3_y = [r2_y(end), r2_y(1)];
-
-    % Plot the vector links
-    plot(r1_x, r1_y, r2_x, r2_y, r3_x, r3_y, 'LineWidth', 2);
-    % Keep the frame consistent
-    axis equal;
-    axis([-0.2, 0.4, -0.1, 0.1]);
-    
-    % Calculate the time step and pause accordingly
-    if t ~= length(tout)            % Prevent index error
-        % Calculate the time step (s)
-        t_step = tout(t+1) - tout(t);
-        pause(t_step);              % Assume negligible processing time
-    end
-
-end
 
 
-
-%% Plot of R3 vs. Theta_2
+%% Length of Vector R3 vs. Angular Position of Link OA
 % TODO
-plot(tdot_2*tout, vout(:, 1));
+plot(tdot_2*tout, vout(:, 1), 'LineWidth', 2);
+title('Length of Vector R3 vs. Angular Position of Link OA');
+xlabel({'Angular Position of Link OA (rad)'
+        ''
+        % Figure label
+        '\bfFigure 2: \rmLength of Vector R3 vs. Angular Position of Link OA'});
+ylabel('Length of Vector R3 (m)');
 
 
 
 %% Simulation Animation
 % TODO
 
+% Easy Access to...
+r_3 = xout(:, 1);               % Lengths of vector R3 (m)
+t_3 = xout(:, 2);               % Angular positions of link AB (rad)
+x_2 = xout(:, 3);               % COMs[x] of link OA (m)
+y_2 = xout(:, 4);               % COMs[y] of link OA (m)
+x_3 = xout(:, 5);               % COMs[x] of link AB (m)
+y_3 = xout(:, 6);               % COMs[y] of link AB (m)
+
+% Cartesian Coordinates of Point A
+a_x = r1_x(end)+r_2*cos(t2_0+tdot_2*tout);
+a_y = r1_y(end)+r_2*sin(t2_0+tdot_2*tout);
+% Cartesian Coordinates of Point B
+b_x = a_x - l_ab*cos(t_3);
+b_y = a_y - l_ab*sin(t_3);
+
+% TODO
 for t = 1:length(tout)
 
     t_2 = t2_0 + tdot_2*tout(t);    % Angular position of link OA (m)
     
-    % Easy Access to...
-    r_3 = xout(t, 1);               % Length of vector R3 (m)
-    t_3 = xout(t, 2);               % Angular position of link AB (rad)
-    x_2 = xout(:, 3);               % COM[x] of link OA (m)
-    y_2 = xout(:, 4);               % COM[y] of link OA (m)
-    x_3 = xout(:, 5);               % COM[x] of link AB (m)
-    y_3 = xout(:, 6);               % COM[y] of link AB (m)
-
-    % Cartesian Coordinates of Link OA, AB
+    % Cartesian Coordinates of Vector R2
     r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
     r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
-    lab_x = [r2_x(end), r2_x(end) - l_ab*cos(t_3)];
-    lab_y = [r2_y(end), r2_y(end) - l_ab*sin(t_3)];
+    % Cartesian Coordinates of Link AB
+    lab_x = [r2_x(end), r2_x(end) - l_ab*cos(t_3(t))];
+    lab_y = [r2_y(end), r2_y(end) - l_ab*sin(t_3(t))];
+
 
     % Plot the links, COMs, COM paths
-    plot(r1_x, r1_y, ...            % Link 1
-         r2_x, r2_y, ...            % Link 2
+    plot(r1_x, r1_y, ...            % Vector R1
+         r2_x, r2_y, ...            % Vector R2
          lab_x, lab_y, ...          % Link AB
          x_2(1:t), y_2(1:t), ...    % Path of link OA COM
          x_3(1:t), y_3(1:t), ...    % Path of link AB COM
+         a_x(1:t), a_y(1:t), ...    % Path of point A
+         b_x(1:t), b_y(1:t), ...    % Path of point B
          'LineWidth', 2);           % Line Properties
+    title('Simulation Animation');
+    xlabel({'X Position (m)'
+            ''
+            % Figure label
+            '\bfFigure 3: \rmSimulation Animation'});
+    ylabel('Y Position (m)');
 
     % Keep the frame consistent
     axis equal;
