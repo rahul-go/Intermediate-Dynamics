@@ -17,7 +17,7 @@
 % 
 % *Required Files:*
 %
-% * Integrator.slx - This file uses Simlunk to integrate a MATLAB Function
+% * Integrator.slx - This file uses Simulink to integrate a MATLAB Function
 % Block which describes the equations of motion. It outputs x as xout
 % (and the corresponding xdot and time values as xdot and tout,
 % respectively) with inputs of the MATLAB function and initial conditions.
