@@ -78,21 +78,22 @@ sim('untitled.slx');
 
 
 
-%% Tip-to-Tail Animation
+%% Plotting Data Setup
 % TODO
 
 % TODO
 r1_x = [0, r_1];
 r1_y = [0, 0];
 
+
+
+%% Tip-to-Tail Animation
+% TODO
+
 for t = 1:length(tout)
 
     % TODO
     t_2 = t2_0 + tdot_2 * tout(t);
-    
-%     % TODO
-%     r_3 = x_out(t, 1);          % Easy access to TODO
-%     t_3 = x_out(t, 2);          % Easy access to TODO
 
     % TODO
     r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
@@ -105,7 +106,13 @@ for t = 1:length(tout)
     % Keeps the frame consistent
     axis equal;
     axis([-0.2, 0.4, -0.1, 0.1]);
-%     pause(0.1);                 % TODO TEMP
+    
+    % Calculate the time step and pause accordingly
+    if t ~= length(tout)            % Prevent index error
+        % Calculate the time step (s)
+        t_step = tout(t+1) - tout(t);
+        pause(t_step);              % Assume negligible processing time
+    end
 
 end
 
@@ -114,16 +121,11 @@ end
 %% Plot of R3 vs. theta_2
 % TODO
 plot(tdot_2*tout, v_out(:, 1));
-pause(5);
 
 
 
 %% Simulation Animation
 % TODO
-
-% TODO
-r1_x = [0, r_1];
-r1_y = [0, 0];
 
 for t = 1:length(tout)
 
@@ -131,8 +133,8 @@ for t = 1:length(tout)
     t_2 = t2_0 + tdot_2 * tout(t);
     
     % TODO
-    r_3 = x_out(t, 1);          % Easy access to TODO
-    t_3 = x_out(t, 2);          % Easy access to TODO
+    r_3 = x_out(t, 1);              % Easy access to TODO
+    t_3 = x_out(t, 2);              % Easy access to TODO
 
     % TODO
     r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
@@ -145,6 +147,12 @@ for t = 1:length(tout)
     % Keeps the frame consistent
     axis equal;
     axis([-0.2, 0.4, -0.1, 0.1]);
-    pause(0.2);                 % TODO TEMP
+    
+    % Calculate the time step and pause accordingly
+    if t ~= length(tout)            % Prevent index error
+        % Calculate the time step (s)
+        t_step = tout(t+1) - tout(t);
+        pause(t_step);              % Assume negligible processing time
+    end
 
 end
