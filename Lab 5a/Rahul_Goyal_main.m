@@ -60,9 +60,9 @@ t2_0 = deg2rad(0);              % Angular position initial of link OA (rad)
 % attached file for hand calculations.
 
 % Position Initial Conditions
-% Length of vector R2 initial (m) [Pythagorean Theorem]
+% Length initial of vector R2 (m) [Pythagorean Theorem]
 r3_0 = hypot(r_1+r_2*cos(t2_0), r_2*sin(t2_0));
-% Angular position of link OA initial (rad) [Law of Sines]
+% Angular position initial of link OA (rad) [Law of Sines]
 t3_0 = asin(sin(pi-t2_0)/r3_0 * r_2);
 % COM[x] initial of link OA (m)
 x2_0 = r_1+r_2*cos(t2_0)/2;
@@ -79,18 +79,18 @@ x_0 = [r3_0, t3_0, x2_0, y2_0, x3_0, y3_0];
 
 
 % Velocity Initial Conditions
-% Velocity of vector R2 initial (m/s) FIX
+% Velocity initial of vector R2 (m/s) FIX
 rdot3_0 = 0;
-% Angular velocity of link OA initial (rad/s) FIX
+% Angular velocity initial of link OA (rad/s) FIX
 tdot3_0 = r_2*tdot_2 / r3_0;
 % Velocity_G[x] initial of link OA (m/s)
-xdot2_0 = tdot_2*r_2*sin(t2_0) / 2;
+xdot2_0 = tdot_2 * r_2/2*sin(t2_0);
 % Velocity_G[y] initial of link OA (m/s)
-ydot2_0 = tdot_2*r_2*cos(t2_0) / 2;
+ydot2_0 = tdot_2 * r_2/2*cos(t2_0);
 % Velocity_G[x] initial of link AB (m/s)
-xdot3_0 = tdot3_0*r3_0*sin(t3_0) / 2;
+xdot3_0 = tdot3_0 * (r3_0-l_ab/2)*sin(t3_0);
 % Velocity_G[x] initial of link AB (m/s)
-ydot3_0 = tdot3_0*r3_0*cos(t3_0) / 2;
+ydot3_0 = tdot3_0 * (r3_0-l_ab/2)*cos(t3_0);
 
 % Velocity Initial Conditions Matrix
 v_0 = [rdot3_0, tdot3_0, xdot2_0, ydot2_0, xdot3_0, ydot3_0];
