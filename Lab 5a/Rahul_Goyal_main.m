@@ -92,7 +92,7 @@ v_0 = [rdot3_0, tdot3_0, xdot2_0, ydot2_0, xdot3_0, ydot3_0];
 
 %% Simulate the Slider-Crank Using Simulink
 % TODO
-sim('untitled.slx');
+sim('Simulator.slx');
 
 
 
