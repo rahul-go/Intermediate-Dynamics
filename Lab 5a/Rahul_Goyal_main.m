@@ -10,11 +10,18 @@
 % *Date Modified:* February 27, 2018
 %
 % *Description:*
-% TODO
+% This script simulates the motion of a slider-crank. Afterwards, it first
+% animates the slider-crank by plotting the vectors tip-to-tail, animates
+% the slider-crank again by using the simulation data. Additionally, it
+% compares the velocity of link AB to the angular position of link OA.
 % 
 % *Required Files:*
 %
-% * Simulator.slx - TODO
+% * Simulator.slx - This file uses Simulink to double integrate a MATLAB
+% Function Block which describes the equations of motion. It outputs the
+% positions as xout, the velocities as vout, the accelerations as aout, and
+% times as tout with inputs of the MATLAB function and initial conditions.
+% 
 % * link_solver.m - TODO
 %
 % *Still To Do:*
@@ -76,19 +83,22 @@ y3_0 = r_2*sin(t2_0) - l_ab*sin(t3_0)/2;
 % Position Initial Conditions Matrix
 x_0 = [r3_0, t3_0, x2_0, y2_0, x3_0, y3_0];
 
-
-
 % Velocity Initial Conditions
-% Velocity initial of vector R2 (m/s) FIX
-rdot3_0 = 0;
-% Angular velocity initial of link OA (rad/s) FIX
-tdot3_0 = r_2*tdot_2 / r3_0;
+A = [cos(t3_0), -r3_0*sin(t3_0);
+     sin(t3_0), r3_0*cos(t3_0)];
+b = [-r_2*tdot_2*sin(t2_0);
+     r_2*tdot_2*cos(t2_0)];
+x = A \ b;
+% Velocity initial of vector R2 (m/s)
+rdot3_0 = x(1);
+% Angular velocity initial of link OA (rad/s)
+tdot3_0 = x(2);
 % Velocity_G[x] initial of link OA (m/s)
-xdot2_0 = tdot_2 * r_2/2*sin(t2_0);
+xdot2_0 = -tdot_2 * r_2/2*sin(t2_0);
 % Velocity_G[y] initial of link OA (m/s)
 ydot2_0 = tdot_2 * r_2/2*cos(t2_0);
 % Velocity_G[x] initial of link AB (m/s)
-xdot3_0 = tdot3_0 * (r3_0-l_ab/2)*sin(t3_0);
+xdot3_0 = -tdot3_0 * (r3_0-l_ab/2)*sin(t3_0);
 % Velocity_G[x] initial of link AB (m/s)
 ydot3_0 = tdot3_0 * (r3_0-l_ab/2)*cos(t3_0);
 
@@ -103,15 +113,12 @@ sim('Simulator.slx');
 
 
 
-%% Plotting Data Setup
-% TODO
-r1_x = [0, r_1];
-r1_y = [0, 0];
-
-
-
 %% Tip-to-Tail Animation
 % TODO
+
+% Cartesian Coordinates of Vector R1
+r1_x = [0, r_1];
+r1_y = [0, 0];                      
 
 % for t = 1:length(tout)
 % 
@@ -162,7 +169,7 @@ ylabel('Length of Vector R3 (m)');
 %% Simulation Animation
 % TODO
 
-% Easy Access to...
+% Easy access to...
 r_3 = xout(:, 1);               % Lengths of vector R3 (m)
 t_3 = xout(:, 2);               % Angular positions of link AB (rad)
 x_2 = xout(:, 3);               % COMs[x] of link OA (m)
@@ -188,7 +195,6 @@ for t = 1:length(tout)
     % Cartesian Coordinates of Link AB
     lab_x = [r2_x(end), r2_x(end) - l_ab*cos(t_3(t))];
     lab_y = [r2_y(end), r2_y(end) - l_ab*sin(t_3(t))];
-
 
     % Plot the links, COMs, COM paths
     plot(r1_x, r1_y, ...            % Vector R1
