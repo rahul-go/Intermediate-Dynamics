@@ -59,7 +59,6 @@ theta2_stop = -4*pi;            % Theta_2 final (rad)
 
 % Set Values
 t2_0 = deg2rad(0);              % Angular position initial of link OA (rad)
-% t2_0 = deg2rad(140);            % Angular position initial of link OA (rad)
 
 
 
@@ -111,64 +110,70 @@ v_0 = [rdot3_0, tdot3_0, xdot2_0, ydot2_0, xdot3_0, ydot3_0];
 %% Simulate the Slider-Crank Using Simulink
 % The following calls the Simulink file Simulator.slx, which outputs the
 % positions as xout, the velocities as vout, the accelerations as aout, and
-% the times as tout with link_solver.m as the input for the MATLAB Fuction
-% and TODO v_0, and x_0 as the inputs for the initial conditions.
+% the times as tout with link_solver.m as the input for the MATLAB Fuction,
+% tdot_2, t2_0, v_0, and x_0 as the inputs for the initial conditions, and
+% theta2_stop as the input for the final conditions.
 sim('Simulator.slx');
 
 
 
 %% Tip-to-Tail Animation
-% TODO
+% The following animates the slider-crank by plotting the vectors
+% tip-to-tail. Thus, the extension of link AB is not plotted. If a constant
+% "pause" is used, this animation displays only kinematic position, and not
+% kinematic velocity, because in reality the time step between each frame
+% varies.
 
 % Cartesian Coordinates of Vector R1
 r1_x = [0, r_1];
 r1_y = [0, 0];                      
 
-% for t = 1:length(tout)
-% 
-%     t_2 = t2_0 + tdot_2 * tout(t);  % Angular position of link OA (m)
-% 
-%     % Cartesian Coordinates of Vector R2, Link AB (tip-to-tail)
-%     r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
-%     r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
-%     r3_x = [r2_x(end), r1_x(1)];
-%     r3_y = [r2_y(end), r2_y(1)];
-% 
-%     % Plot the vector links
-%     plot(r1_x, r1_y, r2_x, r2_y, r3_x, r3_y, 'LineWidth', 2);
-% 
-%     % Keep the frame consistent
-%     axis equal;
-%     axis([-0.2, 0.4, -0.1, 0.1]);
-%     
-%     % Calculate the time step and pause accordingly
-%     if t ~= length(tout)            % Prevent index error
-%         % Calculate the time step (s)
-%         t_step = tout(t+1) - tout(t);
-%         pause(t_step);              % Assume negligible processing time
-%     end
-% 
-% end
-% 
-% % Plot labeling (last frame)
-% title('Tip-to-Tail Animation');
-% xlabel({'X Position (m)'
-%         ''
-%         % Figure label
-%         '\bfFigure 1: \rmTip-to-Tail Animation'});
-% ylabel('Y Position (m)');
-% legend('Vector R1', 'Vector R2', 'Vector R3');
+for t = 1:length(tout)
+
+    t_2 = t2_0 + tdot_2 * tout(t);  % Angular position of link OA (m)
+
+    % Cartesian Coordinates of Vector R2, Link AB (tip-to-tail)
+    r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
+    r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
+    r3_x = [r2_x(end), r1_x(1)];
+    r3_y = [r2_y(end), r2_y(1)];
+
+    % Plot the vector links
+    plot(r1_x, r1_y, r2_x, r2_y, r3_x, r3_y, 'LineWidth', 2);
+
+    % Keep the frame consistent
+    axis equal;
+    axis([-0.2, 0.4, -0.1, 0.1]);
+    
+    % Calculate the time step and pause accordingly
+    if t ~= length(tout)            % Prevent index error
+        % Calculate the time step (s)
+        t_step = tout(t+1) - tout(t);
+        pause(t_step);              % Assume negligible processing time
+    end
+
+end
+
+% Plot labeling (last frame)
+title('Tip-to-Tail Animation');
+xlabel({'X Position (m)'
+        ''
+        % Figure label
+        '\bfFigure 1: \rmTip-to-Tail Animation'});
+ylabel('Y Position (m)');
+legend('Vector R1', 'Vector R2', 'Vector R3');
 
 
 
 %% Velocity of Vector R3 vs. Angular Position of Link OA
-% TODO
+% The following plots the velocity of vector R3 as a function of the
+% angular position of link OA.
 
 % Easy access to...
 rdot_3s = vout(:, 1);           % Velocities of vector R3 (m/s)
 t_2s = tdot_2*tout;             % Angular positions of link OA (rad)
 
-% TODO
+% Plot
 plot(t_2s, rdot_3s, 'LineWidth', 2);
 title('Velocity of Vector R3 vs. Angular Position of Link OA');
 xlabel({'Angular Position of Link OA (rad)'
@@ -177,13 +182,39 @@ xlabel({'Angular Position of Link OA (rad)'
         '\bfFigure 2: \rmVeclocity of Vector R3 vs. Angular Position of Link OA'});
 ylabel('Length of Vector R3 (m)');
 
-% TODO
+
+
+% Find the time index of when the angular position of link OA is 140 degrees
+t_140 = length(tout);
+for t = 1:length(tout);
+    % Best error (so far)
+    best_error = abs(t_2s(t_140)-(deg2rad(140)-2*pi));
+    % Current error
+    curr_error = abs(t_2s(t)-(deg2rad(140)-2*pi));
+    
+    % If the current error is less than the best error (so far)...
+    if curr_error < best_error
+        t_140 = t;                  % Update the best error time index
+    end
+end
+
+
+
+% Print results to console
+fprintf("The velocity of link AB ");
+fprintf("when the angular position of link OA is 140 degrees is: ");
+fprintf("\n");
+fprintf(num2str(rdot_3s(t_140)));
+fprintf(" m/s.");
+fprintf("\n");
 [~, idx] = max(vout(:, 1));
 fprintf("The maximum value of the velocity of link AB is: ");
+fprintf("\n");
 fprintf(num2str(rdot_3s(idx)));
 fprintf(" m/s.");
 fprintf("\n");
 fprintf("The corresponding angular position of link OA is: ");
+fprintf("\n");
 fprintf(num2str(t_2s(idx)+2*pi));
 fprintf(" radians.");
 fprintf("\n");
@@ -191,7 +222,7 @@ fprintf("\n");
 
 
 %% Simulation Animation
-% TODO
+% The following animates the slider-crank by using the simulation data.
 
 % Cartesian Coordinates of COM of Vector R1
 x_1 = (r1_x(end)-r1_y(1))/2;
@@ -212,7 +243,6 @@ a_y = r1_y(end)+r_2*sin(t2_0+tdot_2*tout);
 b_x = a_x - l_ab*cos(t_3);
 b_y = a_y - l_ab*sin(t_3);
 
-% TODO
 for t = 1:length(tout)
 
     t_2 = t2_0 + tdot_2*tout(t);    % Angular position of link OA (m)
@@ -242,7 +272,7 @@ for t = 1:length(tout)
     
     % Keep the frame consistent
     axis equal;
-    axis([-0.2, 0.4, -0.1, 0.1]);
+    axis([-0.2, 0.8, -0.1, 0.1]);
     
     % Calculate the time step and pause accordingly
     if t ~= length(tout)            % Prevent index error
@@ -251,15 +281,15 @@ for t = 1:length(tout)
         pause(t_step);              % Assume negligible processing time
     end
 
-% % Plot labeling (last frame)
-% title('Simulation Animation');
-% xlabel({'X Position (m)'
-%         ''
-%         % Figure label
-%         '\bfFigure 3: \rmSimulation Animation'});
-% ylabel('Y Position (m)');
-% legend('Vector R1', 'Vector R2', 'Link AB', ...
-%        'Path of Link OA COM', 'Path of Link AB COM', ...
-%        'Path of Point A', 'Path of Point B');
+% Plot labeling (last frame)
+title('Simulation Animation');
+xlabel({'X Position (m)'
+        ''
+        % Figure label
+        '\bfFigure 3: \rmSimulation Animation'});
+ylabel('Y Position (m)');
+legend('Vector R1', 'Vector R2', 'Link AB', ...
+       'Path of Link OA COM', 'Path of Link AB COM', ...
+       'Path of Point A', 'Path of Point B');
 
 end

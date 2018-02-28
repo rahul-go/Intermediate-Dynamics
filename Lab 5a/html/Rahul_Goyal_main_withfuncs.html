@@ -1,0 +1,579 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Rahul_Goyal_main Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-27"><meta name="DC.source" content="Rahul_Goyal_main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #5</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> February 13, 2018</p><p><b>Date Modified:</b> February 27, 2018</p><p><b>Description:</b> This script simulates the motion of a slider-crank. Afterwards, it first animates the slider-crank by plotting the vectors tip-to-tail, animates the slider-crank again by using the simulation data. Additionally, it compares the velocity of link AB to the angular position of link OA.</p><p><b>Required Files:</b></p><div><ul><li>Simulator.slx - This file uses Simulink to double integrate a MATLAB Function Block which describes the accelerations of the simulation. It outputs the positions as xout, the velocities as vout, the accelerations as aout, and the times as tout with inputs of the MATLAB function and initial conditions.</li><li>link_solver.m - This file contains a function that represents the accelerations of the simulation. It returns x with an input of u.</li></ul><h2>Called Functions</h2><ul>clear <span class="string">all</span>;
+clc;
+</pre><h2 id="3">Given Values</h2><p>The following assigns values given by the problem statement to variables.</p><pre class="codeinput"><span class="comment">% Given Values</span>
+tdot_2 = -3;                    <span class="comment">% Angular velocity of link OA (rad/s)</span>
+l_ab = 350/1000;                <span class="comment">% Length of link AB (m)</span>
+r_1 = 240/1000;                 <span class="comment">% Length of vector R1 (m)</span>
+r_2 = 80/1000;                  <span class="comment">% Length of vector R2 (m)</span>
+theta2_stop = -4*pi;            <span class="comment">% Theta_2 final (rad)</span>
+
+<span class="comment">% Set Values</span>
+t2_0 = deg2rad(0);              <span class="comment">% Angular position initial of link OA (rad)</span>
+</pre><h2 id="4">Initial Conditions</h2><p>The following sets the initial conditions of the slider-crank. See the attached file for hand calculations.</p><pre class="codeinput"><span class="comment">% Position Initial Conditions</span>
+<span class="comment">% Length initial of vector R2 (m) [Pythagorean Theorem]</span>
+r3_0 = hypot(r_1+r_2*cos(t2_0), r_2*sin(t2_0));
+<span class="comment">% Angular position initial of link OA (rad) [Law of Sines]</span>
+t3_0 = asin(sin(pi-t2_0)/r3_0 * r_2);
+<span class="comment">% COM[x] initial of link OA (m)</span>
+x2_0 = r_1 + r_2/2*cos(t2_0);
+<span class="comment">% COM[y] initial of link OA (m)</span>
+y2_0 = r_2/2*sin(t2_0);
+<span class="comment">% COM[x] initial of link AB (m)</span>
+x3_0 = r_1 + r_2*cos(t2_0) - l_ab/2*cos(t3_0);
+<span class="comment">% COM[y] initial of link AB (m)</span>
+y3_0 = r_2*sin(t2_0) - l_ab/2*sin(t3_0);
+
+<span class="comment">% Position Initial Conditions Matrix</span>
+x_0 = [r3_0, t3_0, x2_0, y2_0, x3_0, y3_0];
+
+<span class="comment">% Velocity Initial Conditions</span>
+A = [cos(t3_0), -r3_0*sin(t3_0);
+     sin(t3_0), r3_0*cos(t3_0)];
+b = [-r_2*tdot_2*sin(t2_0);
+     r_2*tdot_2*cos(t2_0)];
+x = A \ b;
+<span class="comment">% Velocity initial of vector R3 (m/s)</span>
+rdot3_0 = x(1);
+<span class="comment">% Angular velocity initial of link AB (rad/s)</span>
+tdot3_0 = x(2);
+<span class="comment">% Velocity_G[x] initial of link OA (m/s)</span>
+xdot2_0 = -tdot_2 * r_2/2*sin(t2_0);
+<span class="comment">% Velocity_G[y] initial of link OA (m/s)</span>
+ydot2_0 = tdot_2 * r_2/2*cos(t2_0);
+<span class="comment">% Velocity_G[x] initial of link AB (m/s)</span>
+xdot3_0 = -tdot3_0 * y3_0;
+<span class="comment">% Velocity_G[x] initial of link AB (m/s)</span>
+ydot3_0 = tdot3_0 * x3_0;
+
+<span class="comment">% Velocity Initial Conditions Matrix</span>
+v_0 = [rdot3_0, tdot3_0, xdot2_0, ydot2_0, xdot3_0, ydot3_0];
+</pre><h2 id="5">Simulate the Slider-Crank Using Simulink</h2><p>The following calls the Simulink file Simulator.slx, which outputs the positions as xout, the velocities as vout, the accelerations as aout, and the times as tout with link_solver.m as the input for the MATLAB Fuction, tdot_2, t2_0, v_0, and x_0 as the inputs for the initial conditions, and theta2_stop as the input for the final conditions.</p><pre class="codeinput">sim(<span class="string">'Simulator.slx'</span>);
+</pre><h2 id="6">Tip-to-Tail Animation</h2><p>The following animates the slider-crank by plotting the vectors tip-to-tail. Thus, the extension of link AB is not plotted. If a constant "pause" is used, this animation displays only kinematic position, and not kinematic velocity, because in reality the time step between each frame varies.</p><pre class="codeinput"><span class="comment">% Cartesian Coordinates of Vector R1</span>
+r1_x = [0, r_1];
+r1_y = [0, 0];
+
+<span class="keyword">for</span> t = 1:length(tout)
+
+    t_2 = t2_0 + tdot_2 * tout(t);  <span class="comment">% Angular position of link OA (m)</span>
+
+    <span class="comment">% Cartesian Coordinates of Vector R2, Link AB (tip-to-tail)</span>
+    r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
+    r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
+    r3_x = [r2_x(end), r1_x(1)];
+    r3_y = [r2_y(end), r2_y(1)];
+
+    <span class="comment">% Plot the vector links</span>
+    plot(r1_x, r1_y, r2_x, r2_y, r3_x, r3_y, <span class="string">'LineWidth'</span>, 2);
+
+    <span class="comment">% Keep the frame consistent</span>
+    axis <span class="string">equal</span>;
+    axis([-0.2, 0.4, -0.1, 0.1]);
+
+    <span class="comment">% Calculate the time step and pause accordingly</span>
+    <span class="keyword">if</span> t ~= length(tout)            <span class="comment">% Prevent index error</span>
+        <span class="comment">% Calculate the time step (s)</span>
+        t_step = tout(t+1) - tout(t);
+        pause(t_step);              <span class="comment">% Assume negligible processing time</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">% Plot labeling (last frame)</span>
+title(<span class="string">'Tip-to-Tail Animation'</span>);
+xlabel({<span class="string">'X Position (m)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 1: \rmTip-to-Tail Animation'</span>});
+ylabel(<span class="string">'Y Position (m)'</span>);
+legend(<span class="string">'Vector R1'</span>, <span class="string">'Vector R2'</span>, <span class="string">'Vector R3'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <h2 id="7">Velocity of Vector R3 vs. Angular Position of Link OA</h2><p>The following plots the velocity of vector R3 as a function of the angular position of link OA.</p><pre class="codeinput"><span class="comment">% Easy access to...</span>
+rdot_3s = vout(:, 1);           <span class="comment">% Velocities of vector R3 (m/s)</span>
+t_2s = tdot_2*tout;             <span class="comment">% Angular positions of link OA (rad)</span>
+
+<span class="comment">% Plot</span>
+plot(t_2s, rdot_3s, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Velocity of Vector R3 vs. Angular Position of Link OA'</span>);
+xlabel({<span class="string">'Angular Position of Link OA (rad)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 2: \rmVeclocity of Vector R3 vs. Angular Position of Link OA'</span>});
+ylabel(<span class="string">'Length of Vector R3 (m)'</span>);
+
+
+
+<span class="comment">% Find the time index of when the angular position of link OA is 140 degrees</span>
+t_140 = length(tout);
+<span class="keyword">for</span> t = 1:length(tout);
+    <span class="comment">% Best error (so far)</span>
+    best_error = abs(t_2s(t_140)-(deg2rad(140)-2*pi));
+    <span class="comment">% Current error</span>
+    curr_error = abs(t_2s(t)-(deg2rad(140)-2*pi));
+
+    <span class="comment">% If the current error is less than the best error (so far)...</span>
+    <span class="keyword">if</span> curr_error &lt; best_error
+        t_140 = t;                  <span class="comment">% Update the best error time index</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+
+<span class="comment">% Print results to console</span>
+fprintf(<span class="string">"The velocity of link AB "</span>);
+fprintf(<span class="string">"when the angular position of link OA is 140 degrees is: "</span>);
+fprintf(<span class="string">"\n"</span>);
+fprintf(num2str(rdot_3s(t_140)));
+fprintf(<span class="string">" m/s."</span>);
+fprintf(<span class="string">"\n"</span>);
+[~, idx] = max(vout(:, 1));
+fprintf(<span class="string">"The maximum value of the velocity of link AB is: "</span>);
+fprintf(<span class="string">"\n"</span>);
+fprintf(num2str(rdot_3s(idx)));
+fprintf(<span class="string">" m/s."</span>);
+fprintf(<span class="string">"\n"</span>);
+fprintf(<span class="string">"The corresponding angular position of link OA is: "</span>);
+fprintf(<span class="string">"\n"</span>);
+fprintf(num2str(t_2s(idx)+2*pi));
+fprintf(<span class="string">" radians."</span>);
+fprintf(<span class="string">"\n"</span>);
+</pre><pre class="codeoutput">The velocity of link AB when the angular position of link OA is 140 degrees is: 
+0.19633 m/s.
+The maximum value of the velocity of link AB is: 
+0.24 m/s.
+The corresponding angular position of link OA is: 
+-4.3786 radians.
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" style="width:560px;height:420px;" alt=""> <h2 id="8">Simulation Animation</h2><p>The following animates the slider-crank by using the simulation data.</p><pre class="codeinput"><span class="comment">% Cartesian Coordinates of COM of Vector R1</span>
+x_1 = (r1_x(end)-r1_y(1))/2;
+y_1 = (r1_y(end)-r1_y(1))/2;
+
+<span class="comment">% Easy access to...</span>
+r_3 = xout(:, 1);               <span class="comment">% Lengths of vector R3 (m)</span>
+t_3 = xout(:, 2);               <span class="comment">% Angular positions of link AB (rad)</span>
+x_2 = xout(:, 3);               <span class="comment">% COMs[x] of link OA (m)</span>
+y_2 = xout(:, 4);               <span class="comment">% COMs[y] of link OA (m)</span>
+x_3 = xout(:, 5);               <span class="comment">% COMs[x] of link AB (m)</span>
+y_3 = xout(:, 6);               <span class="comment">% COMs[y] of link AB (m)</span>
+
+<span class="comment">% Cartesian Coordinates of Point A</span>
+a_x = r1_x(end)+r_2*cos(t2_0+tdot_2*tout);
+a_y = r1_y(end)+r_2*sin(t2_0+tdot_2*tout);
+<span class="comment">% Cartesian Coordinates of Point B</span>
+b_x = a_x - l_ab*cos(t_3);
+b_y = a_y - l_ab*sin(t_3);
+
+<span class="keyword">for</span> t = 1:length(tout)
+
+    t_2 = t2_0 + tdot_2*tout(t);    <span class="comment">% Angular position of link OA (m)</span>
+
+    <span class="comment">% Cartesian Coordinates of Vector R2</span>
+    r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
+    r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
+    <span class="comment">% Cartesian Coordinates of Link AB</span>
+    lab_x = [r2_x(end), r2_x(end) - l_ab*cos(t_3(t))];
+    lab_y = [r2_y(end), r2_y(end) - l_ab*sin(t_3(t))];
+
+    <span class="comment">% Plot the links, COMs, COM paths</span>
+    plot(r1_x, r1_y, <span class="keyword">...</span><span class="comment">            % Vector R1</span>
+         r2_x, r2_y, <span class="keyword">...</span><span class="comment">            % Vector R2</span>
+         lab_x, lab_y, <span class="keyword">...</span><span class="comment">          % Link AB</span>
+         x_2(1:t), y_2(1:t), <span class="keyword">...</span><span class="comment">    % Path of link OA COM</span>
+         x_3(1:t), y_3(1:t), <span class="keyword">...</span><span class="comment">    % Path of link AB COM</span>
+         a_x(1:t), a_y(1:t), <span class="keyword">...</span><span class="comment">    % Path of point A</span>
+         b_x(1:t), b_y(1:t), <span class="keyword">...</span><span class="comment">    % Path of point B</span>
+         <span class="string">'LineWidth'</span>, 2);           <span class="comment">% Line Properties</span>
+    <span class="comment">% COM of Vector R1</span>
+    viscircles([x_1, y_1], 0.0025, <span class="string">'Color'</span>, <span class="string">'k'</span>);
+    <span class="comment">% COM of Link OA</span>
+    viscircles([x_2(t), y_2(t)], 0.0025, <span class="string">'Color'</span>, <span class="string">'k'</span>);
+    <span class="comment">% COM of Link AB</span>
+    viscircles([x_3(t), y_3(t)], 0.0025, <span class="string">'Color'</span>, <span class="string">'k'</span>);
+
+    <span class="comment">% Keep the frame consistent</span>
+    axis <span class="string">equal</span>;
+    axis([-0.2, 0.8, -0.1, 0.1]);
+
+    <span class="comment">% Calculate the time step and pause accordingly</span>
+    <span class="keyword">if</span> t ~= length(tout)            <span class="comment">% Prevent index error</span>
+        <span class="comment">% Calculate the time step (s)</span>
+        t_step = tout(t+1) - tout(t);
+        pause(t_step);              <span class="comment">% Assume negligible processing time</span>
+    <span class="keyword">end</span>
+
+<span class="comment">% Plot labeling (last frame)</span>
+title(<span class="string">'Simulation Animation'</span>);
+xlabel({<span class="string">'X Position (m)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 3: \rmSimulation Animation'</span>});
+ylabel(<span class="string">'Y Position (m)'</span>);
+legend(<span class="string">'Vector R1'</span>, <span class="string">'Vector R2'</span>, <span class="string">'Link AB'</span>, <span class="keyword">...</span>
+       <span class="string">'Path of Link OA COM'</span>, <span class="string">'Path of Link AB COM'</span>, <span class="keyword">...</span>
+       <span class="string">'Path of Point A'</span>, <span class="string">'Path of Point B'</span>);
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Rahul_Goyal_main Usage and Description
+% ME 326 Winter 2018 - Laboratory Assignment #5
+%
+% *Author:* RAHUL GOYAL
+%
+% California Polytechnic State University, San Luis Obispo, CA
+%
+% *Date Created:* February 13, 2018
+%
+% *Date Modified:* February 27, 2018
+%
+% *Description:*
+% This script simulates the motion of a slider-crank. Afterwards, it first
+% animates the slider-crank by plotting the vectors tip-to-tail, animates
+% the slider-crank again by using the simulation data. Additionally, it
+% compares the velocity of link AB to the angular position of link OA.
+% 
+% *Required Files:*
+%
+% * Simulator.slx - This file uses Simulink to double integrate a MATLAB
+% Function Block which describes the accelerations of the simulation. It
+% outputs the positions as xout, the velocities as vout, the accelerations
+% as aout, and the times as tout with inputs of the MATLAB function and
+% initial conditions.
+% * link_solver.m - This file contains a function that represents the
+% accelerations of the simulation. It returns x with an input of u.
+%
+% *Still To Do:*
+%
+% * Start!
+
+
+
+%% Problem Statement
+% Crank OA rotates clockwise at the constant rate theta-dot = 3 rad/s. The
+% connecting link AB passes through the pivoted collar at C. Note: lAB =
+% 350 mm. Develop a complete kinematic model of the slider-crank mechanism.
+
+
+
+%% Reset
+% The following was used while debugging.
+
+close all;
+clear all;
+clc;
+
+
+
+%% Given Values
+% The following assigns values given by the problem statement to variables.
+
+% Given Values
+tdot_2 = -3;                    % Angular velocity of link OA (rad/s)
+l_ab = 350/1000;                % Length of link AB (m)
+r_1 = 240/1000;                 % Length of vector R1 (m)
+r_2 = 80/1000;                  % Length of vector R2 (m)
+theta2_stop = -4*pi;            % Theta_2 final (rad)
+
+% Set Values
+t2_0 = deg2rad(0);              % Angular position initial of link OA (rad)
+
+
+
+%% Initial Conditions
+% The following sets the initial conditions of the slider-crank. See the
+% attached file for hand calculations.
+
+% Position Initial Conditions
+% Length initial of vector R2 (m) [Pythagorean Theorem]
+r3_0 = hypot(r_1+r_2*cos(t2_0), r_2*sin(t2_0));
+% Angular position initial of link OA (rad) [Law of Sines]
+t3_0 = asin(sin(pi-t2_0)/r3_0 * r_2);
+% COM[x] initial of link OA (m)
+x2_0 = r_1 + r_2/2*cos(t2_0);
+% COM[y] initial of link OA (m)
+y2_0 = r_2/2*sin(t2_0);
+% COM[x] initial of link AB (m)
+x3_0 = r_1 + r_2*cos(t2_0) - l_ab/2*cos(t3_0);
+% COM[y] initial of link AB (m)
+y3_0 = r_2*sin(t2_0) - l_ab/2*sin(t3_0);
+
+% Position Initial Conditions Matrix
+x_0 = [r3_0, t3_0, x2_0, y2_0, x3_0, y3_0];
+
+% Velocity Initial Conditions
+A = [cos(t3_0), -r3_0*sin(t3_0);
+     sin(t3_0), r3_0*cos(t3_0)];
+b = [-r_2*tdot_2*sin(t2_0);
+     r_2*tdot_2*cos(t2_0)];
+x = A \ b;
+% Velocity initial of vector R3 (m/s)
+rdot3_0 = x(1);
+% Angular velocity initial of link AB (rad/s)
+tdot3_0 = x(2);
+% Velocity_G[x] initial of link OA (m/s)
+xdot2_0 = -tdot_2 * r_2/2*sin(t2_0);
+% Velocity_G[y] initial of link OA (m/s)
+ydot2_0 = tdot_2 * r_2/2*cos(t2_0);
+% Velocity_G[x] initial of link AB (m/s)
+xdot3_0 = -tdot3_0 * y3_0;
+% Velocity_G[x] initial of link AB (m/s)
+ydot3_0 = tdot3_0 * x3_0;
+
+% Velocity Initial Conditions Matrix
+v_0 = [rdot3_0, tdot3_0, xdot2_0, ydot2_0, xdot3_0, ydot3_0];
+
+
+
+%% Simulate the Slider-Crank Using Simulink
+% The following calls the Simulink file Simulator.slx, which outputs the
+% positions as xout, the velocities as vout, the accelerations as aout, and
+% the times as tout with link_solver.m as the input for the MATLAB Fuction,
+% tdot_2, t2_0, v_0, and x_0 as the inputs for the initial conditions, and
+% theta2_stop as the input for the final conditions.
+sim('Simulator.slx');
+
+
+
+%% Tip-to-Tail Animation
+% The following animates the slider-crank by plotting the vectors
+% tip-to-tail. Thus, the extension of link AB is not plotted. If a constant
+% "pause" is used, this animation displays only kinematic position, and not
+% kinematic velocity, because in reality the time step between each frame
+% varies.
+
+% Cartesian Coordinates of Vector R1
+r1_x = [0, r_1];
+r1_y = [0, 0];                      
+
+for t = 1:length(tout)
+
+    t_2 = t2_0 + tdot_2 * tout(t);  % Angular position of link OA (m)
+
+    % Cartesian Coordinates of Vector R2, Link AB (tip-to-tail)
+    r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
+    r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
+    r3_x = [r2_x(end), r1_x(1)];
+    r3_y = [r2_y(end), r2_y(1)];
+
+    % Plot the vector links
+    plot(r1_x, r1_y, r2_x, r2_y, r3_x, r3_y, 'LineWidth', 2);
+
+    % Keep the frame consistent
+    axis equal;
+    axis([-0.2, 0.4, -0.1, 0.1]);
+    
+    % Calculate the time step and pause accordingly
+    if t ~= length(tout)            % Prevent index error
+        % Calculate the time step (s)
+        t_step = tout(t+1) - tout(t);
+        pause(t_step);              % Assume negligible processing time
+    end
+
+end
+
+% Plot labeling (last frame)
+title('Tip-to-Tail Animation');
+xlabel({'X Position (m)'
+        ''
+        % Figure label
+        '\bfFigure 1: \rmTip-to-Tail Animation'});
+ylabel('Y Position (m)');
+legend('Vector R1', 'Vector R2', 'Vector R3');
+
+
+
+%% Velocity of Vector R3 vs. Angular Position of Link OA
+% The following plots the velocity of vector R3 as a function of the
+% angular position of link OA.
+
+% Easy access to...
+rdot_3s = vout(:, 1);           % Velocities of vector R3 (m/s)
+t_2s = tdot_2*tout;             % Angular positions of link OA (rad)
+
+% Plot
+plot(t_2s, rdot_3s, 'LineWidth', 2);
+title('Velocity of Vector R3 vs. Angular Position of Link OA');
+xlabel({'Angular Position of Link OA (rad)'
+        ''
+        % Figure label
+        '\bfFigure 2: \rmVeclocity of Vector R3 vs. Angular Position of Link OA'});
+ylabel('Length of Vector R3 (m)');
+
+
+
+% Find the time index of when the angular position of link OA is 140 degrees
+t_140 = length(tout);
+for t = 1:length(tout);
+    % Best error (so far)
+    best_error = abs(t_2s(t_140)-(deg2rad(140)-2*pi));
+    % Current error
+    curr_error = abs(t_2s(t)-(deg2rad(140)-2*pi));
+    
+    % If the current error is less than the best error (so far)...
+    if curr_error < best_error
+        t_140 = t;                  % Update the best error time index
+    end
+end
+
+
+
+% Print results to console
+fprintf("The velocity of link AB ");
+fprintf("when the angular position of link OA is 140 degrees is: ");
+fprintf("\n");
+fprintf(num2str(rdot_3s(t_140)));
+fprintf(" m/s.");
+fprintf("\n");
+[~, idx] = max(vout(:, 1));
+fprintf("The maximum value of the velocity of link AB is: ");
+fprintf("\n");
+fprintf(num2str(rdot_3s(idx)));
+fprintf(" m/s.");
+fprintf("\n");
+fprintf("The corresponding angular position of link OA is: ");
+fprintf("\n");
+fprintf(num2str(t_2s(idx)+2*pi));
+fprintf(" radians.");
+fprintf("\n");
+
+
+
+%% Simulation Animation
+% The following animates the slider-crank by using the simulation data.
+
+% Cartesian Coordinates of COM of Vector R1
+x_1 = (r1_x(end)-r1_y(1))/2;
+y_1 = (r1_y(end)-r1_y(1))/2;
+
+% Easy access to...
+r_3 = xout(:, 1);               % Lengths of vector R3 (m)
+t_3 = xout(:, 2);               % Angular positions of link AB (rad)
+x_2 = xout(:, 3);               % COMs[x] of link OA (m)
+y_2 = xout(:, 4);               % COMs[y] of link OA (m)
+x_3 = xout(:, 5);               % COMs[x] of link AB (m)
+y_3 = xout(:, 6);               % COMs[y] of link AB (m)
+
+% Cartesian Coordinates of Point A
+a_x = r1_x(end)+r_2*cos(t2_0+tdot_2*tout);
+a_y = r1_y(end)+r_2*sin(t2_0+tdot_2*tout);
+% Cartesian Coordinates of Point B
+b_x = a_x - l_ab*cos(t_3);
+b_y = a_y - l_ab*sin(t_3);
+
+for t = 1:length(tout)
+
+    t_2 = t2_0 + tdot_2*tout(t);    % Angular position of link OA (m)
+    
+    % Cartesian Coordinates of Vector R2
+    r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
+    r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
+    % Cartesian Coordinates of Link AB
+    lab_x = [r2_x(end), r2_x(end) - l_ab*cos(t_3(t))];
+    lab_y = [r2_y(end), r2_y(end) - l_ab*sin(t_3(t))];
+
+    % Plot the links, COMs, COM paths
+    plot(r1_x, r1_y, ...            % Vector R1
+         r2_x, r2_y, ...            % Vector R2
+         lab_x, lab_y, ...          % Link AB
+         x_2(1:t), y_2(1:t), ...    % Path of link OA COM
+         x_3(1:t), y_3(1:t), ...    % Path of link AB COM
+         a_x(1:t), a_y(1:t), ...    % Path of point A
+         b_x(1:t), b_y(1:t), ...    % Path of point B
+         'LineWidth', 2);           % Line Properties
+    % COM of Vector R1
+    viscircles([x_1, y_1], 0.0025, 'Color', 'k');
+    % COM of Link OA
+    viscircles([x_2(t), y_2(t)], 0.0025, 'Color', 'k');
+    % COM of Link AB
+    viscircles([x_3(t), y_3(t)], 0.0025, 'Color', 'k');
+    
+    % Keep the frame consistent
+    axis equal;
+    axis([-0.2, 0.8, -0.1, 0.1]);
+    
+    % Calculate the time step and pause accordingly
+    if t ~= length(tout)            % Prevent index error
+        % Calculate the time step (s)
+        t_step = tout(t+1) - tout(t);
+        pause(t_step);              % Assume negligible processing time
+    end
+
+% Plot labeling (last frame)
+title('Simulation Animation');
+xlabel({'X Position (m)'
+        ''
+        % Figure label
+        '\bfFigure 3: \rmSimulation Animation'});
+ylabel('Y Position (m)');
+legend('Vector R1', 'Vector R2', 'Link AB', ...
+       'Path of Link OA COM', 'Path of Link AB COM', ...
+       'Path of Point A', 'Path of Point B');
+
+end
+##### SOURCE END #####
+--></body></html>
