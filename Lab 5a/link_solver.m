@@ -1,12 +1,11 @@
 %% link_solver Usage and Description
-% TODO
+% This function represents the accelerations of the simulation. It returns
+% x with an input of u.
 
 function [x] = link_solver(u)
 
 %% Given Values
 % The following assigns values given by the problem statement to variables.
-
-% Given Values
 l_ab = 350/1000;                % Length of link AB (m)
 r_1 = 240/1000;                 % Length of vector R1 (m)
 r_2 = 80/1000;                  % Length of vector R2 (m)
@@ -42,7 +41,7 @@ b = [2*rdot_3*tdot_3*sin(t_3) + r_3*tdot_3^2*cos(t_3) - r_2*tdot_2^2*cos(t_2);
 
 
 %% Solve for x
-% TODO
+% Solve for x using mldivide.
 x = A \ b;
 
 end
