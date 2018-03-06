@@ -154,7 +154,7 @@ ylabel('Collar Force (N)');
 F_O = hypot(FO_x, FO_y);        % Magnitude of force on pin O (N)
 F_A = hypot(FA_x, FA_y);        % Magnitude of force on pin A (N)
 
-plot(rad2deg(t_2s), F_O, t_2s, F_A, 'LineWidth', 2);
+plot(rad2deg(t_2s), F_O, rad2deg(t_2s), F_A, 'LineWidth', 2);
 title('Magnitude of Each Pin Force vs. Crank Angle');
 xlabel({'Crank Angle (°)'
         ''
@@ -189,78 +189,78 @@ ylabel('Input Power (W)');
 
 
 
-%% Simulation Animation
-% The following animates the slider-crank by using the simulation data.
-
-% Cartesian Coordinates of Vector R1
-r1_x = [0, r_1];
-r1_y = [0, 0];                      
-% Cartesian Coordinates of the COM of Vector R1
-x_1 = (r1_x(end)-r1_y(1))/2;
-y_1 = (r1_y(end)-r1_y(1))/2;
-
-% Easy access to...
-r_3 = xout(:, 1);               % Lengths of vector R3 (m)
-t_3 = xout(:, 2);               % Angular positions of link AB (rad)
-x_2 = xout(:, 3);               % COMs[x] of link OA (m)
-y_2 = xout(:, 4);               % COMs[y] of link OA (m)
-x_3 = xout(:, 5);               % COMs[x] of link AB (m)
-y_3 = xout(:, 6);               % COMs[y] of link AB (m)
-
-% Cartesian Coordinates of Point A
-a_x = r1_x(end)+r_2*cos(t2_0+tdot_2*tout);
-a_y = r1_y(end)+r_2*sin(t2_0+tdot_2*tout);
-% Cartesian Coordinates of Point B
-b_x = a_x - l_ab*cos(t_3);
-b_y = a_y - l_ab*sin(t_3);
-
-for t = 1:length(tout)
-
-    t_2 = t2_0 + tdot_2*tout(t);    % Angular position of link OA (m)
-    
-    % Cartesian Coordinates of Vector R2
-    r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
-    r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
-    % Cartesian Coordinates of Link AB
-    lab_x = [r2_x(end), r2_x(end) - l_ab*cos(t_3(t))];
-    lab_y = [r2_y(end), r2_y(end) - l_ab*sin(t_3(t))];
-
-    % Plot the links, COMs, COM paths
-    plot(r1_x, r1_y, ...            % Vector R1
-         r2_x, r2_y, ...            % Vector R2
-         lab_x, lab_y, ...          % Link AB
-         x_2(1:t), y_2(1:t), ...    % Path of link OA COM
-         x_3(1:t), y_3(1:t), ...    % Path of link AB COM
-         a_x(1:t), a_y(1:t), ...    % Path of point A
-         b_x(1:t), b_y(1:t), ...    % Path of point B
-         'LineWidth', 2);           % Line Properties
-    % COM of Vector R1
-    viscircles([x_1, y_1], 0.0025, 'Color', 'k');
-    % COM of Link OA
-    viscircles([x_2(t), y_2(t)], 0.0025, 'Color', 'k');
-    % COM of Link AB
-    viscircles([x_3(t), y_3(t)], 0.0025, 'Color', 'k');
-    
-    % Keep the frame consistent
-    axis equal;
-    axis([-0.2, 0.8, -0.1, 0.1]);
-    
-    % Calculate the time step and pause accordingly
-    if t ~= length(tout)            % Prevent index error
-        % Calculate the time step (s)
-        t_step = tout(t+1) - tout(t);
-        pause(t_step);              % Assume negligible processing time
-    end
-
-end
-
-% Plot labeling (last frame)
-title('Simulation Animation');
-xlabel({'X Position (m)'
-        ''
-        % Figure label
-        '\bfFigure 3: \rmSimulation Animation'});
-ylabel('Y Position (m)');
-legend('Vector R1', 'Vector R2', 'Link AB', ...
-       'Path of Link OA COM', 'Path of Link AB COM', ...
-       'Path of Point A', 'Path of Point B');
+% % % % %% Simulation Animation
+% % % % % The following animates the slider-crank by using the simulation data.
+% % % % 
+% % % % % Cartesian Coordinates of Vector R1
+% % % % r1_x = [0, r_1];
+% % % % r1_y = [0, 0];                      
+% % % % % Cartesian Coordinates of the COM of Vector R1
+% % % % x_1 = (r1_x(end)-r1_y(1))/2;
+% % % % y_1 = (r1_y(end)-r1_y(1))/2;
+% % % % 
+% % % % % Easy access to...
+% % % % r_3 = xout(:, 1);               % Lengths of vector R3 (m)
+% % % % t_3 = xout(:, 2);               % Angular positions of link AB (rad)
+% % % % x_2 = xout(:, 3);               % COMs[x] of link OA (m)
+% % % % y_2 = xout(:, 4);               % COMs[y] of link OA (m)
+% % % % x_3 = xout(:, 5);               % COMs[x] of link AB (m)
+% % % % y_3 = xout(:, 6);               % COMs[y] of link AB (m)
+% % % % 
+% % % % % Cartesian Coordinates of Point A
+% % % % a_x = r1_x(end)+r_2*cos(t2_0+tdot_2*tout);
+% % % % a_y = r1_y(end)+r_2*sin(t2_0+tdot_2*tout);
+% % % % % Cartesian Coordinates of Point B
+% % % % b_x = a_x - l_ab*cos(t_3);
+% % % % b_y = a_y - l_ab*sin(t_3);
+% % % % 
+% % % % for t = 1:length(tout)
+% % % % 
+% % % %     t_2 = t2_0 + tdot_2*tout(t);    % Angular position of link OA (m)
+% % % %     
+% % % %     % Cartesian Coordinates of Vector R2
+% % % %     r2_x = [r1_x(end), r1_x(end) + r_2*cos(t_2)];
+% % % %     r2_y = [r1_y(end), r1_y(end) + r_2*sin(t_2)];
+% % % %     % Cartesian Coordinates of Link AB
+% % % %     lab_x = [r2_x(end), r2_x(end) - l_ab*cos(t_3(t))];
+% % % %     lab_y = [r2_y(end), r2_y(end) - l_ab*sin(t_3(t))];
+% % % % 
+% % % %     % Plot the links, COMs, COM paths
+% % % %     plot(r1_x, r1_y, ...            % Vector R1
+% % % %          r2_x, r2_y, ...            % Vector R2
+% % % %          lab_x, lab_y, ...          % Link AB
+% % % %          x_2(1:t), y_2(1:t), ...    % Path of link OA COM
+% % % %          x_3(1:t), y_3(1:t), ...    % Path of link AB COM
+% % % %          a_x(1:t), a_y(1:t), ...    % Path of point A
+% % % %          b_x(1:t), b_y(1:t), ...    % Path of point B
+% % % %          'LineWidth', 2);           % Line Properties
+% % % %     % COM of Vector R1
+% % % %     viscircles([x_1, y_1], 0.0025, 'Color', 'k');
+% % % %     % COM of Link OA
+% % % %     viscircles([x_2(t), y_2(t)], 0.0025, 'Color', 'k');
+% % % %     % COM of Link AB
+% % % %     viscircles([x_3(t), y_3(t)], 0.0025, 'Color', 'k');
+% % % %     
+% % % %     % Keep the frame consistent
+% % % %     axis equal;
+% % % %     axis([-0.2, 0.8, -0.1, 0.1]);
+% % % %     
+% % % %     % Calculate the time step and pause accordingly
+% % % %     if t ~= length(tout)            % Prevent index error
+% % % %         % Calculate the time step (s)
+% % % %         t_step = tout(t+1) - tout(t);
+% % % %         pause(t_step);              % Assume negligible processing time
+% % % %     end
+% % % % 
+% % % % end
+% % % % 
+% % % % % Plot labeling (last frame)
+% % % % title('Simulation Animation');
+% % % % xlabel({'X Position (m)'
+% % % %         ''
+% % % %         % Figure label
+% % % %         '\bfFigure 3: \rmSimulation Animation'});
+% % % % ylabel('Y Position (m)');
+% % % % legend('Vector R1', 'Vector R2', 'Link AB', ...
+% % % %        'Path of Link OA COM', 'Path of Link AB COM', ...
+% % % %        'Path of Point A', 'Path of Point B');
