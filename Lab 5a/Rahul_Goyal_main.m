@@ -20,8 +20,8 @@
 % * Simulator.slx - This file uses Simulink to double integrate a MATLAB
 % Function Block which describes the accelerations of the simulation. It
 % outputs the positions as xout, the velocities as vout, the accelerations
-% as aout, and the times as tout with inputs of the MATLAB function and
-% initial conditions.
+% as aout, and the times as tout with inputs of the MATLAB function,
+% initial conditions, and final condition.
 % * link_solver.m - This file contains a function that represents the
 % accelerations of the simulation. It returns x with an input of u.
 %
@@ -47,18 +47,20 @@ clc;
 
 
 
+%% Set Values
+% The following is used to easily change the initial and final angular
+% positions of link OA.
+t2_0 = deg2rad(0);              % Angular position initial of link OA (rad)
+theta2_stop = t2_0-4*pi;        % Angular psoition final of link OA (rad)
+
+
+
 %% Given Values
 % The following assigns values given by the problem statement to variables.
-
-% Given Values
 tdot_2 = -3;                    % Angular velocity of link OA (rad/s)
 l_ab = 350/1000;                % Length of link AB (m)
 r_1 = 240/1000;                 % Length of vector R1 (m)
 r_2 = 80/1000;                  % Length of vector R2 (m)
-theta2_stop = -4*pi;            % Theta_2 final (rad)
-
-% Set Values
-t2_0 = deg2rad(0);              % Angular position initial of link OA (rad)
 
 
 
@@ -98,9 +100,9 @@ xdot2_0 = -tdot_2 * r_2/2*sin(t2_0);
 % Velocity_G[y] initial of link OA (m/s)
 ydot2_0 = tdot_2 * r_2/2*cos(t2_0);
 % Velocity_G[x] initial of link AB (m/s)
-xdot3_0 = -tdot3_0 * y3_0;
+xdot3_0 = -tdot_2*r_2*sin(t2_0) + tdot3_0*l_ab/2*sin(t3_0);
 % Velocity_G[x] initial of link AB (m/s)
-ydot3_0 = tdot3_0 * x3_0;
+ydot3_0 = tdot_2*r_2*cos(t2_0) - tdot3_0*l_ab/2*cos(t3_0);
 
 % Velocity Initial Conditions Matrix
 v_0 = [rdot3_0, tdot3_0, xdot2_0, ydot2_0, xdot3_0, ydot3_0];
@@ -224,7 +226,7 @@ fprintf("\n");
 %% Simulation Animation
 % The following animates the slider-crank by using the simulation data.
 
-% Cartesian Coordinates of COM of Vector R1
+% Cartesian Coordinates of the COM of Vector R1
 x_1 = (r1_x(end)-r1_y(1))/2;
 y_1 = (r1_y(end)-r1_y(1))/2;
 
@@ -281,6 +283,8 @@ for t = 1:length(tout)
         pause(t_step);              % Assume negligible processing time
     end
 
+end
+
 % Plot labeling (last frame)
 title('Simulation Animation');
 xlabel({'X Position (m)'
@@ -291,5 +295,3 @@ ylabel('Y Position (m)');
 legend('Vector R1', 'Vector R2', 'Link AB', ...
        'Path of Link OA COM', 'Path of Link AB COM', ...
        'Path of Point A', 'Path of Point B');
-
-end
