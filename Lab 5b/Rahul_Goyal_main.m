@@ -172,7 +172,7 @@ title('Input Torque vs. Crank Angle');
 xlabel({'Crank Angle (°)'
         ''
         % Figure label
-        '\bfFigure 2: \rmInput Torque vs. Crank Angle'});
+        '\bfFigure 3: \rmInput Torque vs. Crank Angle'});
 ylabel('Input Torque (Nm)');
 
 
@@ -180,11 +180,11 @@ ylabel('Input Torque (Nm)');
 %% Input Power vs. Time
 % The following plots the input power as a function of time. TODO
 area(tout, T);
-title('Input Power vs. Crank Angle');
-xlabel({'Crank Angle (°)'
+title('Input Power vs. Time');
+xlabel({'Time (s)'
         ''
         % Figure label
-        '\bfFigure 2: \rmInput Power vs. Crank Angle'});
+        '\bfFigure 4: \rmInput Power vs. Time'});
 ylabel('Input Power (W)');
 
 
