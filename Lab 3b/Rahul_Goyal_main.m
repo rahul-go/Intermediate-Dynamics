@@ -1,5 +1,5 @@
 %% Rahul_Goyal_main Usage and Description
-% ME 326 Winter 2018 - Laboratory Assignment #3B
+% ME 326 Winter 2018 - Laboratory Assignment #3b
 %
 % *Author:* RAHUL GOYAL
 %
