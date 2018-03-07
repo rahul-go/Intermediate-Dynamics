@@ -10,9 +10,12 @@
 % *Date Modified:* March 06, 2018
 %
 % *Description:*
-% TODO
+% This script simulates the motion of a slider-crank. Afterwards, it
+% compares the collar force, the magnitude of each pin force, and the input
+% torque to the angular position of link OA and the input power to time.
+% Additionally, it animates the slider-crank by using the simulation data.
 % 
-% *Required Files:* TODO
+% *Required Files:*
 %
 % * Simulator.slx - This file uses Simulink to double integrate part of a
 % MATLAB Function Block which describes the accelerations and forces of the
@@ -123,15 +126,14 @@ sim('Simulator.slx');
 %% Plotting Data Setup
 % The following sets up easy access to data for plotting.
 
-% TODO
-t_2s = t2_0 + tdot_2*tout;
+t_2s = t2_0 + tdot_2*tout;      % Angular positions of link OA (rad)
 
-FO_x = Fout(:, 1);              % TODO
-FO_y = Fout(:, 2);              % TODO
-FA_x = Fout(:, 3);              % TODO
-FA_y = Fout(:, 4);              % TODO
-F_C = Fout(:, 5);               % TODO
-T = Fout(:, 6);                 % TODO
+FO_x = Fout(:, 1);              % Force[x] in pin O (N)
+FO_y = Fout(:, 2);              % Force[y] in pin O (N)
+FA_x = Fout(:, 3);              % Force[x] in pin A (N)
+FA_y = Fout(:, 4);              % Force[y] in pin A (N)
+F_C = Fout(:, 5);               % Force in pin C (N)
+T = Fout(:, 6);                 % Input torque (Nm)
 
 
 
@@ -145,20 +147,20 @@ T = Fout(:, 6);                 % TODO
 % about 285° and 135°, periodic relative minimums at about 210° and 60°,
 % and periodic zeroes at about 0°, 260°, 185°, and 110°.
 % 
-% The relative maximums and minimums signify peaks in the magnitude of the
-% collar force; the zeroes signify zeroes in the magnitude of the collar
-% force. Watching an animation of the slider-crank, the collar force peaks
-% seem to occur when the velocity of link AB with respect to the collar is
-% changing most noticeably and the collar force zeroes seem to occur when
-% the velocity of link AB with respect to the collar flips directions. This
-% behavior is as expected because acceleration is the derivative of
-% velocity, and net force is directly and linearly related to acceleration.
-% The collar exerts a force on link AB, and so it is reasonable that this
-% force behaves similarly to the expected net force on link AB. However,
-% because the collar force and the net force are not the same, analysis of
-% the collar force reveals some smaller relative peaks as well. These are
-% likely a result of the fact that the ceneter of mass of link AB crosses
-% the collar.
+% The maximums and minimums signify maximum and minimum peaks,
+% respectively, in the collar force; the zeroes signify zeroes in the
+% magnitude of the collar force. Watching an animation of the slider-crank,
+% the collar force peaks seem to occur when the velocity of link AB with
+% respect to the collar is changing most noticeably and the collar force
+% zeroes seem to occur when the velocity of link AB with respect to the
+% collar flips directions. This behavior is as expected because
+% acceleration is the derivative of velocity, and net force is directly and
+% linearly related to acceleration. The collar exerts a force on link AB,
+% and so it is reasonable that this force behaves similarly to the expected
+% net force on link AB. However, because the collar force and the net force
+% are not the same, analysis of the collar force reveals some smaller
+% relative peaks as well. These are likely a result of the fact that the
+% center of mass of link AB crosses the collar.
 plot(rad2deg(t_2s), F_C, 'LineWidth', 2);
 title('Collar Force vs. Crank Angle');
 xlabel({'Crank Angle (°)'
@@ -174,19 +176,20 @@ ylabel('Collar Force (N)');
 % crank angle.
 % 
 % The graphs of the magnitudes of each pin force resemble each other. By
-% visual observation, both graphs have a periodic relative maximum at about
-% -175° and periodic relative minimums at about -100° and -250°. Converting
-% these angles to positive values, the graphs have a periodic relative
-% maximum at about 185° and periodic relative minimums at about 260° and
-% 110°.
+% visual observation, both graphs have periodic relative maximums at about
+% 0° and -175° and periodic relative minimums at about -100° and -250°.
+% Converting these angles to positive values, the graphs have a periodic
+% relative maximum at about 0° and 185° and periodic relative minimums at
+% about 260° and 110°.
 % 
-% The relative maximums and minimums signify maximum and minimum peaks,
-% respectively, in pin O and pin A. Unlike the collar force, neither pin
-% force is ever zero. TODO
+% The maximums and minimums signify peaks in the magnitude of the force in
+% pin O and pin A. Unlike the collar force, neither pin force is ever zero.
+% TODO
 
 F_O = hypot(FO_x, FO_y);        % Magnitude of force of pin O (N)
 F_A = hypot(FA_x, FA_y);        % Magnitude of force of pin A (N)
 
+% Plot
 plot(rad2deg(t_2s), F_O, rad2deg(t_2s), F_A, 'LineWidth', 2);
 title('Magnitude of Each Pin Force vs. Crank Angle');
 xlabel({'Crank Angle (°)'
@@ -201,8 +204,23 @@ legend('|Fo|', '|Fa|');
 %% Input Torque vs. Crank Angle
 % The following plots the input torque as a function of crank angle.
 % 
-% By visual observation, the input torque behaves like a negative
-% derivative of the magnitude of each pin force. TODO
+% By visual observation, the graph has a periodic relative maximums at
+% about -150° and -300°, periodic relative minimums at about -75° and
+% -225°, and periodic zeroes at about 0°, -100°, -175°, and -250°. 
+% Converting these angles to positive values, the graph has periodic
+% relative maximums at about 210° and 60°, periodic relative minimums at
+% about 285° and 135°, and periodic zeroes at about 0°, 260°, 185°, and
+% 110°.
+% 
+% The maximums and minimums signify maximum and minimum peaks,
+% respectively, in the input torque. Comparing the maximums and minimums of
+% the input torque to the maximums and minimums of the collar force, it's
+% seen that the input torque increases as the collar force decreases, and
+% vice versa.
+% 
+% Interestingly, the input torque behaves almost like a negative derivative
+% of the magnitude of each pin force, but this is likely just a
+% coincidence.
 plot(rad2deg(t_2s), T, 'LineWidth', 2);
 title('Input Torque vs. Crank Angle');
 xlabel({'Crank Angle (°)'
@@ -214,8 +232,21 @@ ylabel('Input Torque (Nm)');
 
 
 %% Input Power vs. Time
-% The following plots the input power as a function of time. TODO
-area(tout, T);
+% The following plots the input power as a function of time.
+% 
+% The input power can be defined by the input torque times the angular
+% velocity. The area under the curve represents energy because energy is
+% equivalent to the integral of power with respect to time.
+% 
+% The graph of the input power resembles the graph of the input torque,
+% however this is only because the angular velocity of link OA is constant.
+% By visual observation, the areas under the curve sum to zero. Therefore,
+% energy is conserved over a cycle.
+
+P = T*tdot_2;                   % Input power (W)
+
+% Plot
+area(tout, P);
 title('Input Power vs. Time');
 xlabel({'Time (s)'
         ''
