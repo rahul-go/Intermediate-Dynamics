@@ -8,7 +8,7 @@ clc;
 
 
 %% Script
-% TODO
+% The following is the main script.
 
 t2_0 = 0;                       % Theta 2 initial (rad)
 

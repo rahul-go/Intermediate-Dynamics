@@ -24,9 +24,4 @@ E = hypot(e_x, e_y);
 
 
 
-%% Animate the Error
-% TODO
-
-
-
 end
