@@ -293,6 +293,7 @@ for t = 1:length(tout)
     lab_y = [r2_y(end), r2_y(end) - l_ab*sin(t_3(t))];
 
     % Plot the links, COMs, COM paths
+    subplot(2, 1, 1);
     plot(r1_x, r1_y, ...            % Vector R1
          r2_x, r2_y, ...            % Vector R2
          lab_x, lab_y, ...          % Link AB
@@ -307,10 +308,22 @@ for t = 1:length(tout)
     viscircles([x_2(t), y_2(t)], 0.0025, 'Color', 'k');
     % COM of Link AB
     viscircles([x_3(t), y_3(t)], 0.0025, 'Color', 'k');
-    
     % Keep the frame consistent
     axis equal;
     axis([-0.2, 0.8, -0.1, 0.1]);
+    
+    % Magnitude of force of pin O (N)
+    F_O = hypot(Fout(t, 1), Fout(t, 2));
+    % Magnitude of force of pin A (N)
+    F_A = hypot(Fout(t, 3), Fout(t, 4));
+    % Collar force (N)
+    F_C = Fout(t, 5);
+    
+    % Plot the real-time forces
+    subplot(2, 1, 2);
+    bar([F_O, F_A, F_C]);
+    % Keep the frame consistent
+    ylim([-25, 25]);
     
     % Calculate the time step and pause accordingly
     if t ~= length(tout)            % Prevent index error
@@ -322,12 +335,16 @@ for t = 1:length(tout)
 end
 
 % Plot labeling (last frame)
+subplot(2, 1, 1);
 title('Simulation Animation');
-xlabel({'X Position (m)'
-        ''
-        % Figure label
-        '\bfFigure 5: \rmSimulation Animation'});
+xlabel('X Position (m)');
 ylabel('Y Position (m)');
 legend('Vector R1', 'Vector R2', 'Link AB', ...
        'Path of Link OA COM', 'Path of Link AB COM', ...
        'Path of Point A', 'Path of Point B');
+subplot(2, 1, 2);
+xlabel({'Pin O                            Pin A                            Collar'
+        ''
+        % Figure label
+        '\bfFigure 5: \rmSimulation Animation'});
+ylabel('Force (N)');
