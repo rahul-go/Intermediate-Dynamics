@@ -354,4 +354,3 @@ xlabel({'Pin O                            Pin A                            Colla
         % Figure label
         '\bfFigure 5: \rmSimulation Animation'});
 ylabel('Force (N)');
-legend('Pin O', 'Pin C', 'Collar');
