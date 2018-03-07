@@ -184,7 +184,13 @@ ylabel('Collar Force (N)');
 % 
 % The maximums and minimums signify peaks in the magnitude of the force in
 % pin O and pin A. Unlike the collar force, neither pin force is ever zero.
-% TODO
+% Watching an animatmion of the slider-crank, the magnitude of the forces
+% increase as the magnitude of the angular velocity of link AB increases,
+% and vice versa. This behavior is as expected because angular acceleration
+% is the derivative of angular velocity, and net torque is directly and
+% linearly related to angular acceleration. Both pins exert a moment on
+% link AB (whether directly or indirectly), and so it is reasonable that
+% this moment behaves similarly as the expected net torque on link AB.
 
 F_O = hypot(FO_x, FO_y);        % Magnitude of force of pin O (N)
 F_A = hypot(FA_x, FA_y);        % Magnitude of force of pin A (N)
@@ -348,3 +354,4 @@ xlabel({'Pin O                            Pin A                            Colla
         % Figure label
         '\bfFigure 5: \rmSimulation Animation'});
 ylabel('Force (N)');
+legend('Pin O', 'Pin C', 'Collar');
