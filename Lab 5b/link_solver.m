@@ -14,20 +14,17 @@ m_3 = 15;                       % Mass of link AB (kg)
 
 
 
-%% Easy Access
-% The following sets up easy access to variables.
+%% Solved Values
+% The following assigns values derived and/or solved from the given values
+% to variables. See the attached file for hand calculations.
+
+% Easy access to...
 t_2 = u(1);                     % Angular position of link OA (rad)
 tdot_2 = u(2);                  % Angular velocity of link OA (rad/s)
 r_3 = u(3);                     % Length of vector R3 (m)
 t_3 = u(4);                     % Angular position of link AB (rad)
 rdot_3 = u(9);                  % Velocity of vector R3 (m/s)
 tdot_3 = u(10);                 % Angular velocity of link AB (rad/s)
-
-
-
-%% Solved Values
-% The following assigns values derived and/or solved from the given values
-% to variables. See the attached file for hand calculations.
 
 I_3 = 1/12*m_3*l_ab^2;          % Moment of inertia of link AB (kg*m^2)
 
