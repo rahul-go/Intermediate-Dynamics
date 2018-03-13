@@ -9,12 +9,8 @@ clc;
 
 %% Script
 % The following is the main script.
-
-t2_0 = 0;                       % Theta 2 initial (rad)
-
-t3_0 = 0;                       % Theta 3 initial (rad) [GUESS]
-t4_0 = 0;                       % Theta 4 initial (rad) [GUESS]
-x_0 = [t3_0, t4_0];
-
-minimize = @(test_x) MyPosIC(t2_0, test_x);
-x = fminsearch(minimize, x_0);
+t2_0 = deg2rad(0);              % Angular position initial of link 2 (rad)
+t3_0 = 0;                       % Angular position initial of link 3 (rad) [GUESS]
+t4_0 = 0;                       % Angular position initial of link 4 (rad) [GUESS]
+minimize = @(x) MyPosIC(t2_0, x);
+x_0 = fminsearch(minimize, [t3_0, t4_0]);
