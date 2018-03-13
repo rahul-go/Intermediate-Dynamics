@@ -45,12 +45,19 @@ clc;
 
 
 
+%% Declare Global Variables
+% The following declares global variables.
+global image;
+global t_step;
+
+
+
 %% Set Values
 % The following is used to easily change the lengths of the links, the
 % initial angular position of link 2, and the angular velocity of link 2.
 % (A Grashof mechanism has the constraint R1 + R2 <= R3 + R4).
 r = [2, 3, 4, 5];               % Length of links 1, 2, 3, 4 (m)
-t2_0 = deg2rad(30);             % Angular position initial of link 2 (rad)
+t2_0 = deg2rad(45);             % Angular position initial of link 2 (rad)
 tdot_2 = 1;                     % Angular velocity of link 2 (rad/s)
 
 
@@ -69,7 +76,7 @@ t4_0 = 0;                       % Angular position initial of link 4 (rad) [GUES
 % TODO
 minimize = @(x) MyPosIC(r, t2_0, x);
 % TODO
-t_0 = fminsearch(minimize, [t3_0, t4_0]);
+t_0 = fminsearch(minimize, [t3_0, t4_0], optimset('TolFun', 1e-6));
 
 % Easy access to...
 t3_0 = t_0(1);                  % Angular position initial of link 3 (rad)
@@ -152,7 +159,9 @@ t_2 = t2_0 + tdot_2*tout;       % Angular positions of link 2 (rad)
 t_3 = xout(:, 1);               % Angular positions of link 3 (rad)
 t_4 = xout(:, 2);               % Angular positions of link 4 (rad)
 x_2 = xout(:, 3);               % COMs[x] of link 2 (m)
-y_2 = xout(:, 4);               % COMs[y] of link 2 (m)
+y_2 = xout(:, 4);    
+
+% COMs[y] of link 2 (m)
 x_3 = xout(:, 5);               % COMs[x] of link 3 (m)
 y_3 = xout(:, 6);               % COMs[y] of link 3 (m)
 x_4 = xout(:, 7);               % COMs[x] of link 4 (m)
@@ -189,20 +198,52 @@ for t = 1:length(tout)
     viscircles([x_4(t), y_4(t)], 0.025, 'Color', 'k');
     % Keep the frame consistent
     axis equal;
-    axis([-r(2)-0.5, r(1)+r(4)+0.5, -r(4)-0.5, r(4)+0.5]);
+    axis([-r(2)-0.5, r(1)+r(4)+2.5, -r(4)-0.5, r(4)+0.5]);
     
-	% Calculate the time step and pause accordingly
+    % Calculate the time step and pause accordingly
     if t ~= length(tout)            % Prevent index error
-        % Calculate the time step (s)
-        t_step = tout(t+1) - tout(t);
-        pause(t_step);              % Assume negligible processing time
+        % Calculate the time step (s) and store for later use
+        t_step(length(t_step)+1) = tout(t+1) - tout(t);
+%         pause(t_step(t));           % Assume negligible processing time
+    else
+        t_step(length(t_step)+1) = 0;
+    end
+
+%     % Plot labeling
+%     title('Simulation Animation');
+%     xlabel('X Position (m)');
+%     ylabel('Y Position (m)');
+%     legend('Link 1', 'Link 2', 'Link 3', 'Link 4', ...
+%            'Path of Link 2 COM', 'Path of Link 3 COM', 'Path of Link 4 COM');
+
+    % Convert the plot frame to an image and store for later use
+    image{length(image)+1} = frame2im(getframe(1));
+    
+end
+
+
+
+%% Export as GIF
+% The following exports the animation as an animated GIF.
+
+file_name = 'CrankRockerAnimation.gif';
+for i = 1:length(image)
+    
+    % Convert the RGB image to an indexed image
+    [A, map] = rgb2ind(image{i}, 256);
+    
+    % If first iteration, also run setup code
+    if i == 1
+        imwrite(A, map, file_name, ...
+                'LoopCount', inf, ...
+                'DelayTime', t_step(i));
+    
+    % Else, append images
+    else
+        imwrite(A, map, file_name, ...
+                'WriteMode', 'append', ...
+                'DelayTime', t_step(i));
+    
     end
 
 end
-
-% Plot labeling (last frame)
-title('Simulation Animation');
-xlabel('X Position (m)');
-ylabel('Y Position (m)');
-legend('Link 1', 'Link 2', 'Link 3', 'Link 4', ...
-       'Path of Link 2 COM', 'Path of Link 3 COM', 'Path of Link 4 COM');
