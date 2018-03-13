@@ -4,14 +4,10 @@
 
 function [x] = link_solver(u)
 
-%% Given Values
-% The following assigns values given by the problem statement to variables.
-
-% Given Values
-r_1 = 2;                        % TODO
-r_2 = 3;                        % TODO
-r_3 = 4;                        % TODO
-r_4 = 5;                        % TODO
+%% Set Values
+% The following is used to easily change the lengths of the vectors. (A
+% Grashof mechanism has the constraint R1 + R2 <= R3 + R4).
+r = [2, 3, 4, 5];               % Length of links 1, 2, 3, 4 (m)
 
 
 
@@ -21,8 +17,8 @@ t_2 = u(1);                     % TODO
 tdot_2 = u(2);                  % TODO
 t_3 = u(3);                     % TODO
 t_4 = u(4);                     % TODO
-tdot_3 = u(5);                  % TODO
-tdot_4 = u(6);                  % TODO
+tdot_3 = u(11);                 % TODO
+tdot_4 = u(12);                 % TODO
 
 
 
@@ -37,11 +33,23 @@ s_3 = sin(t_3);
 c_4 = cos(t_4);
 s_4 = sin(t_4);
 
-A = [-r_3*s_3, r_4*s_4;
-     r_3*c_3, -r_4*c_4];
+A = [-r(3)*s_3, r(4)*s_4, 0, 0, 0, 0, 0, 0;
+     r(3)*c_3, -r(4)*c_4, 0, 0, 0, 0, 0, 0
+     0, 0, 1, 0, 0, 0, 0, 0;
+     0, 0, 0, 1, 0, 0, 0, 0;
+     r(3)/2*s_3, 0, 0, 0, 1, 0, 0, 0;
+     -r(3)/2*c_3, 0, 0, 0, 0, 1, 0, 0;
+     0, r(4)/2*s_4, 0, 0, 0, 0, 1, 0;
+     0, -r(4)/2*c_4, 0, 0, 0, 0, 0, 1];
 
-b = [-r_4*c_4*tdot_4^2 + r_2*c_2*tdot_2^2 + r_3*c_3*tdot_3^2;
-     -r_4*s_4*tdot_4^2 + r_2*s_2*tdot_2^2 + r_3*s_3*tdot_3^2];
+b = [-r(4)*c_4*tdot_4^2 + r(2)*c_2*tdot_2^2 + r(3)*c_3*tdot_3^2;
+     -r(4)*s_4*tdot_4^2 + r(2)*s_2*tdot_2^2 + r(3)*s_3*tdot_3^2;
+     -r(2)/2*c_2*tdot_2^2;
+     -r(2)/2*s_2*tdot_2^2;
+     -r(2)*c_2*tdot_2^2 - r(3)/2*c_3*tdot_3^2;
+     -r(2)*s_2*tdot_2^2 - r(3)/2*s_3*tdot_3^2;
+     -r(4)/2*c_4*tdot_4^2;
+     -r(4)/2*s_4*tdot_4^2];
 
 
 
