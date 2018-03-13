@@ -46,7 +46,7 @@ clc;
 
 
 %% Set Values
-% The following is used to easily change the lengths of the vectors, the
+% The following is used to easily change the lengths of the links, the
 % initial angular position of link 2, and the angular velocity of link 2.
 % (A Grashof mechanism has the constraint R1 + R2 <= R3 + R4).
 r = [2, 3, 4, 5];               % Length of links 1, 2, 3, 4 (m)
