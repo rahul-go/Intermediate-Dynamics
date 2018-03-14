@@ -1,0 +1,545 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Rahul_Goyal_main Usage and Description</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-03-13"><meta name="DC.source" content="Rahul_Goyal_main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Rahul_Goyal_main Usage and Description</h1><!--introduction--><p>ME 326 Winter 2018 - Laboratory Assignment #6</p><p><b>Author:</b> RAHUL GOYAL</p><p>California Polytechnic State University, San Luis Obispo, CA</p><p><b>Date Created:</b> March 06, 2018</p><p><b>Date Modified:</b> March 13, 2018</p><p><b>Description:</b> This script simulates the motion of a crank-rocker. Afterwards, it animates the crank-rocker by using the simulation data and compares input power to time.</p><p><b>Required Files:</b></p><div><ul><li>MyPosIC.m - This file contains a function that represents the error for a set of given initial angular positions of the links of the crank-rocker. It returns the error with an input of link lengths, the angular position of link 2, and a guess for the angular positions of link 3 and link 4.</li><li>Simulator.slx - This file uses Simulink to double integrate part of a MATLAB Function Block which describes the accelerations and forces of the simulation (only the accelerations are integrated). It outputs the positions as xout, the velocities as vout, the accelerations as aout, the forces as Fout, and the times as tout with inputs of the MATLAB function, initial conditions, and final condition.</li><li>link_solver.m - This file contains a function that represents the accelerations and forces of the simulation. It returns x with an input of u.</li></ul></div><p><b>Still To Do:</b></p><div><ul><li>Done!</li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Problem Statement</a></li><li><a href="#2">Reset</a></li><li><a href="#3">Declare Global Variables</a></li><li><a href="#4">Set Values</a></li><li><a href="#5">Given Values</a></li><li><a href="#6">Position Initial Conditions</a></li><li><a href="#7">Velocity Initial Conditions</a></li><li><a href="#8">Simulate the Crank-Rocker Using Simulink</a></li><li><a href="#9">Simulation Animation</a></li><li><a href="#10">Export as GIF</a></li><li><a href="#11">Input Power vs. Time</a></li></ul></div><h2 id="1">Problem Statement</h2><p>Choose a set of link lengths within the rocker crank constraint to design a mechanism. Assume the input crank, R2, moves at a constant angular velocity. Develop the kinematic and kinetic equations of motion. Produce an animation of the rocker-crank linkage and determine the input power as a function of time.</p><h2 id="2">Reset</h2><p>The following was used while debugging.</p><pre class="codeinput">close <span class="string">all</span>;
+clear <span class="string">all</span>;
+clc;
+</pre><h2 id="3">Declare Global Variables</h2><p>The following declares global variables.</p><pre class="codeinput"><span class="keyword">global</span> image t_step;
+</pre><h2 id="4">Set Values</h2><p>The following is used to easily change the lengths of the links, the initial angular position of link 2, and the angular velocity of link 2. (A Grashof mechanism has the constraint R1 + R2 &lt;= R3 + R4).</p><pre class="codeinput">r = [4, 2, 5, 4];               <span class="comment">% Length of links 1, 2, 3, 4 (m)</span>
+t2_0 = deg2rad(45);             <span class="comment">% Angular position initial of link 2 (rad)</span>
+tdot_2 = 1;                     <span class="comment">% Angular velocity of link 2 (rad/s)</span>
+</pre><h2 id="5">Given Values</h2><p>The following assigns values given by the problem statement to variables.</p><pre class="codeinput">t2_f = t2_0+4*pi;               <span class="comment">% Angular position final of link  (rad)</span>
+</pre><h2 id="6">Position Initial Conditions</h2><p>The following sets the position initial conditions of the crank-rocker.</p><pre class="codeinput">t3_0 = 0;                       <span class="comment">% Angular position initial of link 3 (rad) [GUESS]</span>
+t4_0 = 0;                       <span class="comment">% Angular position initial of link 4 (rad) [GUESS]</span>
+<span class="comment">% Set up an anonymous function for fminsearch</span>
+minimize = @(x) MyPosIC(r, t2_0, x);
+<span class="comment">% Minimize the error in the initial angular positions of link 3 and link 4</span>
+t_0 = fminsearch(minimize, [t3_0, t4_0], optimset(<span class="string">'TolFun'</span>, 1e-6));
+<span class="comment">% Plot labeling (last frame)</span>
+title(<span class="string">'Error Animation'</span>);
+xlabel(<span class="string">'X Position (m)'</span>);
+ylabel(<span class="string">'Y Position (m)'</span>);
+legend(<span class="string">'Link 1'</span>, <span class="string">'Link 2'</span>, <span class="string">'Link 3'</span>, <span class="string">'Link 4'</span>);
+
+<span class="comment">% Easy access to...</span>
+t3_0 = t_0(1);                  <span class="comment">% Angular position initial of link 3 (rad)</span>
+t4_0 = t_0(2);                  <span class="comment">% Angular position initial of link 4 (rad)</span>
+
+<span class="comment">% Simplicity and Compactness of Notation</span>
+c2_0 = cos(t2_0);
+s2_0 = sin(t2_0);
+c3_0 = cos(t3_0);
+s3_0 = sin(t3_0);
+c4_0 = cos(t4_0);
+s4_0 = sin(t4_0);
+
+x2_0 = r(2)/2*c2_0;             <span class="comment">% COM[x] initial of link 2 (m)</span>
+y2_0 = r(2)/2*s2_0;             <span class="comment">% COM[y] initial of link 2 (m)</span>
+x3_0 = r(2)*c2_0 + r(3)/2*c3_0; <span class="comment">% COM[x] initial of link 3 (m)</span>
+y3_0 = r(2)*s2_0 + r(3)/2*s3_0; <span class="comment">% COM[y] initial of link 3 (m)</span>
+x4_0 = r(1) + r(4)/2*c4_0;      <span class="comment">% COM[x] initial of link 4 (m)</span>
+y4_0 = r(4)/2*s4_0;             <span class="comment">% COM[y] initial of link 4 (m)</span>
+
+<span class="comment">% Position Initial Conditions Matrix</span>
+x_0 = [t3_0, t4_0, x2_0, y2_0, x3_0, y3_0, x4_0, y4_0];
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_01.png" style="width:560px;height:420px;" alt=""> <h2 id="7">Velocity Initial Conditions</h2><p>The following sets the velocity initial conditions of the crank-rocker.</p><pre class="codeinput">A = [-r(3)*s3_0, r(4)*s4_0
+     r(3)*c3_0, -r(4)*c4_0];
+b = [r(2)*s2_0*tdot_2
+     -r(2)*c2_0*tdot_2];
+w_0 = A \ b;
+
+<span class="comment">% Easy access to...</span>
+tdot3_0 = w_0(1);               <span class="comment">% Angular velocity initial of link 3 (rad/s)</span>
+tdot4_0 = w_0(2);               <span class="comment">% Angular velocity initial of link 4 (rad/s)</span>
+
+<span class="comment">% Velocity_G[x] initial of link 2</span>
+xdot2_0 = -r(2)/2*s2_0*tdot_2;
+<span class="comment">% Velocity_G[y] initial of link 2</span>
+ydot2_0 = r(2)/2*c2_0*tdot_2;
+<span class="comment">% Velocity_G[x] initial of link 3</span>
+xdot3_0 = -r(2)*s2_0*tdot_2 - r(3)/2*s3_0*tdot3_0;
+<span class="comment">% Velocity_G[y] initial of link 3</span>
+ydot3_0 = r(2)*c2_0*tdot_2 + r(3)/2*c3_0*tdot3_0;
+<span class="comment">% Velocity_G[x] initial of link 4</span>
+xdot4_0 = -r(4)/2*s4_0*tdot4_0;
+<span class="comment">% Velocity_G[y] initial of link 4</span>
+ydot4_0 = r(4)/2*c4_0*tdot4_0;
+
+<span class="comment">% Velocity Initial Conditions Matrix</span>
+v_0 = [tdot3_0, tdot4_0, xdot2_0, ydot2_0, xdot3_0, ydot3_0, xdot4_0, ydot4_0];
+</pre><h2 id="8">Simulate the Crank-Rocker Using Simulink</h2><p>The following calls the Simulink file Simulator.slx, which outputs the positions as xout, the velocities as vout, the accelerations as aout, the forces as Fout, and the times as tout with with link_solver.m as the input for the MATLAB Fuction, tdot_2, t2_0, v_0, and x_0 as the inputs for the initial conditions, and t2_f as the input for the final conditions.</p><pre class="codeinput">sim(<span class="string">'Simulator.slx'</span>);
+</pre><h2 id="9">Simulation Animation</h2><p>The following animates the crank-rocker by using the simulation data.</p><pre class="codeinput"><span class="comment">% Cartesian Coordinates of Link 1</span>
+r1_x = [0, r(1)];
+r1_y = [0, 0];
+<span class="comment">% Cartesian Coordinates of COM of Link 1</span>
+x_1 = (r1_x(end)-r1_y(1))/2;
+y_1 = (r1_y(end)-r1_y(2))/2;
+
+<span class="comment">% Easy access to...</span>
+t_2 = t2_0 + tdot_2*tout;       <span class="comment">% Angular positions of link 2 (rad)</span>
+t_3 = xout(:, 1);               <span class="comment">% Angular positions of link 3 (rad)</span>
+t_4 = xout(:, 2);               <span class="comment">% Angular positions of link 4 (rad)</span>
+x_2 = xout(:, 3);               <span class="comment">% COMs[x] of link 2 (m)</span>
+y_2 = xout(:, 4);
+
+<span class="comment">% COMs[y] of link 2 (m)</span>
+x_3 = xout(:, 5);               <span class="comment">% COMs[x] of link 3 (m)</span>
+y_3 = xout(:, 6);               <span class="comment">% COMs[y] of link 3 (m)</span>
+x_4 = xout(:, 7);               <span class="comment">% COMs[x] of link 4 (m)</span>
+y_4 = xout(:, 8);               <span class="comment">% COMs[y] of link 4 (m)</span>
+
+<span class="keyword">for</span> t = 1:length(tout)
+
+    <span class="comment">% Cartesian Coordinates of Link 2</span>
+    r2_x = [0, r(2)*cos(t_2(t))];
+    r2_y = [0, r(2)*sin(t_2(t))];
+    <span class="comment">% Cartesian Coordinates of Link 3</span>
+    r3_x = [r2_x(end), r2_x(end) + r(3)*cos(t_3(t))];
+    r3_y = [r2_y(end), r2_y(end) + r(3)*sin(t_3(t))];
+    <span class="comment">% Cartesian Coordinates of Link 4</span>
+    r4_x = [r1_x(end), r1_x(end) + r(4)*cos(t_4(t))];
+    r4_y = [r1_y(end), r1_y(end) + r(4)*sin(t_4(t))];
+
+    <span class="comment">% Plot the links, COMs, COM paths</span>
+    plot(r1_x, r1_y, <span class="keyword">...</span><span class="comment">            % Link 1</span>
+         r2_x, r2_y, <span class="keyword">...</span><span class="comment">            % Link 2</span>
+         r3_x, r3_y, <span class="keyword">...</span><span class="comment">            % Link 3</span>
+         r4_x, r4_y, <span class="keyword">...</span><span class="comment">            % Link 4</span>
+         x_2(1:t), y_2(1:t), <span class="keyword">...</span><span class="comment">    % Path of link 2 COM</span>
+         x_3(1:t), y_3(1:t), <span class="keyword">...</span><span class="comment">    % Path of link 3 COM</span>
+         x_4(1:t), y_4(1:t), <span class="keyword">...</span><span class="comment">    % Path of link 4 COM</span>
+         <span class="string">'LineWidth'</span>, 2);           <span class="comment">% Line Properties</span>
+    <span class="comment">% COM of Link 1</span>
+    viscircles([x_1, y_1], 0.025, <span class="string">'Color'</span>, <span class="string">'k'</span>);
+    <span class="comment">% COM of Link 2</span>
+    viscircles([x_2(t), y_2(t)], 0.025, <span class="string">'Color'</span>, <span class="string">'k'</span>);
+    <span class="comment">% COM of Link 3</span>
+    viscircles([x_3(t), y_3(t)], 0.025, <span class="string">'Color'</span>, <span class="string">'k'</span>);
+    <span class="comment">% COM of Link 4</span>
+    viscircles([x_4(t), y_4(t)], 0.025, <span class="string">'Color'</span>, <span class="string">'k'</span>);
+    <span class="comment">% Keep the frame consistent</span>
+    axis <span class="string">equal</span>;
+    axis([-r(2)-0.5, r(1)+r(4)+5, -r(4)-0.5, r(4)+0.5]);
+
+    <span class="comment">% Calculate the time step and pause accordingly</span>
+    <span class="keyword">if</span> t ~= length(tout)            <span class="comment">% Prevent index error</span>
+        <span class="comment">% Calculate the time step (s) and store for later use</span>
+        t_step(length(t_step)+1) = tout(t+1) - tout(t);
+<span class="comment">%         pause(t_step(t));           % Assume negligible processing time</span>
+    <span class="keyword">else</span>
+        t_step(length(t_step)+1) = 0;
+    <span class="keyword">end</span>
+
+    <span class="comment">% Convert the plot frame to an image and store for later use</span>
+    image{length(image)+1} = frame2im(getframe(1));
+
+<span class="keyword">end</span>
+
+<span class="comment">% Plot labeling (last frame)</span>
+title(<span class="string">'Simulation Animation'</span>);
+xlabel(<span class="string">'X Position (m)'</span>);
+ylabel(<span class="string">'Y Position (m)'</span>);
+legend(<span class="string">'Link 1'</span>, <span class="string">'Link 2'</span>, <span class="string">'Link 3'</span>, <span class="string">'Link 4'</span>, <span class="keyword">...</span>
+       <span class="string">'Path of Link 2 COM'</span>, <span class="string">'Path of Link 3 COM'</span>, <span class="string">'Path of Link 4 COM'</span>);
+</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_02.png" style="width:560px;height:420px;" alt=""> <h2 id="10">Export as GIF</h2><p>The following exports the animation as an animated GIF.</p><pre class="codeinput">file_name = <span class="string">'CrankRockerAnimation.gif'</span>;
+<span class="keyword">for</span> i = 1:length(image)
+
+    <span class="comment">% Convert the RGB image to an indexed image</span>
+    [A, map] = rgb2ind(image{i}, 256);
+
+    <span class="comment">% If first iteration, also run setup code</span>
+    <span class="keyword">if</span> i == 1
+        imwrite(A, map, file_name, <span class="keyword">...</span>
+                <span class="string">'LoopCount'</span>, inf, <span class="keyword">...</span>
+                <span class="string">'DelayTime'</span>, t_step(i));
+
+    <span class="comment">% Else, append images</span>
+    <span class="keyword">else</span>
+        imwrite(A, map, file_name, <span class="keyword">...</span>
+                <span class="string">'WriteMode'</span>, <span class="string">'append'</span>, <span class="keyword">...</span>
+                <span class="string">'DelayTime'</span>, t_step(i));
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><h2 id="11">Input Power vs. Time</h2><p>The following plots the input power as a function of time.</p><p>The input power can be defined by the input torque times the angular velocity. The area under the curve represents energy because energy is equivalent to the integral of power with respect to time.</p><p>The graph of the input power resembles the graph of the input torque, however this is only because the angular velocity of link 2 is constant. By visual observation, the areas under the curve sum to zero. Therefore, energy is conserved over a cycle.</p><pre class="codeinput">T = Fout(:, 9);                 <span class="comment">% Input torque (Nm)</span>
+P = T*tdot_2;                   <span class="comment">% Input power (W)</span>
+
+<span class="comment">% Plot</span>
+area(tout, P);
+title(<span class="string">'Input Power vs. Time'</span>);
+xlabel({<span class="string">'Time (s)'</span>
+        <span class="string">''</span>
+        <span class="comment">% Figure label</span>
+        <span class="string">'\bfFigure 1: \rmInput Power vs. Time'</span>});
+ylabel(<span class="string">'Input Power (W)'</span>);
+
+<span class="comment">% Find the area under the curve</span>
+A = trapz(tout, P);             <span class="comment">% Trapezoidal numerical integration</span>
+fprintf(<span class="string">"The area under the curve is approximately: "</span>);
+fprintf(num2str(A));
+fprintf(<span class="string">" J."</span>);
+</pre><pre class="codeoutput">The area under the curve is approximately: 0.011162 J.</pre><img vspace="5" hspace="5" src="Rahul_Goyal_main_03.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Rahul_Goyal_main Usage and Description
+% ME 326 Winter 2018 - Laboratory Assignment #6
+%
+% *Author:* RAHUL GOYAL
+%
+% California Polytechnic State University, San Luis Obispo, CA
+%
+% *Date Created:* March 06, 2018
+%
+% *Date Modified:* March 13, 2018
+%
+% *Description:*
+% This script simulates the motion of a crank-rocker. Afterwards, it
+% animates the crank-rocker by using the simulation data and compares
+% input power to time.
+% 
+% *Required Files:*
+%
+% * MyPosIC.m - This file contains a function that represents the error for
+% a set of given initial angular positions of the links of the
+% crank-rocker. It returns the error with an input of link lengths, the
+% angular position of link 2, and a guess for the angular positions of link
+% 3 and link 4.
+% * Simulator.slx - This file uses Simulink to double integrate part of a
+% MATLAB Function Block which describes the accelerations and forces of the
+% simulation (only the accelerations are integrated). It outputs the
+% positions as xout, the velocities as vout, the accelerations as aout, the
+% forces as Fout, and the times as tout with inputs of the MATLAB function,
+% initial conditions, and final condition.
+% * link_solver.m - This file contains a function that represents the
+% accelerations and forces of the simulation. It returns x with an input of
+% u.
+%
+% *Still To Do:*
+%
+% * Done!
+
+
+
+%% Problem Statement
+% Choose a set of link lengths within the rocker crank constraint to design
+% a mechanism. Assume the input crank, R2, moves at a constant angular
+% velocity. Develop the kinematic and kinetic equations of motion. Produce
+% an animation of the rocker-crank linkage and determine the input power as
+% a function of time.
+
+
+
+%% Reset
+% The following was used while debugging.
+
+close all;
+clear all;
+clc;
+
+
+
+%% Declare Global Variables
+% The following declares global variables.
+global image t_step;
+
+
+
+%% Set Values
+% The following is used to easily change the lengths of the links, the
+% initial angular position of link 2, and the angular velocity of link 2.
+% (A Grashof mechanism has the constraint R1 + R2 <= R3 + R4).
+r = [4, 2, 5, 4];               % Length of links 1, 2, 3, 4 (m)
+t2_0 = deg2rad(45);             % Angular position initial of link 2 (rad)
+tdot_2 = 1;                     % Angular velocity of link 2 (rad/s)
+
+
+
+%% Given Values
+% The following assigns values given by the problem statement to variables.
+t2_f = t2_0+4*pi;               % Angular position final of link  (rad)
+
+
+
+%% Position Initial Conditions
+% The following sets the position initial conditions of the crank-rocker.
+
+t3_0 = 0;                       % Angular position initial of link 3 (rad) [GUESS]
+t4_0 = 0;                       % Angular position initial of link 4 (rad) [GUESS]
+% Set up an anonymous function for fminsearch
+minimize = @(x) MyPosIC(r, t2_0, x);
+% Minimize the error in the initial angular positions of link 3 and link 4
+t_0 = fminsearch(minimize, [t3_0, t4_0], optimset('TolFun', 1e-6));
+% Plot labeling (last frame)
+title('Error Animation');
+xlabel('X Position (m)');
+ylabel('Y Position (m)');
+legend('Link 1', 'Link 2', 'Link 3', 'Link 4');
+
+% Easy access to...
+t3_0 = t_0(1);                  % Angular position initial of link 3 (rad)
+t4_0 = t_0(2);                  % Angular position initial of link 4 (rad)
+
+% Simplicity and Compactness of Notation
+c2_0 = cos(t2_0);
+s2_0 = sin(t2_0);
+c3_0 = cos(t3_0);
+s3_0 = sin(t3_0);
+c4_0 = cos(t4_0);
+s4_0 = sin(t4_0);
+
+x2_0 = r(2)/2*c2_0;             % COM[x] initial of link 2 (m)
+y2_0 = r(2)/2*s2_0;             % COM[y] initial of link 2 (m)
+x3_0 = r(2)*c2_0 + r(3)/2*c3_0; % COM[x] initial of link 3 (m)
+y3_0 = r(2)*s2_0 + r(3)/2*s3_0; % COM[y] initial of link 3 (m)
+x4_0 = r(1) + r(4)/2*c4_0;      % COM[x] initial of link 4 (m)
+y4_0 = r(4)/2*s4_0;             % COM[y] initial of link 4 (m)
+
+% Position Initial Conditions Matrix
+x_0 = [t3_0, t4_0, x2_0, y2_0, x3_0, y3_0, x4_0, y4_0];
+
+
+
+%% Velocity Initial Conditions
+% The following sets the velocity initial conditions of the crank-rocker.
+
+A = [-r(3)*s3_0, r(4)*s4_0
+     r(3)*c3_0, -r(4)*c4_0];
+b = [r(2)*s2_0*tdot_2
+     -r(2)*c2_0*tdot_2];
+w_0 = A \ b;
+
+% Easy access to...
+tdot3_0 = w_0(1);               % Angular velocity initial of link 3 (rad/s)
+tdot4_0 = w_0(2);               % Angular velocity initial of link 4 (rad/s)
+
+% Velocity_G[x] initial of link 2
+xdot2_0 = -r(2)/2*s2_0*tdot_2;
+% Velocity_G[y] initial of link 2
+ydot2_0 = r(2)/2*c2_0*tdot_2;
+% Velocity_G[x] initial of link 3
+xdot3_0 = -r(2)*s2_0*tdot_2 - r(3)/2*s3_0*tdot3_0;
+% Velocity_G[y] initial of link 3
+ydot3_0 = r(2)*c2_0*tdot_2 + r(3)/2*c3_0*tdot3_0;
+% Velocity_G[x] initial of link 4
+xdot4_0 = -r(4)/2*s4_0*tdot4_0;
+% Velocity_G[y] initial of link 4
+ydot4_0 = r(4)/2*c4_0*tdot4_0;
+
+% Velocity Initial Conditions Matrix
+v_0 = [tdot3_0, tdot4_0, xdot2_0, ydot2_0, xdot3_0, ydot3_0, xdot4_0, ydot4_0];
+
+
+
+%% Simulate the Crank-Rocker Using Simulink
+% The following calls the Simulink file Simulator.slx, which outputs the
+% positions as xout, the velocities as vout, the accelerations as aout, the
+% forces as Fout, and the times as tout with with link_solver.m as the
+% input for the MATLAB Fuction, tdot_2, t2_0, v_0, and x_0 as the inputs
+% for the initial conditions, and t2_f as the input for the final
+% conditions.
+sim('Simulator.slx');
+
+
+
+%% Simulation Animation
+% The following animates the crank-rocker by using the simulation data.
+
+% Cartesian Coordinates of Link 1
+r1_x = [0, r(1)];
+r1_y = [0, 0];
+% Cartesian Coordinates of COM of Link 1
+x_1 = (r1_x(end)-r1_y(1))/2;
+y_1 = (r1_y(end)-r1_y(2))/2;
+
+% Easy access to...
+t_2 = t2_0 + tdot_2*tout;       % Angular positions of link 2 (rad)
+t_3 = xout(:, 1);               % Angular positions of link 3 (rad)
+t_4 = xout(:, 2);               % Angular positions of link 4 (rad)
+x_2 = xout(:, 3);               % COMs[x] of link 2 (m)
+y_2 = xout(:, 4);    
+
+% COMs[y] of link 2 (m)
+x_3 = xout(:, 5);               % COMs[x] of link 3 (m)
+y_3 = xout(:, 6);               % COMs[y] of link 3 (m)
+x_4 = xout(:, 7);               % COMs[x] of link 4 (m)
+y_4 = xout(:, 8);               % COMs[y] of link 4 (m)
+
+for t = 1:length(tout)
+    
+    % Cartesian Coordinates of Link 2
+    r2_x = [0, r(2)*cos(t_2(t))];
+    r2_y = [0, r(2)*sin(t_2(t))];
+    % Cartesian Coordinates of Link 3
+    r3_x = [r2_x(end), r2_x(end) + r(3)*cos(t_3(t))];
+    r3_y = [r2_y(end), r2_y(end) + r(3)*sin(t_3(t))];
+    % Cartesian Coordinates of Link 4
+    r4_x = [r1_x(end), r1_x(end) + r(4)*cos(t_4(t))];
+    r4_y = [r1_y(end), r1_y(end) + r(4)*sin(t_4(t))];
+    
+    % Plot the links, COMs, COM paths
+    plot(r1_x, r1_y, ...            % Link 1
+         r2_x, r2_y, ...            % Link 2
+         r3_x, r3_y, ...            % Link 3
+         r4_x, r4_y, ...            % Link 4
+         x_2(1:t), y_2(1:t), ...    % Path of link 2 COM
+         x_3(1:t), y_3(1:t), ...    % Path of link 3 COM
+         x_4(1:t), y_4(1:t), ...    % Path of link 4 COM
+         'LineWidth', 2);           % Line Properties
+    % COM of Link 1
+    viscircles([x_1, y_1], 0.025, 'Color', 'k');
+    % COM of Link 2
+    viscircles([x_2(t), y_2(t)], 0.025, 'Color', 'k');
+    % COM of Link 3
+    viscircles([x_3(t), y_3(t)], 0.025, 'Color', 'k');
+    % COM of Link 4
+    viscircles([x_4(t), y_4(t)], 0.025, 'Color', 'k');
+    % Keep the frame consistent
+    axis equal;
+    axis([-r(2)-0.5, r(1)+r(4)+5, -r(4)-0.5, r(4)+0.5]);
+    
+    % Calculate the time step and pause accordingly
+    if t ~= length(tout)            % Prevent index error
+        % Calculate the time step (s) and store for later use
+        t_step(length(t_step)+1) = tout(t+1) - tout(t);
+%         pause(t_step(t));           % Assume negligible processing time
+    else
+        t_step(length(t_step)+1) = 0;
+    end
+
+    % Convert the plot frame to an image and store for later use
+    image{length(image)+1} = frame2im(getframe(1));
+    
+end
+
+% Plot labeling (last frame)
+title('Simulation Animation');
+xlabel('X Position (m)');
+ylabel('Y Position (m)');
+legend('Link 1', 'Link 2', 'Link 3', 'Link 4', ...
+       'Path of Link 2 COM', 'Path of Link 3 COM', 'Path of Link 4 COM');
+
+
+
+%% Export as GIF
+% The following exports the animation as an animated GIF.
+
+file_name = 'CrankRockerAnimation.gif';
+for i = 1:length(image)
+    
+    % Convert the RGB image to an indexed image
+    [A, map] = rgb2ind(image{i}, 256);
+    
+    % If first iteration, also run setup code
+    if i == 1
+        imwrite(A, map, file_name, ...
+                'LoopCount', inf, ...
+                'DelayTime', t_step(i));
+    
+    % Else, append images
+    else
+        imwrite(A, map, file_name, ...
+                'WriteMode', 'append', ...
+                'DelayTime', t_step(i));
+    
+    end
+
+end
+
+
+
+%% Input Power vs. Time
+% The following plots the input power as a function of time.
+% 
+% The input power can be defined by the input torque times the angular
+% velocity. The area under the curve represents energy because energy is
+% equivalent to the integral of power with respect to time.
+% 
+% The graph of the input power resembles the graph of the input torque,
+% however this is only because the angular velocity of link 2 is constant.
+% By visual observation, the areas under the curve sum to zero. Therefore,
+% energy is conserved over a cycle.
+
+T = Fout(:, 9);                 % Input torque (Nm)
+P = T*tdot_2;                   % Input power (W)
+
+% Plot
+area(tout, P);
+title('Input Power vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 1: \rmInput Power vs. Time'});
+ylabel('Input Power (W)');
+
+% Find the area under the curve
+A = trapz(tout, P);             % Trapezoidal numerical integration
+fprintf("The area under the curve is approximately: ");
+fprintf(num2str(A));
+fprintf(" J.");
+##### SOURCE END #####
+--></body></html>

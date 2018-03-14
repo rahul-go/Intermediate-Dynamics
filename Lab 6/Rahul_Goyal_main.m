@@ -10,11 +10,17 @@
 % *Date Modified:* March 13, 2018
 %
 % *Description:*
-% This script simulates the motion of a crank-rocker. TODO
+% This script simulates the motion of a crank-rocker. Afterwards, it
+% animates the crank-rocker by using the simulation data and compares
+% input power to time.
 % 
 % *Required Files:*
 %
-% * MyPosIC.m - TODO
+% * MyPosIC.m - This file contains a function that represents the error for
+% a set of given initial angular positions of the links of the
+% crank-rocker. It returns the error with an input of link lengths, the
+% angular position of link 2, and a guess for the angular positions of link
+% 3 and link 4.
 % * Simulator.slx - This file uses Simulink to double integrate part of a
 % MATLAB Function Block which describes the accelerations and forces of the
 % simulation (only the accelerations are integrated). It outputs the
@@ -27,12 +33,16 @@
 %
 % *Still To Do:*
 %
-% * Start!
+% * Done!
 
 
 
 %% Problem Statement
-% TODO
+% Choose a set of link lengths within the rocker crank constraint to design
+% a mechanism. Assume the input crank, R2, moves at a constant angular
+% velocity. Develop the kinematic and kinetic equations of motion. Produce
+% an animation of the rocker-crank linkage and determine the input power as
+% a function of time.
 
 
 
@@ -47,8 +57,7 @@ clc;
 
 %% Declare Global Variables
 % The following declares global variables.
-global image;
-global t_step;
+global image t_step;
 
 
 
@@ -56,7 +65,7 @@ global t_step;
 % The following is used to easily change the lengths of the links, the
 % initial angular position of link 2, and the angular velocity of link 2.
 % (A Grashof mechanism has the constraint R1 + R2 <= R3 + R4).
-r = [2, 3, 4, 5];               % Length of links 1, 2, 3, 4 (m)
+r = [4, 2, 5, 4];               % Length of links 1, 2, 3, 4 (m)
 t2_0 = deg2rad(45);             % Angular position initial of link 2 (rad)
 tdot_2 = 1;                     % Angular velocity of link 2 (rad/s)
 
@@ -73,10 +82,15 @@ t2_f = t2_0+4*pi;               % Angular position final of link  (rad)
 
 t3_0 = 0;                       % Angular position initial of link 3 (rad) [GUESS]
 t4_0 = 0;                       % Angular position initial of link 4 (rad) [GUESS]
-% TODO
+% Set up an anonymous function for fminsearch
 minimize = @(x) MyPosIC(r, t2_0, x);
-% TODO
+% Minimize the error in the initial angular positions of link 3 and link 4
 t_0 = fminsearch(minimize, [t3_0, t4_0], optimset('TolFun', 1e-6));
+% Plot labeling (last frame)
+title('Error Animation');
+xlabel('X Position (m)');
+ylabel('Y Position (m)');
+legend('Link 1', 'Link 2', 'Link 3', 'Link 4');
 
 % Easy access to...
 t3_0 = t_0(1);                  % Angular position initial of link 3 (rad)
@@ -179,7 +193,7 @@ for t = 1:length(tout)
     r4_x = [r1_x(end), r1_x(end) + r(4)*cos(t_4(t))];
     r4_y = [r1_y(end), r1_y(end) + r(4)*sin(t_4(t))];
     
-    % TODO
+    % Plot the links, COMs, COM paths
     plot(r1_x, r1_y, ...            % Link 1
          r2_x, r2_y, ...            % Link 2
          r3_x, r3_y, ...            % Link 3
@@ -198,7 +212,7 @@ for t = 1:length(tout)
     viscircles([x_4(t), y_4(t)], 0.025, 'Color', 'k');
     % Keep the frame consistent
     axis equal;
-    axis([-r(2)-0.5, r(1)+r(4)+2.5, -r(4)-0.5, r(4)+0.5]);
+    axis([-r(2)-0.5, r(1)+r(4)+5, -r(4)-0.5, r(4)+0.5]);
     
     % Calculate the time step and pause accordingly
     if t ~= length(tout)            % Prevent index error
@@ -209,17 +223,17 @@ for t = 1:length(tout)
         t_step(length(t_step)+1) = 0;
     end
 
-%     % Plot labeling
-%     title('Simulation Animation');
-%     xlabel('X Position (m)');
-%     ylabel('Y Position (m)');
-%     legend('Link 1', 'Link 2', 'Link 3', 'Link 4', ...
-%            'Path of Link 2 COM', 'Path of Link 3 COM', 'Path of Link 4 COM');
-
     % Convert the plot frame to an image and store for later use
     image{length(image)+1} = frame2im(getframe(1));
     
 end
+
+% Plot labeling (last frame)
+title('Simulation Animation');
+xlabel('X Position (m)');
+ylabel('Y Position (m)');
+legend('Link 1', 'Link 2', 'Link 3', 'Link 4', ...
+       'Path of Link 2 COM', 'Path of Link 3 COM', 'Path of Link 4 COM');
 
 
 
@@ -247,3 +261,35 @@ for i = 1:length(image)
     end
 
 end
+
+
+
+%% Input Power vs. Time
+% The following plots the input power as a function of time.
+% 
+% The input power can be defined by the input torque times the angular
+% velocity. The area under the curve represents energy because energy is
+% equivalent to the integral of power with respect to time.
+% 
+% The graph of the input power resembles the graph of the input torque,
+% however this is only because the angular velocity of link 2 is constant.
+% By visual observation, the areas under the curve sum to zero. Therefore,
+% energy is conserved over a cycle.
+
+T = Fout(:, 9);                 % Input torque (Nm)
+P = T*tdot_2;                   % Input power (W)
+
+% Plot
+area(tout, P);
+title('Input Power vs. Time');
+xlabel({'Time (s)'
+        ''
+        % Figure label
+        '\bfFigure 1: \rmInput Power vs. Time'});
+ylabel('Input Power (W)');
+
+% Find the area under the curve
+A = trapz(tout, P);             % Trapezoidal numerical integration
+fprintf("The area under the curve is approximately: ");
+fprintf(num2str(A));
+fprintf(" J.");

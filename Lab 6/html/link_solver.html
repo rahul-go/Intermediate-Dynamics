@@ -1,0 +1,219 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>link_solver</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-03-13"><meta name="DC.source" content="link_solver.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">link_solver Usage and Description</a></li><li><a href="#2">Set Values</a></li><li><a href="#3">Solved Values</a></li><li><a href="#4">Solve for x</a></li></ul></div><h2 id="1">link_solver Usage and Description</h2><p>This function represents the accelerations of the simulation. It returns x with an input of u.</p><pre class="codeinput"><span class="keyword">function</span> [x] = link_solver(u)
+</pre><h2 id="2">Set Values</h2><p>The following is used to easily change the lengths and masses of the links. (A Grashof mechanism has the constraint R1 + R2 &lt;= R3 + R4).</p><pre class="codeinput">r = [4, 2, 5, 4];               <span class="comment">% Length of links 1, 2, 3, 4 (m)</span>
+m_2 = 1;                        <span class="comment">% Mass of link 2 (kg)</span>
+m_3 = 1;                        <span class="comment">% Mass of link 3 (kg)</span>
+m_4 = 1;                        <span class="comment">% Mass of link 4 (kg)</span>
+</pre><h2 id="3">Solved Values</h2><p>The following assigns values derived and/or solved from the given values to variables. See the attached file for hand calculations.</p><pre class="codeinput"><span class="comment">% Easy access to...</span>
+t_2 = u(1);                     <span class="comment">% Angular position of link 2 (rad)</span>
+tdot_2 = u(2);                  <span class="comment">% Angular velocity of link 2 (rad/s)</span>
+t_3 = u(3);                     <span class="comment">% Angular position of link 3 (rad)</span>
+t_4 = u(4);                     <span class="comment">% Angular position of link 4 (rad)</span>
+tdot_3 = u(11);                 <span class="comment">% Angular velocity of link 3 (rad/s)</span>
+tdot_4 = u(12);                 <span class="comment">% Angular velocity of link 4 (rad/s)</span>
+
+<span class="comment">% Simplicity and Compactness of Notation</span>
+c_2 = cos(t_2);
+s_2 = sin(t_2);
+c_3 = cos(t_3);
+s_3 = sin(t_3);
+c_4 = cos(t_4);
+s_4 = sin(t_4);
+
+I_3 = 1/12*m_3*r(3)^2;          <span class="comment">% Moment of inertia of link 3 (kg*m^2)</span>
+I_4 = 1/12*m_4*r(4)^2;          <span class="comment">% Moment of inertia of link 4 (kg*m^2)</span>
+
+A = [-r(3)*s_3, r(4)*s_4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     r(3)*c_3, -r(4)*c_4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     r(3)/2*s_3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     -r(3)/2*c_3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, r(4)/2*s_4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, -r(4)/2*c_4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, m_2, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, m_2, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, 0, r(2)/2*s_2, -r(2)/2*c_2, -r(2)/2*s_2, r(2)/2*c_2, 0, 0, 0, 0, -1;
+     0, 0, 0, 0, m_3, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1, 0, 0;
+     0, 0, 0, 0, 0, m_3, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1, 0;
+     I_3, 0, 0, 0, 0, 0, 0, 0, r(3)/2*s_3, -r(3)/2*c_3, 0, 0, 0, 0, r(3)/2*s_3, -r(3)/2*c_3, 0;
+     0, 0, 0, 0, 0, 0, m_4, 0, 0, 0, 0, 0, -1, 0, 1, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, m_4, 0, 0, 0, 0, 0, -1, 0, 1, 0;
+     0, I_4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -r(4)/2*s_4, r(4)/2*c_4, -r(4)/2*s_4, r(4)/2*c_4, 0];
+
+b = [-r(4)*c_4*tdot_4^2 + r(2)*c_2*tdot_2^2 + r(3)*c_3*tdot_3^2;
+     -r(4)*s_4*tdot_4^2 + r(2)*s_2*tdot_2^2 + r(3)*s_3*tdot_3^2;
+     -r(2)/2*c_2*tdot_2^2;
+     -r(2)/2*s_2*tdot_2^2;
+     -r(2)*c_2*tdot_2^2 - r(3)/2*c_3*tdot_3^2;
+     -r(2)*s_2*tdot_2^2 - r(3)/2*s_3*tdot_3^2;
+     -r(4)/2*c_4*tdot_4^2;
+     -r(4)/2*s_4*tdot_4^2;
+     0;
+     0;
+     0;
+     0;
+     0;
+     0;
+     0;
+     0;
+     0];
+</pre><pre class="codeoutput error">Not enough input arguments.
+
+Error in link_solver (line 22)
+t_2 = u(1);                     % Angular position of link 2 (rad)
+</pre><h2 id="4">Solve for x</h2><p>Solve for x using mldivide.</p><pre class="codeinput">x = A \ b;
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% link_solver Usage and Description
+% This function represents the accelerations of the simulation. It returns
+% x with an input of u.
+
+function [x] = link_solver(u)
+
+%% Set Values
+% The following is used to easily change the lengths and masses of the
+% links. (A Grashof mechanism has the constraint R1 + R2 <= R3 + R4).
+r = [4, 2, 5, 4];               % Length of links 1, 2, 3, 4 (m)
+m_2 = 1;                        % Mass of link 2 (kg)
+m_3 = 1;                        % Mass of link 3 (kg)
+m_4 = 1;                        % Mass of link 4 (kg)
+
+
+
+%% Solved Values
+% The following assigns values derived and/or solved from the given values
+% to variables. See the attached file for hand calculations.
+
+% Easy access to...
+t_2 = u(1);                     % Angular position of link 2 (rad)
+tdot_2 = u(2);                  % Angular velocity of link 2 (rad/s)
+t_3 = u(3);                     % Angular position of link 3 (rad)
+t_4 = u(4);                     % Angular position of link 4 (rad)
+tdot_3 = u(11);                 % Angular velocity of link 3 (rad/s)
+tdot_4 = u(12);                 % Angular velocity of link 4 (rad/s)
+
+% Simplicity and Compactness of Notation
+c_2 = cos(t_2);
+s_2 = sin(t_2);
+c_3 = cos(t_3);
+s_3 = sin(t_3);
+c_4 = cos(t_4);
+s_4 = sin(t_4);
+
+I_3 = 1/12*m_3*r(3)^2;          % Moment of inertia of link 3 (kg*m^2)
+I_4 = 1/12*m_4*r(4)^2;          % Moment of inertia of link 4 (kg*m^2)
+
+A = [-r(3)*s_3, r(4)*s_4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     r(3)*c_3, -r(4)*c_4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     r(3)/2*s_3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     -r(3)/2*c_3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, r(4)/2*s_4, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, -r(4)/2*c_4, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0;
+     0, 0, m_2, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0;
+     0, 0, 0, m_2, 0, 0, 0, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, 0, r(2)/2*s_2, -r(2)/2*c_2, -r(2)/2*s_2, r(2)/2*c_2, 0, 0, 0, 0, -1;
+     0, 0, 0, 0, m_3, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1, 0, 0;
+     0, 0, 0, 0, 0, m_3, 0, 0, 0, 1, 0, 0, 0, 0, 0, -1, 0;
+     I_3, 0, 0, 0, 0, 0, 0, 0, r(3)/2*s_3, -r(3)/2*c_3, 0, 0, 0, 0, r(3)/2*s_3, -r(3)/2*c_3, 0;
+     0, 0, 0, 0, 0, 0, m_4, 0, 0, 0, 0, 0, -1, 0, 1, 0, 0;
+     0, 0, 0, 0, 0, 0, 0, m_4, 0, 0, 0, 0, 0, -1, 0, 1, 0;
+     0, I_4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -r(4)/2*s_4, r(4)/2*c_4, -r(4)/2*s_4, r(4)/2*c_4, 0];
+
+b = [-r(4)*c_4*tdot_4^2 + r(2)*c_2*tdot_2^2 + r(3)*c_3*tdot_3^2;
+     -r(4)*s_4*tdot_4^2 + r(2)*s_2*tdot_2^2 + r(3)*s_3*tdot_3^2;
+     -r(2)/2*c_2*tdot_2^2;
+     -r(2)/2*s_2*tdot_2^2;
+     -r(2)*c_2*tdot_2^2 - r(3)/2*c_3*tdot_3^2;
+     -r(2)*s_2*tdot_2^2 - r(3)/2*s_3*tdot_3^2;
+     -r(4)/2*c_4*tdot_4^2;
+     -r(4)/2*s_4*tdot_4^2;
+     0;
+     0;
+     0;
+     0;
+     0;
+     0;
+     0;
+     0;
+     0];
+
+
+
+%% Solve for x
+% Solve for x using mldivide.
+x = A \ b;
+
+end
+##### SOURCE END #####
+--></body></html>

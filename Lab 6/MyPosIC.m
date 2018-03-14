@@ -2,8 +2,7 @@ function [E] = MyPosIC(r, t_2, x)
 
 %% Declare Global Variables
 % The following declares global variables.
-global image;
-global t_step;
+global image t_step;
 
 
 
@@ -22,7 +21,8 @@ E = hypot(e_x, e_y);
 
 
 %% Error Animation
-% TODO
+% The following animates the error in the angular positions of the links of
+% the crank-rocker.
 
 % Cartesian Coordinates of Link 1
 r1_x = [0, r(1)];
@@ -45,16 +45,10 @@ plot(r1_x, r1_y, ...            % Link 1
      'LineWidth', 2);           % Line Properties
 % Keep the frame consistent
 axis equal;
-axis([-r(2)-0.5, r(1)+r(4)+2.5, -r(4)-0.5, r(4)+0.5]);
+axis([-r(2)-0.5, r(1)+r(4)+5, -r(4)-0.5, r(4)+0.5]);
 % Store the time step for later use
 t_step(length(t_step)+1) = 0.0001;
 % pause(t_step(end));             % Pause for humans
-
-% % Plot labeling
-% title('Error Animation');
-% xlabel('X Position (m)');
-% ylabel('Y Position (m)');
-% legend('Link 1', 'Link 2', 'Link 3', 'Link 4');
 
 % Convert the plot frame to an image and store for later use
 image{length(image)+1} = frame2im(getframe(1));
