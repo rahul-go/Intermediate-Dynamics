@@ -42,7 +42,7 @@ x_array(1, :) = x_0;
 % Step 4: Using a for loop, iterate through each row in x_array
 for i = 1:numt-1
 
-%  Step 4a: Compute the time rate of chanxge of the vector x by executing
+%  Step 4a: Compute the time rate of change of the vector x by executing
 %   the function_handle.
     xdot = func_hand(t(i), x_array(i, :));
 
